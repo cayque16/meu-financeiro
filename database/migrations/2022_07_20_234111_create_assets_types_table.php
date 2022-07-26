@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('assets_types', function (Blueprint $table) {
             $table->id();
             $table->char('nome', 30);
-            $table->char('descricao', 150);
+            $table->char('descricao', 150)->nullable();
             $table->boolean('e_excluido')->default(0);
             $table->timestamps();
         });

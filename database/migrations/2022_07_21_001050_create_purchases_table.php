@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->date('data');
-            $table->char('arquivo', 100);
+            $table->char('arquivo', 100)->nullable();
             $table->boolean('e_excluido')->default(0);
             $table->timestamps();
         });

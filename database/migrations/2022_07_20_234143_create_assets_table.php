@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
             $table->char('codigo', 10);
-            $table->char('descricao', 100);
+            $table->char('descricao', 100)->nullable();
             $table->foreignId('id_assets_type')->constrained('assets_types');
             $table->boolean('e_excluido')->default(0);
             $table->timestamps();

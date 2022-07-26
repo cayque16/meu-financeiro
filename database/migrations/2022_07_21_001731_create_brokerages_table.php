@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('brokerages', function (Blueprint $table) {
             $table->id();
             $table->char('nome', 150);
-            $table->char('site', 100);
-            $table->char('cnpj', 14);
+            $table->char('site', 100)->nullable();
+            $table->char('cnpj', 14)->nullable();
             $table->boolean('e_excluido')->default(0);
             $table->timestamps();
         });
