@@ -16,6 +16,9 @@ return new class extends Migration
         Schema::create('asset_purchase', function (Blueprint $table) {
             $table->foreignId('purchase_id')->constrained();
             $table->foreignId('asset_id')->constrained();
+            $table->integer('quantidade');
+            $table->decimal('valor_unitario');
+            $table->decimal('taxas')->default(0);
             $table->boolean('e_excluido')->default(0);
             $table->timestamps();
         });
