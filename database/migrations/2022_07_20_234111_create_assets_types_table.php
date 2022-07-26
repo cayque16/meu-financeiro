@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->char('nome', 30);
             $table->char('descricao', 150);
+            $table->boolean('e_excluido')->default(0);
             $table->timestamps();
         });
     }

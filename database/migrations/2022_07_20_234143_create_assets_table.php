@@ -18,7 +18,7 @@ return new class extends Migration
             $table->char('codigo', 10);
             $table->char('descricao', 100);
             $table->foreignId('id_assets_type')->constrained('assets_types');
-            $table->boolean('e_excluido');
+            $table->boolean('e_excluido')->default(0);
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->date('data');
             $table->char('arquivo', 100);
+            $table->boolean('e_excluido')->default(0);
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->char('nome', 150);
             $table->char('site', 100);
             $table->char('cnpj', 14);
+            $table->boolean('e_excluido')->default(0);
             $table->timestamps();
         });
     }
