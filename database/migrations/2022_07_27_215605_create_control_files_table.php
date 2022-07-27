@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('purchases', function (Blueprint $table) {
+        Schema::create('control_files', function (Blueprint $table) {
             $table->id();
-            $table->date('data');
-            $table->boolean('e_excluido')->default(0);
+            $table->bigInteger('id_referencia');
+            $table->bigInteger('id_table_references')->constrained('table_references');
+            $table->text('nome_orginal');
+            $table->char('extensao', 10);
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purchases');
+        Schema::dropIfExists('control_files');
     }
 };
