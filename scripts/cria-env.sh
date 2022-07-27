@@ -1,12 +1,7 @@
 #!/bin/bash
-echo "Entre com o valor de DB_CONNECTION: "
-read db_connection
-echo "DB_CONNECTION=$db_connection" > .env # Aqui o arquivo eh criado
+NOMES=('DB_CONNECTION' 'DB_HOST' 'DB_PASSWORD' 'DB_TESTE')
 
-echo "Entre com o valor de DB_HOST: "
-read db_host
-echo "DB_HOST=$db_host" >> .env # Daqui pra frente concatena ao final
-
-echo "Entre com o valor de DB_PASSWORD: "
-read db_password
-echo "DB_PASSWORD=$db_password" >> .env
+for((i=0;i<${#NOMES[@]};i++)); do
+    read -p "Entre com o valor de ${NOMES[i]}: " VAR;
+    echo "${NOMES[i]}=$VAR" >> .env
+done;
