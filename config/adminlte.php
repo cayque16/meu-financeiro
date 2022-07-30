@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Meu Financeiro',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -253,20 +253,28 @@ return [
             'label'       => 4,
             'label_color' => 'success',
         ],
-        ['header' => 'account_settings'],
+        ['header' => 'operations'],
         [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+            'text' => 'movements',
+            'icon' => 'fas fa-fw fa-book',
+            'icon_color' => 'blue',
+            'submenu' => [
+                [
+                    'text' => 'purchases',
+                    'icon' => 'fas fa-fw fa-cash-register',
+                    'url' => 'teste'
+                ],
+                [
+                    'text' => 'receipts',
+                    'icon' => 'fas fa-fw fa-money-bill',
+                    'url' => '#'
+                ]
+            ]
         ],
         [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
+            'text'    => 'records',
+            'icon'    => 'fas fa-fw fa-plus',
+            'icon_color' => 'green',
             'submenu' => [
                 [
                     'text' => 'level_one',
@@ -302,21 +310,28 @@ return [
                 ],
             ],
         ],
-        ['header' => 'labels'],
+        ['header' => 'views'],
         [
-            'text'       => 'important',
+            'text' => 'graphics',
+            'icon' => 'fas fa-fw fa-chart-line',
             'icon_color' => 'red',
-            'url'        => '#',
+            'submenu' => [
+                [
+                    'text' => 'purchases',
+                    'icon' => 'fas fa-fw fa-cash-register',
+                    'url' => '#'
+                ],
+                [
+                    'text' => 'receipts',
+                    'icon' => 'fas fa-fw fa-money-bill',
+                    'url' => '#'
+                ]
+            ]
         ],
         [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
+            'text' => 'change_password',
+            'url'  => 'admin/settings',
+            'icon' => 'fas fa-fw fa-lock',
         ],
     ],
 
