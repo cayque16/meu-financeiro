@@ -7,6 +7,9 @@
 @stop
 
 @section('content')
+<div class="div-btn-add">
+    <x-adminlte-button class="btn-add" theme="success" icon="fas fa-plus"/>
+</div>
 <x-adminlte-datatable id="table1" :heads="$cabecalho">
     @foreach($tabela['data'] as $row)
         <tr>
@@ -19,8 +22,8 @@
 @stop
 
 @section('css')
-    
-@stop
+    <link rel="stylesheet" href="/css/app.css">
+@stop 
 
 @section('js')
     

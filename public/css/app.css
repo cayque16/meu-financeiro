@@ -1,0 +1,9 @@
+.div-btn-add {
+    text-align: center;
+}
+
+.btn-add {
+    display: block;  
+    display: inline-block;
+    margin: 10px;
+}
