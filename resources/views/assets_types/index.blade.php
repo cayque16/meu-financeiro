@@ -7,8 +7,8 @@
 @stop
 
 @section('content')
-<x-adminlte-datatable id="table1" :heads="$heads">
-    @foreach($config['data'] as $row)
+<x-adminlte-datatable id="table1" :heads="$cabecalho">
+    @foreach($tabela['data'] as $row)
         <tr>
             @foreach($row as $cell)
                 <td>{!! $cell !!}</td>

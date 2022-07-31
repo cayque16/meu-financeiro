@@ -8,9 +8,31 @@ class AssetsTypeController extends Controller
 {
     public function index()
     {
-        $teste = AssetsType::all();
+        $allAssetsType = AssetsType::all();
+        
+        $dados['cabecalho'] = $this->getCabecalho();
+
+        $dados['tabela'] = ['data' => $this->getTabela($allAssetsType)];
+
+        return view('assets_types.index', $dados);
+    }
+
+    private function getCabecalho()
+    {
+        return  [
+            'Id',
+            'Nome',
+            'Descricao',
+            'Data Criação',
+            'Data Atualização',
+            ['label' => 'Ações','no-export' => true, 'width' => 5]
+        ];
+    }
+
+    private function getTabela($dados)
+    {
         $data = [];
-        foreach($teste as $dado) {
+        foreach($dados as $dado) {
             $data[] = [
                 $dado->id, 
                 $dado->nome,
@@ -21,20 +43,6 @@ class AssetsTypeController extends Controller
                 getBtn(2),
             ];
         }
-        
-        $dados['heads'] = [
-            'Id',
-            'Nome',
-            'Descricao',
-            'Data Criação',
-            'Data Atualização',
-            ['label' => 'Ações','no-export' => true, 'width' => 5]
-        ];
-
-        $dados['config'] = [
-            'data' => $data
-        ];
-
-        return view('assets_types.index', $dados);
+        return $data;
     }
 }
