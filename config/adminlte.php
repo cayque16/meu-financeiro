@@ -255,30 +255,17 @@ return [
         ],
         ['header' => 'operations'],
         [
-            'text' => 'movements',
-            'icon' => 'fas fa-fw fa-book',
-            'icon_color' => 'blue',
-            'submenu' => [
-                [
-                    'text' => 'purchases',
-                    'icon' => 'fas fa-fw fa-cash-register',
-                    'url' => 'teste'
-                ],
-                [
-                    'text' => 'receipts',
-                    'icon' => 'fas fa-fw fa-money-bill',
-                    'url' => '#'
-                ]
-            ]
-        ],
-        [
             'text'    => 'records',
             'icon'    => 'fas fa-fw fa-plus',
             'icon_color' => 'green',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
+                    'text' => 'assets',
+                    'url'  => 'assets/index',
+                ],
+                [
+                    'text' => 'assets_types',
+                    'url'  => 'assets_type',
                 ],
                 [
                     'text'    => 'level_one',
@@ -309,6 +296,23 @@ return [
                     'url'  => '#',
                 ],
             ],
+        ],
+        [
+            'text' => 'movements',
+            'icon' => 'fas fa-fw fa-book',
+            'icon_color' => 'blue',
+            'submenu' => [
+                [
+                    'text' => 'purchases',
+                    'icon' => 'fas fa-fw fa-cash-register',
+                    'url' => 'teste'
+                ],
+                [
+                    'text' => 'receipts',
+                    'icon' => 'fas fa-fw fa-money-bill',
+                    'url' => '#'
+                ]
+            ]
         ],
         ['header' => 'views'],
         [

@@ -22,5 +22,7 @@ return [
     'receipts' => 'Recebimentos',
     'views' => 'Visualizações',
     'graphics' => 'Gráficos',
-    'operations' => 'Operações'
+    'operations' => 'Operações',
+    'assets' => 'Ativos',
+    'assets_types' => 'Tipos de Ativo',
 ];
