@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AssetsType;
+use Botoes;
 
 class AssetsTypeController extends Controller
 {
@@ -39,8 +40,8 @@ class AssetsTypeController extends Controller
                 $dado->descricao,
                 $dado->created_at,
                 $dado->updated_at,
-                getBtn(1),
-                getBtn(2),
+                getBtn(Botoes::EDITAR->value),
+                getBtn(Botoes::EXCLUIR->value),
             ];
         }
         return $data;
