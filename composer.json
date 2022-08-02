@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "bensampo/laravel-enum": "^5.3",
         "guzzlehttp/guzzle": "^7.2",
         "jeroennoten/laravel-adminlte": "^3.8",
         "laravel/framework": "^9.19",
@@ -29,8 +30,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/views_helper.php",
-            "app/Enums/Botoes.php"
+            "app/Helpers/views_helper.php"
         ]
     },
     "autoload-dev": {

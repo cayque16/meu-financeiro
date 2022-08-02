@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ButtonType;
 use App\Models\AssetsType;
-use Botoes;
 
 class AssetsTypeController extends Controller
 {
@@ -40,8 +40,8 @@ class AssetsTypeController extends Controller
                 $dado->descricao,
                 $dado->created_at,
                 $dado->updated_at,
-                getBtn(Botoes::EDITAR->value),
-                getBtn(Botoes::EXCLUIR->value),
+                getBtn(ButtonType::EDITAR),
+                getBtn(ButtonType::EXCLUIR),
             ];
         }
         return $data;

@@ -1,10 +1,12 @@
 <?php
 
+use App\Enums\ButtonType;
+
 function getBtn($tipo = null, $id = null)
 {
     $arrayDados = [
-        Botoes::EDITAR->value => ['text' => 'text-primary', 'msg' => 'Editar', 'icon' => 'pen'],
-        Botoes::EXCLUIR->value => ['text' => 'text-danger', 'msg' => 'Excluir', 'icon' => 'trash'],
+        ButtonType::EDITAR => ['text' => 'text-primary', 'msg' => 'Editar', 'icon' => 'pen'],
+        ButtonType::EXCLUIR => ['text' => 'text-danger', 'msg' => 'Excluir', 'icon' => 'trash'],
     ];
     
     $button = '<button class="btn btn-xs btn-default %s mx-1 shadow" title="%s">
