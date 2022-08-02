@@ -1,0 +1,2 @@
+#!/bin/bash
+cp scripts/views/model.blade.php resources/views/$1.blade.php
