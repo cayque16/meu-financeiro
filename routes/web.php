@@ -24,5 +24,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/', function () {
         return view('home');
     });
-    Route::get('/assets_type', [App\Http\Controllers\AssetsTypeController::class, 'index'])->name('assets_type');
+    Route::get('/assets_type', [App\Http\Controllers\AssetsTypeController::class, 'index']);
+    Route::get('/assets_type/create', [App\Http\Controllers\AssetsTypeController::class, 'create']);
 });

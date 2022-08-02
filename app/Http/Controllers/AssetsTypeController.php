@@ -15,7 +15,14 @@ class AssetsTypeController extends Controller
 
         $dados['tabela'] = ['data' => $this->getTabela($allAssetsType)];
 
+        $dados['btnAdd'] = getBtn(ButtonType::INCLUIR, link: 'assets_type/create');
+
         return view('assets_types.index', $dados);
+    }
+
+    public function create()
+    {
+        echo "Teste";
     }
 
     private function getCabecalho()
