@@ -8,6 +8,12 @@
 
 @section('content')
 
+    <div class="row">
+        @if(session('msg'))
+            <p class="msg">{{ session('msg') }}</p>
+        @endif
+    </div>
+
     @php echo $btnAdd @endphp
 
     <x-adminlte-datatable id="table1" :heads="$cabecalho">

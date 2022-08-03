@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssetsTypeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +27,6 @@ Route::group(['middleware' => 'auth'], function() {
     });
     Route::get('/assets_type', [App\Http\Controllers\AssetsTypeController::class, 'index']);
     Route::get('/assets_type/create', [App\Http\Controllers\AssetsTypeController::class, 'create']);
+    Route::post('/assets_type', [App\Http\Controllers\AssetsTypeController::class, 'store']);
+
 });

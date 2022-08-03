@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\ButtonType;
 use App\Models\AssetsType;
+use Illuminate\Http\Request;
 
 class AssetsTypeController extends Controller
 {
@@ -25,6 +26,18 @@ class AssetsTypeController extends Controller
         $dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: '/assets_type');
 
         return view('assets_types.create_edit', $dados);
+    }
+
+    public function store(Request $request)
+    {
+        $assetsType = new AssetsType();
+
+        $assetsType->nome = $request->nome;
+        $assetsType->descricao = $request->descricao;
+
+        $assetsType->save();
+
+        return redirect('/assets_type')->with('msg', 'Tipo de ativo criado com sucesso!');
     }
 
     private function getCabecalho()
