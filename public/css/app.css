@@ -7,3 +7,8 @@
     display: inline-block;
     margin: 10px;
 }
+
+.btn-voltar {
+    font-size: 13px;
+    margin: 10px;
+}
