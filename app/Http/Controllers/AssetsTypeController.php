@@ -15,14 +15,16 @@ class AssetsTypeController extends Controller
 
         $dados['tabela'] = ['data' => $this->getTabela($allAssetsType)];
 
-        $dados['btnAdd'] = getBtn(ButtonType::INCLUIR, link: 'assets_type/create');
+        $dados['btnAdd'] = getBtnLink(ButtonType::INCLUIR, link: 'assets_type/create');
 
         return view('assets_types.index', $dados);
     }
 
     public function create()
     {
-        echo "Teste";
+        $dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: '/assets_type');
+
+        return view('assets_types.create_edit', $dados);
     }
 
     private function getCabecalho()
@@ -47,8 +49,8 @@ class AssetsTypeController extends Controller
                 $dado->descricao,
                 $dado->created_at,
                 $dado->updated_at,
-                getBtn(ButtonType::EDITAR),
-                getBtn(ButtonType::EXCLUIR),
+                getBtnLink(ButtonType::EDITAR),
+                getBtnLink(ButtonType::EXCLUIR),
             ];
         }
         return $data;
