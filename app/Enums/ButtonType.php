@@ -11,4 +11,6 @@ final class ButtonType extends Enum
     const EXCLUIR = 2;
 
     const INCLUIR = 3;
+
+    const VOLTAR = 4;
 }
