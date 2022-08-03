@@ -2,22 +2,16 @@
 
 use App\Enums\ButtonType;
 
-function getBtn($tipo = null, $id = null, $link = null)
+function getBtnLink($tipo, $link = '#')
 {
-    if($tipo === ButtonType::INCLUIR) {
-        return "<div class=\"div-btn-add\">
-                <a class=\"btn btn-success btn-add\" href=\"$link\"><i class=\"fas fa-plus\"></i></a>
-            </div>";
-    }
-    
     $arrayDados = [
-        ButtonType::EDITAR => ['text' => 'text-primary', 'msg' => 'Editar', 'icon' => 'pen'],
-        ButtonType::EXCLUIR => ['text' => 'text-danger', 'msg' => 'Excluir', 'icon' => 'trash'],
+        ButtonType::EDITAR => ['class' => 'btn-outline-info', 'msg' => '', 'icon' => 'pen', 'divOpen' => "", 'divClose' => ""],
+        ButtonType::EXCLUIR => ['class' => 'btn-outline-danger', 'msg' => '', 'icon' => 'trash', 'divOpen' => "", 'divClose' => ""],
+        ButtonType::INCLUIR => ['class' => 'btn-success btn-add', 'msg' => 'Incluir', 'icon' => 'plus', 'divOpen' => "<div class=\"div-btn-add\">", 'divClose' => "</div>"],
+        ButtonType::VOLTAR => ['class' => 'btn-outline-success', 'msg' => 'Voltar', 'icon' => 'arrow-left', 'divOpen' => "", 'divClose' => ""],
     ];
-    
-    $button = '<button class="btn btn-xs btn-default %s mx-1 shadow" title="%s">
-            <i class="fa fa-lg fa-fw fa-%s"></i>
-        </button>';
-        
-    return sprintf($button, $arrayDados[$tipo]['text'], $arrayDados[$tipo]['msg'], $arrayDados[$tipo]['icon']);
+
+    $button = "<a class=\"btn %s\" href=\"$link\"><i class=\"fas fa-%s\"></i> %s</a>";
+
+    return sprintf($arrayDados[$tipo]['divOpen'].$button.$arrayDados[$tipo]['divClose'], $arrayDados[$tipo]['class'], $arrayDados[$tipo]['icon'], $arrayDados[$tipo]['msg']);
 }
