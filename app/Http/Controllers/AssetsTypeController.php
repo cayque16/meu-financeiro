@@ -24,6 +24,8 @@ class AssetsTypeController extends Controller
     public function create()
     {
         $dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: '/assets_type');
+        $dados['titulo'] = 'Adicionar';
+        $dados['action'] = '/assets_type';
 
         return view('assets_types.create_edit', $dados);
     }
@@ -38,6 +40,23 @@ class AssetsTypeController extends Controller
         $assetsType->save();
 
         return redirect('/assets_type')->with('msg', 'Tipo de ativo criado com sucesso!');
+    }
+
+    public function edit($id)
+    {
+        $dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: '/assets_type');
+        $dados['assetsType'] = AssetsType::findOrFail($id);
+        $dados['titulo'] = 'Editar';
+        $dados['action'] = "/assets_type/update/$id";
+
+        return view('assets_types.create_edit', $dados);
+    }
+
+    public function update(Request $request)
+    {
+        AssetsType::findOrFail($request->id)->update($request->all());
+
+        return redirect('/assets_type')->with('msg', 'Tipo de ativo editado com sucesso!');
     }
 
     private function getCabecalho()
@@ -62,7 +81,7 @@ class AssetsTypeController extends Controller
                 $dado->descricao,
                 $dado->created_at,
                 $dado->updated_at,
-                getBtnLink(ButtonType::EDITAR),
+                getBtnLink(ButtonType::EDITAR, "/assets_type/edit/$dado->id"),
                 getBtnLink(ButtonType::EXCLUIR),
             ];
         }
