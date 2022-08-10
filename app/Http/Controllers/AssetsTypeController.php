@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ButtonType;
+use App\Enums\Status;
 use App\Models\AssetsType;
 use Illuminate\Http\Request;
 
@@ -59,6 +60,15 @@ class AssetsTypeController extends Controller
         return redirect('/assets_type')->with('msg', 'Tipo de ativo editado com sucesso!');
     }
 
+    public function enable($id, $eExcluido)
+    {
+        AssetsType::findOrFail($id)->update(['e_excluido' => $eExcluido]);
+
+        $msg = $eExcluido ? 'desativado' : 'ativado';
+
+        return redirect('/assets_type')->with('msg', "Tipo de ativo $msg com sucesso!");
+    }
+
     private function getCabecalho()
     {
         return  [
@@ -75,15 +85,17 @@ class AssetsTypeController extends Controller
     {
         $data = [];
         foreach($dados as $dado) {
+            $botao = !$dado->e_excluido ? ButtonType::DESATIVAR : ButtonType::ATIVAR;
+            $eExcluido = !$dado->e_excluido ? Status::ATIVADO : Status::DESATIVADO;
             $data[] = [
                 $dado->id, 
                 $dado->nome,
                 $dado->descricao,
                 $dado->created_at,
                 $dado->updated_at,
-                getBtnLink(ButtonType::EDITAR, "/assets_type/edit/$dado->id"),
-                getBtnLink(ButtonType::EXCLUIR),
+                "<nobr>".getBtnLink(ButtonType::EDITAR, "/assets_type/edit/$dado->id")."  ".getBtnLink($botao, "/assets_type/enable/$dado->id/$eExcluido")."</nobr>"
             ];
+            // dd(!$dado->e_excluido);
         }
         return $data;
     }

@@ -10,7 +10,7 @@
 
     <div class="row">
         @if(session('msg'))
-            <p class="msg">{{ session('msg') }}</p>
+            <p id="msg" class="msg">{{ session('msg') }}</p>
         @endif
     </div>
 
@@ -32,5 +32,5 @@
 @stop 
 
 @section('js')
-    
+    <script language="javascript" src="/js/desativa.js"></script>
 @stop

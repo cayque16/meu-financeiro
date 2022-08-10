@@ -30,4 +30,5 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/assets_type', [App\Http\Controllers\AssetsTypeController::class, 'store']);
     Route::get('assets_type/edit/{id}', [App\Http\Controllers\AssetsTypeController::class, 'edit']);
     Route::post('/assets_type/update/{id}', [App\Http\Controllers\AssetsTypeController::class, 'update']);
+    Route::get('assets_type/enable/{id}/{eExcluido}', [App\Http\Controllers\AssetsTypeController::class, 'enable']);
 });
