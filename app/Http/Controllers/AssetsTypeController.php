@@ -91,8 +91,8 @@ class AssetsTypeController extends Controller
                 $dado->id, 
                 $dado->nome,
                 $dado->descricao,
-                $dado->created_at,
-                $dado->updated_at,
+                formataDataBr($dado->created_at),
+                formataDataBr($dado->updated_at),
                 "<nobr>".getBtnLink(ButtonType::EDITAR, "/assets_type/edit/$dado->id")."  ".getBtnLink($botao, "/assets_type/enable/$dado->id/$eExcluido")."</nobr>"
             ];
             // dd(!$dado->e_excluido);
