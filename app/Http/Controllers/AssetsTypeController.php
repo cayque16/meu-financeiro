@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\ButtonType;
 use App\Enums\Status;
+use App\Http\Requests\StoreAssetsTypeRequest;
 use App\Models\AssetsType;
-use Illuminate\Http\Request;
 
 class AssetsTypeController extends Controller
 {
@@ -31,7 +31,7 @@ class AssetsTypeController extends Controller
         return view('assets_types.create_edit', $dados);
     }
 
-    public function store(Request $request)
+    public function store(StoreAssetsTypeRequest $request)
     {
         $assetsType = new AssetsType();
 
@@ -53,7 +53,7 @@ class AssetsTypeController extends Controller
         return view('assets_types.create_edit', $dados);
     }
 
-    public function update(Request $request)
+    public function update(StoreAssetsTypeRequest $request)
     {
         AssetsType::findOrFail($request->id)->update($request->all());
 
