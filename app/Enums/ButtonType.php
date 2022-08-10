@@ -8,9 +8,11 @@ final class ButtonType extends Enum
 {
     const EDITAR =  1;
 
-    const EXCLUIR = 2;
+    const DESATIVAR = 2;
 
     const INCLUIR = 3;
 
     const VOLTAR = 4;
+
+    const ATIVAR = 5;
 }
