@@ -49,7 +49,6 @@ class AssetsController extends Controller
                 formataDataBr($dado->updated_at),
                 "<nobr>".getBtnLink(ButtonType::EDITAR, "/assets/edit/$dado->id")."  ".getBtnLink($botao, "/assets/enable/$dado->id/$eExcluido")."</nobr>"
             ];
-            // dd(!$dado->e_excluido);
         }
         return $data;
     }
