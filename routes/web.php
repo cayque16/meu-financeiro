@@ -33,4 +33,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('assets_type/enable/{id}/{eExcluido}', [App\Http\Controllers\AssetsTypeController::class, 'enable']);
 
     Route::get('/assets', [App\Http\Controllers\AssetsController::class, 'index']);
+    Route::get('/assets/create', [App\Http\Controllers\AssetsController::class, 'create']);
+    Route::post('/assets', [App\Http\Controllers\AssetsController::class, 'store']);
 });

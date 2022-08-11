@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Asset;
 use App\Enums\ButtonType;
 use App\Enums\Status;
+use App\Http\Requests\StoreAssetRequest;
+use App\Models\AssetsType;
 
 class AssetsController extends Controller
 {
@@ -19,6 +21,29 @@ class AssetsController extends Controller
         $dados['btnAdd'] = getBtnLink(ButtonType::INCLUIR, link: 'assets/create');
 
         return view('assets.index', $dados);
+    }
+
+    public function create()
+    {
+        $dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: '/assets');
+        $dados['titulo'] = 'Adicionar';
+        $dados['action'] = '/assets';
+        $dados['assetsType'] = array_column((new AssetsType())->sltAssetsTypes(), 'nome', 'id');
+
+        return view('assets.create_edit', $dados);
+    }
+
+    public function store(StoreAssetRequest $request)
+    {
+        $asset = new Asset();
+
+        $asset->codigo = $request->codigo;
+        $asset->descricao = $request->descricao;
+        $asset->id_assets_type = $request->id_assets_type;
+
+        $asset->save();
+
+        return redirect('/assets')->with('msg', 'Ativo criado com sucesso!');
     }
 
     private function getCabecalho()
