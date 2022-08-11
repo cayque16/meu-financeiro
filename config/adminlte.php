@@ -261,7 +261,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'assets',
-                    'url'  => 'assets/index',
+                    'url'  => 'assets',
                 ],
                 [
                     'text' => 'assets_types',

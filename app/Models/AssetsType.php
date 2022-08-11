@@ -10,4 +10,9 @@ class AssetsType extends Model
     protected $fillable = ['nome', 'descricao', 'e_excluido'];
 
     use HasFactory;
+
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
+    }
 }
