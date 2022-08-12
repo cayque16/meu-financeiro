@@ -85,8 +85,8 @@ class AssetsTypeController extends Controller
     {
         $data = [];
         foreach($dados as $dado) {
-            $botao = !$dado->e_excluido ? ButtonType::DESATIVAR : ButtonType::ATIVAR;
-            $eExcluido = !$dado->e_excluido ? Status::ATIVADO : Status::DESATIVADO;
+            $botao = $dado->e_excluido ? ButtonType::ATIVAR : ButtonType::DESATIVAR;
+            $eExcluido = $dado->e_excluido ? Status::ATIVADO : Status::DESATIVADO;
             $data[] = [
                 $dado->id, 
                 $dado->nome,

@@ -6,7 +6,7 @@ use BenSampo\Enum\Enum;
 
 final class Status extends Enum
 {
-    const ATIVADO =   1;
+    const ATIVADO = 0;
 
-    const DESATIVADO = 0;
+    const DESATIVADO = 1;
 }
