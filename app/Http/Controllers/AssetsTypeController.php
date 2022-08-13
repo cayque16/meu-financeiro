@@ -60,15 +60,6 @@ class AssetsTypeController extends Controller
         return redirect('/assets_type')->with($this->key, $this->value);
     }
 
-    public function enable($id, $eExcluido)
-    {
-        $this->assetsType->getFindOrFail($id)->update(['e_excluido' => $eExcluido]);
-
-        $msg = $eExcluido ? 'desativado' : 'ativado';
-
-        return redirect('/assets_type')->with('msg', "Tipo de ativo $msg com sucesso!");
-    }
-
     private function getCabecalho()
     {
         return  [

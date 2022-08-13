@@ -51,6 +51,17 @@ class Controller extends BaseController
         return view("$this->viewBase.create_edit", $this->dados);
     }
 
+    public function enable($id, $eExcluido)
+    {
+        $retorno = $this->modelBase
+            ->getFindOrFail($id)
+            ->update(['e_excluido' => $eExcluido]);
+         
+        $this->trataRetorno($retorno, Operacao::EDITAR);
+
+        return redirect("/".$this->viewBase)->with($this->key, $this->value);
+    }
+
     protected function setDados($indice, $valor)
     {
         $this->dados[$indice] = $valor;
