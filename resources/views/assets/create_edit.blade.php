@@ -29,7 +29,7 @@
                 fgroup-class="col-md-12" value="{{ $vCodigo }}" disable-feedback/>
             <x-adminlte-input name="descricao" label="Descrição" placeholder="Insira a descrição do ativo..."
             fgroup-class="col-md-12" value="{{ $vDescricao }}" disable-feedback/>
-            <x-adminlte-select2 name="id_assets_type" label="Tipo de Ativo" fgroup-class="col-md-12">
+            <x-adminlte-select2 name="id_assets_type" label="Tipo de Ativo" fgroup-class="col-md-12" disable-feedback>
                 <option value='' selected>Selecione...</option>
                 @foreach ($assetsType as $id => $type)
                     @if($vIdAssetsType == $id)
