@@ -264,12 +264,19 @@ return [
                     'url'  => 'assets',
                     'icon' => 'far fa-fw fa-star',
                     'icon_color' => 'yellow',
+                    
+                ],
+                [
+                    'text' => 'brokerages',
+                    'url'  => 'brokerages',
+                    'icon' => 'fa fa-shopping-basket',
+                    'icon_color' => 'yellow',
                 ],
                 [
                     'text' => 'assets_types',
                     'url'  => 'assets_type',
-                    'icon' => 'far fa-fw fa-star',
-                    'icon_color' => 'red',
+                    'icon' => 'fa fa-tag',
+                    'icon_color' => 'yellow',
                 ],
                 [
                     'text'    => 'level_one',
@@ -309,7 +316,8 @@ return [
                 [
                     'text' => 'purchases',
                     'icon' => 'fas fa-fw fa-cash-register',
-                    'url' => 'teste'
+                    'icon_color' => 'green',
+                    'url' => 'purchases'
                 ],
                 [
                     'text' => 'receipts',

@@ -25,4 +25,5 @@ return [
     'operations' => 'Operações',
     'assets' => 'Ativos',
     'assets_types' => 'Tipos de Ativo',
+    'brokerages' => 'Corretoras'
 ];
