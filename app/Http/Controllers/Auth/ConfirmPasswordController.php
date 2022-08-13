@@ -37,4 +37,14 @@ class ConfirmPasswordController extends Controller
     {
         $this->middleware('auth');
     }
+
+    protected function getCabecalho()
+    {
+
+    }
+
+    protected function getTabela($dados)
+    {
+        
+    }
 }

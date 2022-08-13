@@ -15,20 +15,6 @@ class AssetsTypeController extends Controller
     public function __construct()
     {
         parent::__construct((new AssetsType()), 'assets_type');
-        $this->assetsType = new AssetsType();
-    }
-
-    public function index()
-    {
-        $allAssetsType = $this->assetsType->getAll();
-        
-        $dados['cabecalho'] = $this->getCabecalho();
-
-        $dados['tabela'] = ['data' => $this->getTabela($allAssetsType)];
-
-        $dados['btnAdd'] = getBtnLink(ButtonType::INCLUIR, link: 'assets_type/create');
-
-        return view('assets_type.index', $dados);
     }
 
     public function create()
@@ -42,7 +28,7 @@ class AssetsTypeController extends Controller
 
     public function store(StoreAssetsTypeRequest $request)
     {
-        $retorno = $this->assetsType->insert($request);
+        $retorno = $this->modelBase->insert($request);
 
         $this->trataRetorno($retorno, Operacao::CRIAR);
 
@@ -51,7 +37,7 @@ class AssetsTypeController extends Controller
 
     public function update(StoreAssetsTypeRequest $request)
     {
-        $retorno = $this->assetsType
+        $retorno = $this->modelBase
             ->getFindOrFail($request->id)
             ->update($request->all());
 
@@ -60,7 +46,7 @@ class AssetsTypeController extends Controller
         return redirect('/assets_type')->with($this->key, $this->value);
     }
 
-    private function getCabecalho()
+    protected function getCabecalho()
     {
         return  [
             'Id',
@@ -72,7 +58,7 @@ class AssetsTypeController extends Controller
         ];
     }
 
-    private function getTabela($dados)
+    protected function getTabela($dados)
     {
         $data = [];
         foreach($dados as $dado) {

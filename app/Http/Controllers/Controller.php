@@ -9,7 +9,7 @@ use App\Enums\ButtonType;
 use App\Enums\Operacao;
 use Illuminate\Routing\Controller as BaseController;
 
-class Controller extends BaseController
+abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
@@ -28,6 +28,23 @@ class Controller extends BaseController
         $this->modelBase = $modelBase;
         $this->viewBase = $viewBase;
         $this->dados = [];
+    }
+
+    abstract protected function getCabecalho();
+
+    abstract protected function getTabela($dados);
+
+    public function index()
+    {
+        $allDados = $this->modelBase->getAll();
+
+        $dados['cabecalho'] = $this->getCabecalho();
+
+        $dados['tabela'] = ['data' => $this->getTabela($allDados)];
+
+        $dados['btnAdd'] = getBtnLink(ButtonType::INCLUIR, link: "$this->viewBase/create");
+
+        return view("$this->viewBase.index", $dados);
     }
 
     protected function trataRetorno($retorno, $operacao)
