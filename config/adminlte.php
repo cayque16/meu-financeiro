@@ -385,6 +385,8 @@ return [
     |
     */
 
+    //Icones: https://fontawesome.com/v4/icons/
+
     'plugins' => [
         'Datatables' => [
             'active' => false,
