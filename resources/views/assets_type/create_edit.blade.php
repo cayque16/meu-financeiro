@@ -23,11 +23,11 @@
     @endphp
     <form action="{{ $action }}" method="post">
         {{ csrf_field() }}
-        <div class="row">
+        <div class="col-sm-12 col-sm-offset-3">
             <x-adminlte-input name="nome" label="Nome" placeholder="Insira o nome do ativo..."
-                fgroup-class="col-md-4" value='{{ $vNome}}' disable-feedback/>
+                fgroup-class="col-md-12" value='{{ $vNome}}' disable-feedback/>
             <x-adminlte-input name="descricao" label="Descrição" placeholder="Insira a descrição do ativo..."
-            fgroup-class="col-md-8" value='{{ $vDescricao }}' disable-feedback/>
+            fgroup-class="col-md-12" value='{{ $vDescricao }}' disable-feedback/>
         </div>
         <div class="div-btn-salvar">
             <x-adminlte-button class="btn-success" type="submit" label=" Salvar" theme="success" icon="fas fa-save"/>
