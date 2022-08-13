@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ButtonType;
+use App\Enums\Operacao;
 use App\Enums\Status;
 use App\Http\Requests\StoreAssetsTypeRequest;
 use App\Models\AssetsType;
@@ -43,16 +44,20 @@ class AssetsTypeController extends Controller
     {
         $retorno = $this->assetsType->insert($request);
 
-        $this->trataRetornoInsert($retorno);
+        $this->trataRetorno($retorno, Operacao::CRIAR);
 
         return redirect('/assets_type')->with($this->key, $this->value);
     }
 
     public function update(StoreAssetsTypeRequest $request)
     {
-        $this->assetsType->getFindOrFail($request->id)->update($request->all());
+        $retorno = $this->assetsType
+            ->getFindOrFail($request->id)
+            ->update($request->all());
 
-        return redirect('/assets_type')->with('msg', 'Tipo de ativo editado com sucesso!');
+        $this->trataRetorno($retorno, Operacao::EDITAR);
+
+        return redirect('/assets_type')->with($this->key, $this->value);
     }
 
     public function enable($id, $eExcluido)

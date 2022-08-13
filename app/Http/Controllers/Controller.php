@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Enums\ButtonType;
+use App\Enums\Operacao;
 use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -29,11 +30,15 @@ class Controller extends BaseController
         $this->dados = [];
     }
 
-    protected function trataRetornoInsert($retorno)
+    protected function trataRetorno($retorno, $operacao)
     {
+        $acao = $operacao == Operacao::EDITAR 
+            ? Operacao::EDITADOS 
+            : Operacao::CRIADOS;
+            
         list($this->key, $this->value) = $retorno ? 
-            ['msg', 'Ativo criado com sucesso!'] : 
-            ['erro', 'Houve um erro ao inserir o ativo!'];
+            ['msg', "Dados $acao com sucesso!"] : 
+            ['erro', "Houve um erro ao $operacao os dados!"];
     }
 
     public function edit($id)

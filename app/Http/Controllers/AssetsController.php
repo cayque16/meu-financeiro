@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Enums\ButtonType;
+use App\Enums\Operacao;
 use App\Enums\Status;
 use App\Http\Requests\StoreAssetRequest;
 use App\Models\AssetsType;
@@ -55,16 +56,20 @@ class AssetsController extends Controller
     {
         $retorno = $this->asset->insert($request);
 
-        $this->trataRetornoInsert($retorno);
+        $this->trataRetorno($retorno, Operacao::CRIAR);
 
         return redirect('/assets')->with($this->key, $this->value);
     }
 
     public function update(StoreAssetRequest $request)
     {
-        $this->modelBase->getFindOrFail($request->id)->update($request->all());
+        $retorno = $this->modelBase
+            ->getFindOrFail($request->id)
+            ->update($request->all());
 
-        return redirect('/assets')->with('msg', 'Ativo editado com sucesso');
+        $this->trataRetorno($retorno, Operacao::EDITAR);
+
+        return redirect('/assets')->with($this->key, $this->value);
     }
 
     private function getCabecalho()
