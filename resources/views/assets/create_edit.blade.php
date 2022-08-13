@@ -18,7 +18,7 @@
     @endif
     @php
         echo $btnVoltar;
-        $vNome = isset($assets) ? $assets->nome : '';
+        $vCodigo = isset($assets) ? $assets->nome : '';
         $vDescricao = isset($assets) ? $assets->descricao : '';
     @endphp
     <form action="{{ $action }}" method="post">

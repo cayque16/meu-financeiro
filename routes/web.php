@@ -35,4 +35,5 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/assets', [App\Http\Controllers\AssetsController::class, 'index']);
     Route::get('/assets/create', [App\Http\Controllers\AssetsController::class, 'create']);
     Route::post('/assets', [App\Http\Controllers\AssetsController::class, 'store']);
+    Route::get('/assets/edit/{id}', [App\Http\Controllers\AssetsController::class, 'edit']);
 });
