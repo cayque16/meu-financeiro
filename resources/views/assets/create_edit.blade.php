@@ -17,20 +17,25 @@
         </div>
     @endif
     @php
-        echo $btnVoltar;
-        $vCodigo = isset($assets) ? $assets->nome : '';
-        $vDescricao = isset($assets) ? $assets->descricao : '';
+        echo $btnVoltar;    
+        $vCodigo = isset($modelBase) ? $modelBase->codigo : (isset($request) ? $request->old('codigo') : '') ;
+        $vDescricao = isset($modelBase) ? $modelBase->descricao : (isset($request) ? $request->old('descricao') : '');
+        $vIdAssetsType = isset($modelBase) ? $modelBase->id_assets_type : (isset($request) ? $request->old('id_assets_type') : '');
     @endphp
     <form action="{{ $action }}" method="post">
         {{ csrf_field() }}
         <div class="col-sm-12 col-sm-offset-3">
             <x-adminlte-input name="codigo" label="Código" placeholder="Insira o código do ativo..."
-                fgroup-class="col-md-12" value="{{ old('codigo') }}" disable-feedback/>
+                fgroup-class="col-md-12" value="{{ $vCodigo }}" disable-feedback/>
             <x-adminlte-input name="descricao" label="Descrição" placeholder="Insira a descrição do ativo..."
-            fgroup-class="col-md-12" value="{{ old('descricao') }}" disable-feedback/>
+            fgroup-class="col-md-12" value="{{ $vDescricao }}" disable-feedback/>
             <x-adminlte-select2 name="id_assets_type" label="Tipo de Ativo" fgroup-class="col-md-12">
                 <option value='' selected>Selecione...</option>
                 @foreach ($assetsType as $id => $type)
+                    @if($vIdAssetsType == $id)
+                        <option value='{{ $id }}' selected>{{ $type }}</option>
+                        cotinue;
+                    @endif
                     <option value='{{ $id }}'>{{ $type }}</option>
                 @endforeach
             </x-adminlte-select2>
