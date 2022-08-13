@@ -13,6 +13,7 @@ class AssetsTypeController extends Controller
 
     public function __construct()
     {
+        parent::__construct((new AssetsType()), 'assets_type');
         $this->assetsType = new AssetsType();
     }
 
@@ -26,7 +27,7 @@ class AssetsTypeController extends Controller
 
         $dados['btnAdd'] = getBtnLink(ButtonType::INCLUIR, link: 'assets_type/create');
 
-        return view('assets_types.index', $dados);
+        return view('assets_type.index', $dados);
     }
 
     public function create()
@@ -35,7 +36,7 @@ class AssetsTypeController extends Controller
         $dados['titulo'] = 'Adicionar';
         $dados['action'] = '/assets_type';
 
-        return view('assets_types.create_edit', $dados);
+        return view('assets_type.create_edit', $dados);
     }
 
     public function store(StoreAssetsTypeRequest $request)
@@ -45,16 +46,6 @@ class AssetsTypeController extends Controller
         $this->trataRetornoInsert($retorno);
 
         return redirect('/assets_type')->with($this->key, $this->value);
-    }
-
-    public function edit($id)
-    {
-        $dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: '/assets_type');
-        $dados['assetsType'] = $this->assetsType->getFindOrFail($id);
-        $dados['titulo'] = 'Editar';
-        $dados['action'] = "/assets_type/update/$id";
-
-        return view('assets_types.create_edit', $dados);
     }
 
     public function update(StoreAssetsTypeRequest $request)

@@ -17,6 +17,7 @@ class AssetsController extends Controller
 
     public function __construct()
     {
+        parent::__construct((new Asset), 'assets');
         $this->asset = new Asset();
         $this->assetsType = new AssetsType();
     }
