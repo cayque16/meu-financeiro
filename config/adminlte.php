@@ -262,10 +262,14 @@ return [
                 [
                     'text' => 'assets',
                     'url'  => 'assets',
+                    'icon' => 'far fa-fw fa-star',
+                    'icon_color' => 'yellow',
                 ],
                 [
                     'text' => 'assets_types',
                     'url'  => 'assets_type',
+                    'icon' => 'far fa-fw fa-star',
+                    'icon_color' => 'red',
                 ],
                 [
                     'text'    => 'level_one',
