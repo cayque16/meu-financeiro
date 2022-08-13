@@ -4,13 +4,18 @@ namespace App\Models;
 
 use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\MyModelAbstract;
 
-class AssetsType extends Model
+class AssetsType extends MyModelAbstract
 {
     protected $fillable = ['nome', 'descricao', 'e_excluido'];
 
     use HasFactory;
+
+    public function __construct()
+    {
+        parent::__construct($this);
+    }
 
     public function assets()
     {

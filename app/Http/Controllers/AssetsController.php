@@ -15,7 +15,7 @@ class AssetsController extends Controller
 
     private $assetsType;
 
-    function __construct()
+    public function __construct()
     {
         $this->asset = new Asset();
         $this->assetsType = new AssetsType();
@@ -46,14 +46,11 @@ class AssetsController extends Controller
 
     public function store(StoreAssetRequest $request)
     {
-        $retorno = $this->asset->insAsset($request);
+        $retorno = $this->asset->insert($request);
 
-        $msg = [];
-        list($msg['key'], $msg['value']) = $retorno ? 
-            ['msg', 'Ativo criado com sucesso!'] : 
-            ['erro', 'Houve um erro ao inserir o ativo!'];
+        $this->trataRetornoInsert($retorno);
 
-        return redirect('/assets')->with($msg['key'], $msg['value']);
+        return redirect('/assets')->with($this->key, $this->value);
     }
 
     private function getCabecalho()

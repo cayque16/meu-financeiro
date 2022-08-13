@@ -2,26 +2,17 @@
 
 namespace App\Models;
 
-use App\Http\Requests\StoreAssetRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Asset extends Model
+class Asset extends MyModelAbstract
 {
+    protected $fillable = ['codigo', 'descricao', 'id_assets_type', 'e_excluido'];
+
     use HasFactory;
 
-    public function getAll()
+    public function __construct()
     {
-        return Asset::all();
-    }
-
-    public function insAsset(StoreAssetRequest $request)
-    {
-        $this->codigo = $request->codigo;
-        $this->descricao = $request->descricao;
-        $this->id_assets_type = $request->id_assets_type;
-
-        return $this->save();
+        parent::__construct($this);
     }
 
     public function assetsType()

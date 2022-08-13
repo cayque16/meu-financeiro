@@ -9,9 +9,16 @@ use App\Models\AssetsType;
 
 class AssetsTypeController extends Controller
 {
+    private $assetsType;
+
+    public function __construct()
+    {
+        $this->assetsType = new AssetsType();
+    }
+
     public function index()
     {
-        $allAssetsType = AssetsType::all();
+        $allAssetsType = $this->assetsType->getAll();
         
         $dados['cabecalho'] = $this->getCabecalho();
 
@@ -33,20 +40,17 @@ class AssetsTypeController extends Controller
 
     public function store(StoreAssetsTypeRequest $request)
     {
-        $assetsType = new AssetsType();
+        $retorno = $this->assetsType->insert($request);
 
-        $assetsType->nome = $request->nome;
-        $assetsType->descricao = $request->descricao;
+        $this->trataRetornoInsert($retorno);
 
-        $assetsType->save();
-
-        return redirect('/assets_type')->with('msg', 'Tipo de ativo criado com sucesso!');
+        return redirect('/assets_type')->with($this->key, $this->value);
     }
 
     public function edit($id)
     {
         $dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: '/assets_type');
-        $dados['assetsType'] = AssetsType::findOrFail($id);
+        $dados['assetsType'] = $this->assetsType->getFindOrFail($id);
         $dados['titulo'] = 'Editar';
         $dados['action'] = "/assets_type/update/$id";
 
@@ -55,14 +59,14 @@ class AssetsTypeController extends Controller
 
     public function update(StoreAssetsTypeRequest $request)
     {
-        AssetsType::findOrFail($request->id)->update($request->all());
+        $this->assetsType->getFindOrFail($request->id)->update($request->all());
 
         return redirect('/assets_type')->with('msg', 'Tipo de ativo editado com sucesso!');
     }
 
     public function enable($id, $eExcluido)
     {
-        AssetsType::findOrFail($id)->update(['e_excluido' => $eExcluido]);
+        $this->assetsType->getFindOrFail($id)->update(['e_excluido' => $eExcluido]);
 
         $msg = $eExcluido ? 'desativado' : 'ativado';
 
