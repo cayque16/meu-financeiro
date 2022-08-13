@@ -60,6 +60,13 @@ class AssetsController extends Controller
         return redirect('/assets')->with($this->key, $this->value);
     }
 
+    public function update(StoreAssetRequest $request)
+    {
+        $this->modelBase->getFindOrFail($request->id)->update($request->all());
+
+        return redirect('/assets')->with('msg', 'Ativo editado com sucesso');
+    }
+
     private function getCabecalho()
     {
         return [
