@@ -38,13 +38,13 @@ abstract class Controller extends BaseController
     {
         $allDados = $this->modelBase->getAll();
 
-        $dados['cabecalho'] = $this->getCabecalho();
+        $this->dados['cabecalho'] = $this->getCabecalho();
 
-        $dados['tabela'] = ['data' => $this->getTabela($allDados)];
+        $this->dados['tabela'] = ['data' => $this->getTabela($allDados)];
 
-        $dados['btnAdd'] = getBtnLink(ButtonType::INCLUIR, link: "$this->viewBase/create");
+        $this->dados['btnAdd'] = getBtnLink(ButtonType::INCLUIR, link: "$this->viewBase/create");
 
-        return view("$this->viewBase.index", $dados);
+        return view("$this->viewBase.index", $this->dados);
     }
 
     public function create()
