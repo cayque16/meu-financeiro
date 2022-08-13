@@ -11,9 +11,6 @@ use App\Models\AssetsType;
 
 class AssetsController extends Controller
 {
-
-    private $asset;
-
     private $assetsType;
 
     public function __construct()
@@ -24,17 +21,20 @@ class AssetsController extends Controller
 
     public function create()
     {
-        $dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: '/assets');
-        $dados['titulo'] = 'Adicionar';
-        $dados['action'] = '/assets';
-        $dados['assetsType'] = array_column($this->assetsType->sltAssetsTypes(), 'nome', 'id');
+        $this->setDados(
+            'assetsType',
+            $this->getArraySelectAssetsType()
+        );
 
-        return view('assets.create_edit', $dados);
+        return parent::create();
     }
 
     public function edit($id)
     {
-        $this->setDados('assetsType', array_column($this->assetsType->sltAssetsTypes(), 'nome', 'id'));
+        $this->setDados(
+            'assetsType', 
+            $this->getArraySelectAssetsType()
+        );
         return parent::edit($id);
     }
 
@@ -88,5 +88,10 @@ class AssetsController extends Controller
             ];
         }
         return $data;
+    }
+
+    private function getArraySelectAssetsType()
+    {
+        return array_column($this->assetsType->sltAssetsTypes(), 'nome', 'id');
     }
 }

@@ -47,6 +47,15 @@ abstract class Controller extends BaseController
         return view("$this->viewBase.index", $dados);
     }
 
+    public function create()
+    {
+        $this->dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: "/$this->viewBase");
+        $this->dados['titulo'] = 'Adicionar';
+        $this->dados['action'] = "/$this->viewBase";
+
+        return view("$this->viewBase.create_edit", $this->dados);
+    }
+
     protected function trataRetorno($retorno, $operacao)
     {
         $acao = $operacao == Operacao::EDITAR 

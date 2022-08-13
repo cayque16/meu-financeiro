@@ -17,15 +17,6 @@ class AssetsTypeController extends Controller
         parent::__construct((new AssetsType()), 'assets_type');
     }
 
-    public function create()
-    {
-        $dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: '/assets_type');
-        $dados['titulo'] = 'Adicionar';
-        $dados['action'] = '/assets_type';
-
-        return view('assets_type.create_edit', $dados);
-    }
-
     public function store(StoreAssetsTypeRequest $request)
     {
         $retorno = $this->modelBase->insert($request);
