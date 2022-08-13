@@ -10,9 +10,20 @@ use App\Models\AssetsType;
 
 class AssetsController extends Controller
 {
+
+    private $asset;
+
+    private $assetsType;
+
+    function __construct()
+    {
+        $this->asset = new Asset();
+        $this->assetsType = new AssetsType();
+    }
+
     public function index()
     {
-        $allAssets = Asset::all();
+        $allAssets = $this->asset->getAll();
         
         $dados['cabecalho'] = $this->getCabecalho();
 
@@ -28,22 +39,21 @@ class AssetsController extends Controller
         $dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: '/assets');
         $dados['titulo'] = 'Adicionar';
         $dados['action'] = '/assets';
-        $dados['assetsType'] = array_column((new AssetsType())->sltAssetsTypes(), 'nome', 'id');
+        $dados['assetsType'] = array_column($this->assetsType->sltAssetsTypes(), 'nome', 'id');
 
         return view('assets.create_edit', $dados);
     }
 
     public function store(StoreAssetRequest $request)
     {
-        $asset = new Asset();
+        $retorno = $this->asset->insAsset($request);
 
-        $asset->codigo = $request->codigo;
-        $asset->descricao = $request->descricao;
-        $asset->id_assets_type = $request->id_assets_type;
+        $msg = [];
+        list($msg['key'], $msg['value']) = $retorno ? 
+            ['msg', 'Ativo criado com sucesso!'] : 
+            ['erro', 'Houve um erro ao inserir o ativo!'];
 
-        $asset->save();
-
-        return redirect('/assets')->with('msg', 'Ativo criado com sucesso!');
+        return redirect('/assets')->with($msg['key'], $msg['value']);
     }
 
     private function getCabecalho()

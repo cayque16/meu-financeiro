@@ -11,6 +11,9 @@
         @if(session('msg'))
             <p id="msg" class="msg">{{ session('msg') }}</p>
         @endif
+        @if(session('erro'))
+            <p id="erro" class="erro">{{ session('erro') }}</p>
+        @endif
     </div>
 
     @php echo $btnAdd @endphp

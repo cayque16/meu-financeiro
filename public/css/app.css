@@ -27,3 +27,13 @@
     text-align: center;
     padding: 10px;
 }
+
+.erro {
+    background-color: #EDD4DA;
+    color: #571524;
+    border: 1px solid #E6C3CB;
+    width: 100%;
+    margin-bottom: 0;
+    text-align: center;
+    padding: 10px;
+}
