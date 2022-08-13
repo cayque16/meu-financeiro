@@ -9,7 +9,7 @@ use App\Enums\Status;
 use App\Http\Requests\StoreAssetRequest;
 use App\Models\AssetsType;
 
-class AssetsController extends Controller
+class AssetsController extends MyControllerAbstract
 {
     private $assetsType;
 
