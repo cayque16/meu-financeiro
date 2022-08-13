@@ -20,10 +20,13 @@ class Controller extends BaseController
 
     protected $viewBase;
 
+    protected $dados;
+
     public function __construct($modelBase, $viewBase)
     {
         $this->modelBase = $modelBase;
         $this->viewBase = $viewBase;
+        $this->dados = [];
     }
 
     protected function trataRetornoInsert($retorno)
@@ -35,11 +38,16 @@ class Controller extends BaseController
 
     public function edit($id)
     {
-        $dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: "/".$this->viewBase);
-        $dados['assetsType'] = $this->modelBase->getFindOrFail($id);
-        $dados['titulo'] = 'Editar';
-        $dados['action'] = "/$this->viewBase/update/$id";
+        $this->dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: "/".$this->viewBase);
+        $this->dados['modelBase'] = $this->modelBase->getFindOrFail($id);
+        $this->dados['titulo'] = 'Editar';
+        $this->dados['action'] = "/$this->viewBase/update/$id";
 
-        return view("$this->viewBase.create_edit", $dados);
+        return view("$this->viewBase.create_edit", $this->dados);
+    }
+
+    protected function setDados($indice, $valor)
+    {
+        $this->dados[$indice] = $valor;
     }
 }

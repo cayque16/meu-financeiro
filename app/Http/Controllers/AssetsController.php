@@ -45,6 +45,12 @@ class AssetsController extends Controller
         return view('assets.create_edit', $dados);
     }
 
+    public function edit($id)
+    {
+        $this->setDados('assetsType', array_column($this->assetsType->sltAssetsTypes(), 'nome', 'id'));
+        return parent::edit($id);
+    }
+
     public function store(StoreAssetRequest $request)
     {
         $retorno = $this->asset->insert($request);
