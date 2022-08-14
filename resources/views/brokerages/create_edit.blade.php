@@ -29,7 +29,7 @@
                 fgroup-class="col-md-12" value='{{ $vNome}}' disable-feedback/>
             <x-adminlte-input name="site" label="Site" placeholder="Insira o site da corretora..."
                 fgroup-class="col-md-12" value='{{ $vSite }}' disable-feedback/>
-            <x-adminlte-input name="cnpj" label="CNPJ" placeholder="Insira o CNPJ da corretora..."
+            <x-adminlte-input name="cnpj" label="CNPJ" id="cnpj" placeholder="00.000.000/0000-00"
                 fgroup-class="col-md-12" value='{{ $vCnpj }}' disable-feedback/>
         </div>
         <div class="div-btn-salvar">
@@ -43,5 +43,7 @@
 @stop 
 
 @section('js')
-    
+    <script language="javascript" src="/js/jquery-1.2.6.pack.js"></script>
+    <script language="javascript" src="/js/jquery.maskedinput-1.1.4.pack.js"></script>
+    <script language="javascript" src="/js/teste.js"></script>
 @stop
