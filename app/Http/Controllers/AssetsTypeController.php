@@ -19,22 +19,12 @@ class AssetsTypeController extends MyControllerAbstract
 
     public function store(StoreAssetsTypeRequest $request)
     {
-        $retorno = $this->modelBase->insert($request);
-
-        $this->trataRetorno($retorno, Operacao::CRIAR);
-
-        return redirect('/assets_type')->with($this->key, $this->value);
+        return $this->superStore($request);
     }
 
     public function update(StoreAssetsTypeRequest $request)
     {
-        $retorno = $this->modelBase
-            ->getFindOrFail($request->id)
-            ->update($request->all());
-
-        $this->trataRetorno($retorno, Operacao::EDITAR);
-
-        return redirect('/assets_type')->with($this->key, $this->value);
+        return $this->superUpdate($request);
     }
 
     protected function getCabecalho()

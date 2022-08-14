@@ -50,6 +50,26 @@ abstract class MyControllerAbstract extends Controller
         return view("$this->viewBase.create_edit", $this->dados);
     }
 
+    public function superStore($request)
+    {
+        $retorno = $this->modelBase->insert($request);
+
+        $this->trataRetorno($retorno, Operacao::CRIAR);
+
+        return redirect("/$this->viewBase")->with($this->key, $this->value);
+    }
+
+    public function superUpdate($request)
+    {
+        $retorno = $this->modelBase
+            ->getFindOrFail($request->id)
+            ->update($request->all());
+        
+        $this->trataRetorno($retorno, Operacao::EDITAR);
+
+        return redirect("/$this->viewBase")->with($this->key, $this->value);
+    }
+
     protected function trataRetorno($retorno, $operacao)
     {
         $acao = $operacao == Operacao::EDITAR 

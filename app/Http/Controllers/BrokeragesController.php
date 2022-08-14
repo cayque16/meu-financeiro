@@ -17,22 +17,12 @@ class BrokeragesController extends MyControllerAbstract
 
     public function store(StoreBrokerageRequest $request)
     {
-        $retorno = $this->modelBase->insert($request);
-
-        $this->trataRetorno($retorno, Operacao::CRIAR);
-
-        return redirect('/brokerages')->with($this->key, $this->value);
+        return $this->superStore($request);
     }
 
     public function update(StoreBrokerageRequest $request)
     {
-        $retorno = $this->modelBase
-            ->getFindOrFail($request->id)
-            ->update($request->all());
-        
-        $this->trataRetorno($retorno, Operacao::EDITAR);
-
-        return redirect('/brokerages')->with($this->key, $this->value);
+        return $this->superUpdate($request);
     }
     
     protected function getCabecalho()
