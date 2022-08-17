@@ -26,6 +26,7 @@ class AssetsType extends MyModelAbstract
     {
         return AssetsType::select('id', 'nome')
                 ->whereIn('e_excluido', $arrayStatus)
+                ->orderBy('nome')
                 ->get()
                 ->toArray();
     }
