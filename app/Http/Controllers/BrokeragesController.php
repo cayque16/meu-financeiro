@@ -12,6 +12,7 @@ class BrokeragesController extends MyControllerAbstract
 {
     public function __construct()
     {
+        $this->setTextoMsg('Corretora');
         parent::__construct((new Brokerage()), 'brokerages');
     }
 

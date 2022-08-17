@@ -10,10 +10,9 @@ use App\Models\AssetsType;
 
 class AssetsTypeController extends MyControllerAbstract
 {
-    private $assetsType;
-
     public function __construct()
     {
+        $this->setTextoMsg('Tipo de ativo');
         parent::__construct((new AssetsType()), 'assets_type');
     }
 

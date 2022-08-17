@@ -15,6 +15,7 @@ class AssetsController extends MyControllerAbstract
 
     public function __construct()
     {
+        $this->setTextoMsg('Ativo');
         parent::__construct((new Asset), 'assets');
         $this->assetsType = new AssetsType();
     }

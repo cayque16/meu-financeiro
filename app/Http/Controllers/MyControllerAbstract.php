@@ -7,15 +7,17 @@ use App\Enums\Operacao;
 
 abstract class MyControllerAbstract extends Controller
 {
-    protected $key;
+    protected $withKey;
 
-    protected $value;
+    protected $withValue;
 
     protected $modelBase;
 
     protected $viewBase;
 
     protected $dados;
+
+    protected $textoMsg;
 
     public function __construct($modelBase, $viewBase)
     {
@@ -56,7 +58,7 @@ abstract class MyControllerAbstract extends Controller
 
         $this->trataRetorno($retorno, Operacao::CRIAR);
 
-        return redirect("/$this->viewBase")->with($this->key, $this->value);
+        return redirect("/$this->viewBase")->with($this->withKey, $this->withValue);
     }
 
     public function superUpdate($request)
@@ -67,7 +69,7 @@ abstract class MyControllerAbstract extends Controller
         
         $this->trataRetorno($retorno, Operacao::EDITAR);
 
-        return redirect("/$this->viewBase")->with($this->key, $this->value);
+        return redirect("/$this->viewBase")->with($this->withKey, $this->withValue);
     }
 
     protected function trataRetorno($retorno, $operacao)
@@ -76,9 +78,9 @@ abstract class MyControllerAbstract extends Controller
             ? Operacao::EDITADOS 
             : Operacao::CRIADOS;
             
-        list($this->key, $this->value) = $retorno ? 
-            ['msg', "Dados $acao com sucesso!"] : 
-            ['erro', "Houve um erro ao $operacao os dados!"];
+        list($this->withKey, $this->withValue) = $retorno ? 
+            ['msg', $this->getTextoMsg()." $acao com sucesso!"] : 
+            ['erro', "Houve um erro ao $operacao o ".$this->getTextoMsg()];
     }
 
     public function edit($id)
@@ -99,11 +101,21 @@ abstract class MyControllerAbstract extends Controller
          
         $this->trataRetorno($retorno, Operacao::EDITAR);
 
-        return redirect("/".$this->viewBase)->with($this->key, $this->value);
+        return redirect("/".$this->viewBase)->with($this->withKey, $this->withValue);
     }
 
     protected function setDados($indice, $valor)
     {
         $this->dados[$indice] = $valor;
+    }
+
+    protected function getTextoMsg()
+    {
+        return $this->textoMsg;
+    }
+
+    protected function setTextoMsg($textoMsg)
+    {
+        $this->textoMsg = $textoMsg;
     }
 }

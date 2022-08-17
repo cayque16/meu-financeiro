@@ -10,7 +10,7 @@ final class Operacao extends Enum
 
     const EDITAR =  'editar';
 
-    const CRIADOS = 'criados';
+    const CRIADOS = 'criad(o)a';
 
-    const EDITADOS = 'editados';
+    const EDITADOS = 'editad(o)a';
 }
