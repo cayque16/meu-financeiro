@@ -45,4 +45,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/brokerages/edit/{id}', [App\Http\Controllers\BrokeragesController::class, 'edit']);
     Route::post('/brokerages/update/{id}', [App\Http\Controllers\BrokeragesController::class, 'update']);
     Route::get('/brokerages/enable/{id}/{eExcluido}', [App\Http\Controllers\BrokeragesController::class, 'enable']);
+
+    Route::get('/purchases', [App\Http\Controllers\PurchasesController::class, 'index']);
+    Route::get('/purchases/create', [App\Http\Controllers\PurchasesController::class, 'create']);
+    Route::post('/purchases', [App\Http\Controllers\PurchasesController::class, 'store']);
+    Route::get('/purchases/edit/{id}', [App\Http\Controllers\PurchasesController::class, 'edit']);
+    Route::post('/purchases/update/{id}', [App\Http\Controllers\PurchasesController::class, 'update']);
+    Route::get('/purchases/enable/{id}/{eExcluido}', [App\Http\Controllers\PurchasesController::class, 'enable']);
 });
