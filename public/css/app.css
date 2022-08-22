@@ -37,3 +37,8 @@
     text-align: center;
     padding: 10px;
 }
+
+.asterisco {
+    color: #F00;
+    cursor: help;
+}
