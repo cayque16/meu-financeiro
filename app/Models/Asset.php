@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Asset extends MyModelAbstract
@@ -13,6 +14,17 @@ class Asset extends MyModelAbstract
     public function __construct()
     {
         parent::__construct($this);
+    }
+
+    public function sltAssets($arrayStatus = [Status::ATIVADO])
+    {
+        $result = Asset::select('id', 'codigo')
+            ->whereIn('e_excluido', $arrayStatus)
+            ->orderBy('codigo')
+            ->get()
+            ->toArray();
+
+        return array_column($result, 'codigo', 'id');
     }
 
     public function assetsType()
