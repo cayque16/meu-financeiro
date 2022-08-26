@@ -52,4 +52,5 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/purchases/edit/{id}', [App\Http\Controllers\PurchasesController::class, 'edit']);
     Route::post('/purchases/update/{id}', [App\Http\Controllers\PurchasesController::class, 'update']);
     Route::get('/purchases/enable/{id}/{eExcluido}', [App\Http\Controllers\PurchasesController::class, 'enable']);
+    Route::post('/purchases/adicionaAtivos', [App\Http\Controllers\PurchasesController::class, 'adicionaAtivos']);
 });
