@@ -11,3 +11,9 @@ function formataDataBr($data, $mostraHora = true, $separador = " ")
 
     return $mostraHora ? $data.$separador.$hora : $data;
 }
+
+function formataDataBd($data)
+{
+    $data = date_create($data);
+    return date_format($data, 'Y-m-d');
+}
