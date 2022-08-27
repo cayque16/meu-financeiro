@@ -10,6 +10,9 @@ use App\Enums\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\StorePurchaseRequest;
+use App\Models\AssetPurchase;
+use App\Enums\Operacao;
+use Exception;
 
 class PurchasesController extends MyControllerAbstract
 {
@@ -50,19 +53,40 @@ class PurchasesController extends MyControllerAbstract
 
     public function store(StorePurchaseRequest $request)
     {
-        // dd($request->input('data'));
-        $this->modelBase->data = formataDataBd($request->input('data'));
-        $this->modelBase->id_brokerages = $request->input('id_brokerages');
-        $retorno = $this->modelBase->save();
-        dd($retorno);
-        /* $taxaTotal = Session::get(self::$TAXA_TOTAL);
-        $arrayDados = unserialize(Session::get(self::$ARRAY_DADOS));
-        $totalNota = Session::get(self::$TOTAL_NOTA);
-        dd($arrayDados);
-        foreach($arrayDados as $ativos) {
-            $taxaAtivo = $this->getTaxaAtivo($dado[2], $dado[3], $totalNota, $taxaTotal);
-        }*/
-        
+        try {
+            $purchase = $this->modelBase::create([
+                'data' => formataDataBd($request->input('data')),
+                'id_brokerages' => $request->input('id_brokerages')
+            ]);
+            
+            $taxaTotal = Session::get(self::$TAXA_TOTAL);
+            $arrayDados = unserialize(Session::get(self::$ARRAY_DADOS));
+            $totalNota = Session::get(self::$TOTAL_NOTA);
+            
+            foreach($arrayDados as $ativo) {
+                $taxaAtivo = $this->getTaxaAtivo($ativo[2], $ativo[3], $totalNota, $taxaTotal);
+                $retorno = AssetPurchase::create([
+                    'purchase_id' => $purchase->id, 
+                    'asset_id' => $ativo[0], 
+                    'quantidade' => $ativo[3], 
+                    'valor_unitario' => $ativo[2], 
+                    'taxas' => $taxaAtivo
+                ]);
+                if(!$retorno) break;
+            }
+            
+            $this->trataRetorno($retorno, Operacao::CRIAR);
+
+            return redirect("/$this->viewBase")->with($this->withKey, $this->withValue);
+        } catch (Exception $erro) {
+            dd("Aconteu um erro: ".$erro);
+        } finally {
+            Session::forget([
+                self::$TOTAL_NOTA,
+                self::$ARRAY_DADOS,
+                self::$TAXA_TOTAL
+            ]);
+        }
     }
 
     public function adicionaAtivos(Request $request)
