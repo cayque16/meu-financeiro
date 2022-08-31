@@ -40,4 +40,31 @@
             console.log("Completou!!!");
         });
     };
+
+    removeAtivo = function(idArray) {
+        var table = $("#ativos-conteudo");
+        
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN':$('meta[name="csrf-token"').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: "/purchases/removeAtivos",
+            type: "POST",
+            data: {
+                idArray: idArray
+            },
+            dataType: "json"
+        }).done(function(resposta) {
+            if(resposta.sucesso === true) {
+                table.html(resposta.msg);
+            } 
+        }).fail(function(jqXHR, textStatus){
+            console.log("Falhou: "+ textStatus);
+        }).always(function(){
+            console.log("Completou!!!");
+        });
+    };
   })(jQuery);

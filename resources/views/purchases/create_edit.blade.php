@@ -76,6 +76,7 @@
         <th>Quantidade (Q)</th>
         <th>Taxa (T)</th>
         <th>Total (P x Q) + T</th>
+        <th>Remover</th>
         <tbody id="ativos-conteudo"></tbody>
     </thead>
 </table>

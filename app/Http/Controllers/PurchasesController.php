@@ -107,15 +107,48 @@ class PurchasesController extends MyControllerAbstract
         }
 
         $dadosRequest = $this->getDadosRequest($request);
-
+        $idArray = getUniqId();
         if(Session::has(self::$ARRAY_DADOS)) {
             $arrayDados = unserialize(Session::get(self::$ARRAY_DADOS));
-            $arrayDados[] = $dadosRequest;
+            $arrayDados[$idArray] = $dadosRequest;
             Session::put(self::$ARRAY_DADOS, serialize($arrayDados));
         } else {
-            $arrayDados[] = $dadosRequest;
+            $arrayDados[$idArray] = $dadosRequest;
             Session::put(self::$ARRAY_DADOS, serialize($arrayDados));
         }
+
+        $taxaTotal = Session::get(self::$TAXA_TOTAL);
+        $dados = unserialize(Session::get(self::$ARRAY_DADOS));
+        
+        $retorno[self::$KEY_MSG] = '';
+        $totalNota = Session::get(self::$TOTAL_NOTA);
+        foreach($dados as $chave => $dado) {
+            $taxaAtivo = $this->getTaxaAtivo($dado[2], $dado[3], $totalNota, $taxaTotal);
+            $retorno[self::$KEY_MSG] .= "
+            <tr>
+                <td>".$dado[1]."</td>
+                <td>".formata_moeda($dado[2])."</td>
+                <td>".$dado[3]."</td>
+                <td>".formata_moeda($taxaAtivo)."</td>
+                <td>".formata_moeda(($dado[2]*$dado[3])+$taxaAtivo)."</td>
+                <td><button type='button' class='btn btn-danger' onclick='removeAtivo(\"$chave\")'><i class='fas fa-trash'></i></button></td>
+            </tr>";
+        }
+        $retorno[self::$KEY_RESPOSTA] = true;
+        return json_encode($retorno);
+    }
+
+    public function removeAtivos(Request $request)
+    {
+        $idArray = $request->input('idArray');
+        $arrayDados = unserialize(Session::get(self::$ARRAY_DADOS));
+
+        $totalNota = Session::get(self::$TOTAL_NOTA);
+        $totalNota -= $arrayDados[$idArray][2] * $arrayDados[$idArray][3];
+        Session::put(self::$TOTAL_NOTA, $totalNota);
+
+        unset($arrayDados[$idArray]);
+        Session::put(self::$ARRAY_DADOS, serialize($arrayDados));
 
         $taxaTotal = Session::get(self::$TAXA_TOTAL);
         $dados = unserialize(Session::get(self::$ARRAY_DADOS));
@@ -131,6 +164,7 @@ class PurchasesController extends MyControllerAbstract
                 <td>".$dado[3]."</td>
                 <td>".formata_moeda($taxaAtivo)."</td>
                 <td>".formata_moeda(($dado[2]*$dado[3])+$taxaAtivo)."</td>
+                <td><button type='button' class='btn btn-danger' onclick='removeAtivo(\"$idArray\")'><i class='fas fa-trash'></i></button></td>
             </tr>";
         }
         $retorno[self::$KEY_RESPOSTA] = true;
