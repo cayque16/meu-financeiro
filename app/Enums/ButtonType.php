@@ -15,4 +15,6 @@ final class ButtonType extends Enum
     const VOLTAR = 4;
 
     const ATIVAR = 5;
+
+    const EXIBIR = 6;
 }
