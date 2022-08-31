@@ -237,7 +237,7 @@ class PurchasesController extends MyControllerAbstract
                 formataDataBr($dado->data, false),
                 formataDataBr($dado->created_at),
                 formataDataBr($dado->updated_at),
-                "<nobr>".getBtnLink(ButtonType::EDITAR, "/purchases/edit/$dado->id")."  ".getBtnLink($botao, "/purchases/enable/$dado->id/$eExcluido")."</nobr>"
+                getBtnLink(ButtonType::EXIBIR, "/purchases/show/$dado->id")
             ];
         }
         return $data;
