@@ -4,7 +4,7 @@
         var preco = $("#preco");
         var quantidade = $("#quantidade");
         var taxasTotal = $("#taxas_total")
-        var table = $("#teste-ativos-conteudo");
+        var table = $("#ativos-conteudo");
 
         $.ajaxSetup({
             headers: {

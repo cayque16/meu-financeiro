@@ -76,7 +76,7 @@
         <th>Quantidade (Q)</th>
         <th>Taxa (T)</th>
         <th>Total (P x Q) + T</th>
-        <tbody id="teste-ativos-conteudo"></tbody>
+        <tbody id="ativos-conteudo"></tbody>
     </thead>
 </table>
 @stop
