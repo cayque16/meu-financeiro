@@ -110,8 +110,6 @@ class PurchasesController extends MyControllerAbstract
 
         if(Session::has(self::$ARRAY_DADOS)) {
             $arrayDados = unserialize(Session::get(self::$ARRAY_DADOS));
-            $total = $request->input(self::$PRECO) * $request->input(self::$QUANTIDADE);
-            $totalNota += $total;
             $arrayDados[] = $dadosRequest;
             Session::put(self::$ARRAY_DADOS, serialize($arrayDados));
         } else {
