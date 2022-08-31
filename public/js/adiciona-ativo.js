@@ -1,5 +1,5 @@
 (function($) {
-    teste = function() {
+    adicionaAtivo = function() {
         var ativo = $("#ativo option:selected");
         var preco = $("#preco");
         var quantidade = $("#quantidade");

@@ -64,7 +64,7 @@
         fgroup-class="col-md-4" type="number" min="1" value="" disable-feedback/>
         </div>
         <div class="div-btn-salvar">
-            <x-adminlte-button class="btn-warning" onclick="teste()" label=" Incluir" theme="success" icon="fas fa-plus"/>
+            <x-adminlte-button class="btn-warning" onclick="adicionaAtivo()" label=" Incluir" theme="success" icon="fas fa-plus"/>
             <x-adminlte-button class="btn-success" onclick="document.getElementById('form').submit()" label=" Salvar" theme="success" icon="fas fa-save"/>
         </div>
 
