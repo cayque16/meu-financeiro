@@ -89,6 +89,28 @@ class PurchasesController extends MyControllerAbstract
         }
     }
 
+    public function show($id)
+    {
+        $this->setDados('btnVoltar', getBtnLink(ButtonType::VOLTAR, link: "/$this->viewBase"));
+
+        $tabela = (new AssetPurchase)->lstAtivosPorIdCompra($id);
+        $valorTotal = 0;
+        $dataCompra = '';
+        array_walk($tabela, function(&$dado) use (&$valorTotal, &$dataCompra) {
+            $total = $dado['quantidade'] * $dado['valor_unitario'] + $dado['taxas'];
+            $valorTotal += $total;
+            $dado['total'] = formata_moeda($total);
+            $dado['valor_unitario'] = formata_moeda($dado['valor_unitario']);
+            $dado['taxas'] = formata_moeda($dado['taxas']);
+            $dataCompra = formataDataBr($dado['data'], false);
+        });
+        $this->setDados('dataCompra', $dataCompra);
+        $this->setDados('valorTotal', formata_moeda($valorTotal));
+        $this->setDados('arrayTabela', $tabela);
+        
+        return view("$this->viewBase.show", $this->dados);
+    }
+
     public function adicionaAtivos(Request $request)
     {
         $validacao = $this->validaEntrada($request);
@@ -230,8 +252,6 @@ class PurchasesController extends MyControllerAbstract
     {
         $data = [];
         foreach($dados as $dado) {
-            $botao = $dado->e_excluido ?  ButtonType::ATIVAR : ButtonType::DESATIVAR;
-            $eExcluido = $dado->e_excluido ? Status::ATIVADO : Status::DESATIVADO;
             $data[] = [
                 $dado->id, 
                 formataDataBr($dado->data, false),

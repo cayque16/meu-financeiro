@@ -17,4 +17,13 @@ class AssetPurchase extends MyModelAbstract
         parent::__construct($this);
     }
 
+    public function lstAtivosPorIdCompra($idCompra)
+    {
+        return AssetPurchase::select('purchases.data','assets.codigo', 'quantidade', 'valor_unitario', 'taxas')
+            ->join('assets', 'asset_id', '=', 'assets.id')
+            ->join('purchases', 'purchase_id', '=', 'purchases.id')
+            ->where('purchase_id', '=', $idCompra)
+            ->get()
+            ->toArray();
+    }
 }
