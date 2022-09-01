@@ -6,12 +6,13 @@ use App\Models\Purchase;
 use App\Models\Asset;
 use App\Models\Brokerage;
 use App\Enums\ButtonType;
-use App\Enums\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\StorePurchaseRequest;
 use App\Models\AssetPurchase;
 use App\Enums\Operacao;
+use App\Enums\TabelaReferencia;
+use App\Models\ControlFile;
 use Exception;
 
 class PurchasesController extends MyControllerAbstract
@@ -74,12 +75,29 @@ class PurchasesController extends MyControllerAbstract
                 ]);
                 if(!$retorno) break;
             }
+
+            if($retorno && $request->hasFile('notaCorretagem') && $request->file('notaCorretagem')->isValid()) {
+                $requestFile = $request->notaCorretagem;
+                $extensao = $requestFile->extension();
+                $fileName = hashNomeDeArquivos($requestFile->getClientOriginalName(), $purchase->id, TabelaReferencia::PURCHASES);
+                
+                $retorno = ControlFile::create([
+                    'id_referencia' => $purchase->id,
+                    'id_table_references' => TabelaReferencia::PURCHASES, 
+                    'nome_original' => $requestFile->getClientOriginalName(), 
+                    'extensao' => $extensao
+                ]);
+
+                if($retorno) {
+                    $requestFile->move(public_path('arquivos/notas'), $fileName);
+                }
+            }
             
             $this->trataRetorno($retorno, Operacao::CRIAR);
 
             return redirect("/$this->viewBase")->with($this->withKey, $this->withValue);
         } catch (Exception $erro) {
-            dd("Aconteu um erro: ".$erro);
+            var_dump("Aconteceu um erro: ".$erro);
         } finally {
             Session::forget([
                 self::$TOTAL_NOTA,

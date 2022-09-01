@@ -27,7 +27,7 @@
         $vIdAsset = isset($modelBase) ? $modelBase->id_assets_type : (isset($request) ? $request->old('id_assets_type') : '');
         $vIdBrokerage = isset($modelBase) ? $modelBase->id_assets_type : (isset($request) ? $request->old('id_assets_type') : '');
     @endphp
-    <form id='form' action="{{ $action }}" method="post">
+    <form id='form' action="{{ $action }}" method="post" enctype="multipart/form-data">
     <div class="row">
         {{ csrf_field() }}
         <x-adminlte-input-date fgroup-class="col-md-3" name="data" label="Data" :config="$config" disable-feedback/>
