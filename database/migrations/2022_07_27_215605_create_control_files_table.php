@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('id_referencia');
             $table->bigInteger('id_table_references')->constrained('table_references');
-            $table->text('nome_orginal');
+            $table->text('nome_original');
             $table->char('extensao', 10);
             $table->timestamps();
         });
