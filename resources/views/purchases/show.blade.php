@@ -3,7 +3,12 @@
 @section('title', 'Ativos')
 
 @section('content_header')
-    <h3>{{ $dataCompra }} - {{ $valorTotal }}</h3>
+    
+    <h3>{{ $dataCompra }} - {{ $valorTotal }} 
+        @if ($linkNotaCorretagem) 
+            - <a href="/purchases/exibirPdf/{{ $linkNotaCorretagem }}" target="_blank">Nota Corretagem </a> 
+        @endif
+    </h3>
 @stop
 
 @section('content')

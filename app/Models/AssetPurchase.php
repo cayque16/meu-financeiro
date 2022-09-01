@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TabelaReferencia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AssetPurchase extends MyModelAbstract
@@ -19,9 +20,13 @@ class AssetPurchase extends MyModelAbstract
 
     public function lstAtivosPorIdCompra($idCompra)
     {
-        return AssetPurchase::select('purchases.data','assets.codigo', 'quantidade', 'valor_unitario', 'taxas')
+        return AssetPurchase::select('purchases.data','assets.codigo', 'quantidade', 'valor_unitario', 'taxas', 'nome_original')
             ->join('assets', 'asset_id', '=', 'assets.id')
             ->join('purchases', 'purchase_id', '=', 'purchases.id')
+            ->leftJoin('control_files', function ($leftJoin){
+                $leftJoin->on('purchase_id', '=', 'id_referencia')
+                    ->where('id_table_references', '=', TabelaReferencia::PURCHASES);
+            })
             ->where('purchase_id', '=', $idCompra)
             ->get()
             ->toArray();

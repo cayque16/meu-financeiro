@@ -114,19 +114,29 @@ class PurchasesController extends MyControllerAbstract
         $tabela = (new AssetPurchase)->lstAtivosPorIdCompra($id);
         $valorTotal = 0;
         $dataCompra = '';
-        array_walk($tabela, function(&$dado) use (&$valorTotal, &$dataCompra) {
+        $notaCorretagem = null;
+        array_walk($tabela, function(&$dado) use (&$valorTotal, &$dataCompra, &$notaCorretagem) {
             $total = $dado['quantidade'] * $dado['valor_unitario'] + $dado['taxas'];
             $valorTotal += $total;
             $dado['total'] = formata_moeda($total);
             $dado['valor_unitario'] = formata_moeda($dado['valor_unitario']);
             $dado['taxas'] = formata_moeda($dado['taxas']);
             $dataCompra = formataDataBr($dado['data'], false);
+            $notaCorretagem = $dado['nome_original'];
         });
+        
         $this->setDados('dataCompra', $dataCompra);
         $this->setDados('valorTotal', formata_moeda($valorTotal));
+        $this->setDados('linkNotaCorretagem', $notaCorretagem ? hashNomeDeArquivos($notaCorretagem, $id, TabelaReferencia::PURCHASES) : null);
+        
         $this->setDados('arrayTabela', $tabela);
         
         return view("$this->viewBase.show", $this->dados);
+    }
+
+    public function exibirPdf($id)
+    {
+        return response()->file(public_path("arquivos/notas/$id"));
     }
 
     public function adicionaAtivos(Request $request)
