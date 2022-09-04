@@ -95,7 +95,7 @@ class PurchasesController extends MyControllerAbstract
             
             $this->trataRetorno($retorno, Operacao::CRIAR);
 
-            return redirect("/$this->viewBase")->with($this->withKey, $this->withValue);
+            return redirect("/$this->viewBase/show/$purchase->id")->with($this->withKey, $this->withValue);
         } catch (Exception $erro) {
             var_dump("Aconteceu um erro: ".$erro);
         } finally {
@@ -114,20 +114,18 @@ class PurchasesController extends MyControllerAbstract
         $tabela = (new AssetPurchase)->lstAtivosPorIdCompra($id);
         $valorTotal = 0;
         $dataCompra = '';
-        $notaCorretagem = null;
-        array_walk($tabela, function(&$dado) use (&$valorTotal, &$dataCompra, &$notaCorretagem) {
+        array_walk($tabela, function(&$dado) use (&$valorTotal, &$dataCompra) {
             $total = $dado['quantidade'] * $dado['valor_unitario'] + $dado['taxas'];
             $valorTotal += $total;
             $dado['total'] = formata_moeda($total);
             $dado['valor_unitario'] = formata_moeda($dado['valor_unitario']);
             $dado['taxas'] = formata_moeda($dado['taxas']);
             $dataCompra = formataDataBr($dado['data'], false);
-            $notaCorretagem = $dado['nome_original'];
         });
-        
+        $notaCorretagem = $this->getLinkNotaCorretagem($id);
         $this->setDados('dataCompra', $dataCompra);
         $this->setDados('valorTotal', formata_moeda($valorTotal));
-        $this->setDados('linkNotaCorretagem', $notaCorretagem ? hashNomeDeArquivos($notaCorretagem, $id, TabelaReferencia::PURCHASES) : null);
+        $this->setDados('linkNotaCorretagem', $notaCorretagem ? $notaCorretagem : null);
         
         $this->setDados('arrayTabela', $tabela);
         
@@ -285,9 +283,20 @@ class PurchasesController extends MyControllerAbstract
                 formataDataBr($dado->data, false),
                 formataDataBr($dado->created_at),
                 formataDataBr($dado->updated_at),
-                getBtnLink(ButtonType::EXIBIR, "/purchases/show/$dado->id")
+                "<nobr>".getBtnLink(ButtonType::EXIBIR, "/purchases/show/$dado->id")." ".getBtnLink(ButtonType::PDF, $this->getLinkNotaCorretagem($dado->id), "Nota Corretagem", "_blank")."</nobr>"
             ];
         }
         return $data;
+    }
+
+    private function getLinkNotaCorretagem($idCompra)
+    {
+        $retorno = null;
+        $arquivo = (new ControlFile())->lstArquivoPorIdReferencia($idCompra, TabelaReferencia::PURCHASES);
+        if(!empty($arquivo)) {
+            $id = hashNomeDeArquivos(reset($arquivo)['nome_original'], $idCompra, TabelaReferencia::PURCHASES);
+            $retorno = "/purchases/exibirPdf/$id";
+        } 
+        return $retorno;
     }
 }

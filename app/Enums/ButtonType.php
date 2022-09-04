@@ -17,4 +17,6 @@ final class ButtonType extends Enum
     const ATIVAR = 5;
 
     const EXIBIR = 6;
+
+    const PDF = 7;
 }

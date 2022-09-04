@@ -6,7 +6,7 @@
     
     <h3>{{ $dataCompra }} - {{ $valorTotal }} 
         @if ($linkNotaCorretagem) 
-            - <a href="/purchases/exibirPdf/{{ $linkNotaCorretagem }}" target="_blank">Nota Corretagem </a> 
+            - <a href="{{ $linkNotaCorretagem }}" target="_blank">Nota Corretagem </a> 
         @endif
     </h3>
 @stop

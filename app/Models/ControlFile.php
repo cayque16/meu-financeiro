@@ -14,4 +14,13 @@ class ControlFile extends MyModelAbstract
     {
         parent::__construct($this);
     }
+
+    public function lstArquivoPorIdReferencia($idRefrencia, $tabelaReferencia)
+    {
+        return ControlFile::select('nome_original')
+            ->where('id_referencia', '=', $idRefrencia)
+            ->where('id_table_references', '=', $tabelaReferencia)
+            ->get()
+            ->toArray();
+    }
 }
