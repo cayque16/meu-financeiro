@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AssetPurchase;
+use App\Models\Purchase;
 
 class HomeController extends Controller
 {
@@ -22,14 +23,19 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dadosTabela = (new AssetPurchase())->sqlCalculaTotalInvestidoPorAno();
+        $dados['ano'] = $request->input('ano');
+
+        $dadosTabela = (new AssetPurchase())->sqlCalculaTotalInvestidoPorAno($dados['ano']);
         $dados['cabecalho'] = $this->getCabecalho();
         $dados['tabela'] = ['data' => $this->getTabela($dadosTabela)];
 
         $totalInvestido = array_sum(array_column($dadosTabela, 'total'));
-        $dados['labelFiltro'] = "Período: Todos - ".formata_moeda($totalInvestido);
+        $anoFiltroLabel = $dados['ano'] ?: "Todos";
+        $dados['labelFiltro'] = "Período: $anoFiltroLabel - ".formata_moeda($totalInvestido);
+
+        $dados['slAnos'] = (new Purchase())->sqlListaOsAnosDeCompras();
 
         return view('home', $dados);
     }
