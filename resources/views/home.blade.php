@@ -7,14 +7,21 @@
 @stop
 
 @section('content')
-    <p>Welcome to this beautiful admin panel.</p>
-    <x-adminlte-input name="iBasic"/>
+<x-adminlte-datatable id="table1" :heads="$cabecalho">
+        @foreach($tabela['data'] as $row)
+            <tr>
+                @foreach($row as $cell)
+                    <td>{!! $cell !!}</td>
+                @endforeach
+            </tr>
+        @endforeach
+    </x-adminlte-datatable>
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+    
 @stop

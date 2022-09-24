@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\AssetPurchase;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,40 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $dadosTabela = (new AssetPurchase())->sqlCalculaTotalInvestidoPorAno();
+        $dados['totalInvestido'] = array_sum(array_column($dadosTabela, 'total'));
+        $dados['cabecalho'] = $this->getCabecalho();
+        $dados['tabela'] = ['data' => $this->getTabela($dadosTabela)];
+
+        return view('home', $dados);
+    }
+
+    private function getCabecalho()
+    {
+        return [
+            'Ativo',
+            'Qtde Total',
+            'Total Investido',
+            'Preço Médio',
+            'Min',
+            'Max'
+        ];
+    }
+
+    private function getTabela($dadosTabela)
+    {
+        $data = [];
+        foreach($dadosTabela as $dado) {
+            $data[] = [
+                $dado['codigo'],
+                $dado['qtde'],
+                formata_moeda($dado['total']),
+                formata_moeda($dado['valor_min']),
+                formata_moeda($dado['valor_max']),
+                formata_moeda($dado['media']),
+            ];
+        }
+
+        return $data;
     }
 }
