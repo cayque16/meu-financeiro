@@ -25,9 +25,11 @@ class HomeController extends Controller
     public function index()
     {
         $dadosTabela = (new AssetPurchase())->sqlCalculaTotalInvestidoPorAno();
-        $dados['totalInvestido'] = array_sum(array_column($dadosTabela, 'total'));
         $dados['cabecalho'] = $this->getCabecalho();
         $dados['tabela'] = ['data' => $this->getTabela($dadosTabela)];
+
+        $totalInvestido = array_sum(array_column($dadosTabela, 'total'));
+        $dados['labelFiltro'] = "Período: Todos - ".formata_moeda($totalInvestido);
 
         return view('home', $dados);
     }
