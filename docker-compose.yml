@@ -1,28 +1,48 @@
-# For more information: https://laravel.com/docs/sail
 version: '3'
 services:
-    laravel.test:
-        build:
-            context: ./vendor/laravel/sail/runtimes/8.1
-            dockerfile: Dockerfile
-            args:
-                WWWGROUP: '${WWWGROUP}'
-        restart: always
-        image: sail-8.1/app
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
-        ports:
-            - '${APP_PORT:-80}:80'
-        environment:
-            WWWUSER: '${WWWUSER}'
-            LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-        volumes:
-            - '.:/var/www/html'
+  app:
+    build: .
+    container_name: meu-financeiro-app
+    # restart: always
+    volumes:
+        - .:/var/www
+        - ./.docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+    networks:
+        - app-network
+    depends_on:
+        - db
+
+  db:
+    build: ./.docker/mysql
+    # image: mysql:5.7
+    # restart: always
+    container_name: meu-financeiro-db
+    tty: true
+    ports:
+        - "33006:3306"
+    volumes:
+        - ./.docker/dbdata:/var/lib/mysql
+        - ./.docker/mysql:/docker-entrypoint-initdb.d
+    environment:
+        - MYSQL_DATABASE=meu_financeiro
+        - MYSQL_ROOT_PASSWORD=root
+    networks:
+        - app-network
+
+  nginx:
+    build: .docker/nginx
+    # restart: always
+    container_name: meu-financeiro-nginx
+    tty: true
+    ports:
+        - "8080:80"
+    volumes:
+        - .:/var/www
+    networks:
+        - app-network
+    depends_on:
+        - app
 
 networks:
-  default:
-    name: mysql_default
-    external: true
-
+  app-network:
+      driver: bridge
