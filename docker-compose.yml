@@ -3,7 +3,7 @@ services:
   app:
     build: .
     container_name: meu-financeiro-app
-    # restart: always
+    restart: always
     volumes:
         - .:/var/www
         - ./.docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
@@ -15,7 +15,7 @@ services:
   db:
     build: ./.docker/mysql
     # image: mysql:5.7
-    # restart: always
+    restart: always
     container_name: meu-financeiro-db
     tty: true
     ports:
@@ -31,7 +31,7 @@ services:
 
   nginx:
     build: .docker/nginx
-    # restart: always
+    restart: always
     container_name: meu-financeiro-nginx
     tty: true
     ports:
