@@ -3,7 +3,7 @@
 namespace Core\Domain\Entity;
 
 use Core\Domain\Exception\EntityValidationException;
-use Core\Domain\Factory\CurrencyValidatorFactory;
+use Core\Domain\Validation\Factories\CurrencyValidatorFactory;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 
@@ -16,8 +16,9 @@ class Currency extends BaseEntity
         protected int $split,
         protected Uuid|string $id = '',
         protected string $description = '',
+        protected bool $isActive = true,
         protected DateTime|string $createdAt = '',
-        protected DateTime|null $excludedAt = null,
+        protected ?DateTime $excludedAt = null,
     ) {
         $this->id = $this->id ? new Uuid($this->id) : Uuid::random();
         $this->isoCode = strtoupper($isoCode);
@@ -26,11 +27,23 @@ class Currency extends BaseEntity
         $this->validation();
     }
 
+    public function activate(): void
+    {
+        $this->isActive = true;
+    }
+
+    public function disable(): void
+    {
+        $this->isActive = false;
+    }
+
     protected function validation()
     {
-        $errors = CurrencyValidatorFactory::create()->validate($this);
-        if ($errors) {
-            throw new EntityValidationException(implode("\n", $errors));
+        $validator = CurrencyValidatorFactory::create();
+
+        $validator->validate($this);
+        if($validator->failed()) {
+            throw new EntityValidationException(json_encode($validator->errors()));
         }
     }
 }

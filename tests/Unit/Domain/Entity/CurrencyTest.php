@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class CurrencyTest extends TestCase
 {
     /**
-     * @dataProvider provider
+     * @dataProvider providerConstruct
      */
     public function testExceptionsInConstructor(
         string $name,
@@ -28,7 +28,7 @@ class CurrencyTest extends TestCase
         );
     }
 
-    protected function provider(): array
+    protected function providerConstruct(): array
     {
         return [
             'Test with name incorrect' => [
@@ -55,10 +55,60 @@ class CurrencyTest extends TestCase
             'Test with description incorrect' => [
                 'name' => 'test',
                 'symbol' => 'R$',
-                'isoCode' => 'L',
+                'isoCode' => 'BRL',
                 'split' => 100,
                 'description' => 't'
             ],
+            'Test with split incorrect' => [
+                'name'=> 'test',
+                'symbol' => 'R$',
+                'isoCode' => 'BRL',
+                'split' => -1,
+                'description' => 'test'
+            ]            
         ];
+    }
+
+    public function testIsoCodeIsAlwaysUpperCase()
+    {
+        $isoCode = 'bRl';
+        $currency = new Currency(
+            name: 'test',
+            symbol: 'R$',
+            isoCode: $isoCode,
+            split: 100,
+            description: 'new test'
+        );
+
+        $this->assertEquals(strtoupper($isoCode), $currency->isoCode);
+    }
+
+    public function testDisable()
+    {
+        $currency = new Currency(
+            name: 'test',
+            symbol: 'R$',
+            isoCode: 'BRL',
+            split: 100,
+            description: 'new test'
+        );
+
+        $currency->disable();
+        $this->assertNotTrue($currency->isActive);
+    }
+
+    public function testActivate()
+    {
+        $currency = new Currency(
+            name: 'test',
+            symbol: 'R$',
+            isoCode: 'BRL',
+            split: 100,
+            description: 'new test',
+            isActive: false
+        );
+
+        $currency->activate();
+        $this->assertTrue($currency->isActive);
     }
 }
