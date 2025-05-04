@@ -111,4 +111,37 @@ class CurrencyTest extends TestCase
         $currency->activate();
         $this->assertTrue($currency->isActive);
     }
+
+    /**
+     * @dataProvider providerPrint
+     */
+    public function testPrintFormatted(
+        $symbol,
+        $expected,
+        $split,
+        $decimals,
+        $value
+    ) {
+        $currency = new Currency(
+            name: 'test',
+            symbol: $symbol,
+            isoCode: 'BRL',
+            split: $split,
+            decimals: $decimals,
+            description: 'new test',
+        );
+
+        $this->assertEquals($expected, $currency->printFormatted($value));
+    }
+
+    protected function providerPrint(): array
+    {
+        return [
+            ['R$', 'R$ 1.500,00', 100, 2, 150000],
+            ['R$', 'R$ 0,01', 100, 2, 1],
+            ['R$', 'R$ 1,01', 100, 2, 101],
+            ['R$', 'R$ 25.000,01', 100, 2, 2500001],
+            ['₿', '₿ 0,01924866', 10**8, 8, 1924866],
+        ];
+    }
 }

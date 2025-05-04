@@ -14,6 +14,7 @@ class Currency extends BaseEntity
         protected string $symbol,
         protected string $isoCode,
         protected int $split,
+        protected int $decimals = 2,
         protected Uuid|string $id = '',
         protected string $description = '',
         protected bool $isActive = true,
@@ -45,5 +46,12 @@ class Currency extends BaseEntity
         if($validator->failed()) {
             throw new EntityValidationException(json_encode($validator->errors()));
         }
+    }
+
+    public function printFormatted(int $value): string
+    {
+        $value /= $this->split;
+
+        return $this->symbol.' '. number_format($value,  $this->decimals, ',', '.');
     }
 }
