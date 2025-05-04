@@ -4,6 +4,7 @@ namespace Tests\Unit\Domain\Entity;
 
 use Core\Domain\Entity\Currency;
 use Core\Domain\Exception\EntityValidationException;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class CurrencyTest extends TestCase
@@ -93,8 +94,10 @@ class CurrencyTest extends TestCase
             description: 'new test'
         );
 
+        $this->assertNull($currency->getExcludedAt());
         $currency->disable();
-        $this->assertNotTrue($currency->isActive);
+        $this->assertNotNull($currency->getExcludedAt());
+        $this->assertNotTrue($currency->isActive());
     }
 
     public function testActivate()
@@ -105,11 +108,13 @@ class CurrencyTest extends TestCase
             isoCode: 'BRL',
             split: 100,
             description: 'new test',
-            isActive: false
+            excludedAt: new DateTime()
         );
 
+        $this->assertNotNull($currency->getExcludedAt());
         $currency->activate();
-        $this->assertTrue($currency->isActive);
+        $this->assertNull($currency->getExcludedAt());
+        $this->assertTrue($currency->isActive());
     }
 
     /**

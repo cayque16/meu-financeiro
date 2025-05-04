@@ -17,7 +17,6 @@ class Currency extends BaseEntity
         protected int $decimals = 2,
         protected Uuid|string $id = '',
         protected string $description = '',
-        protected bool $isActive = true,
         protected DateTime|string $createdAt = '',
         protected ?DateTime $excludedAt = null,
     ) {
@@ -26,16 +25,6 @@ class Currency extends BaseEntity
         $this->createdAt = $this->createdAt ? new DateTime($this->createdAt) : new DateTime();
 
         $this->validation();
-    }
-
-    public function activate(): void
-    {
-        $this->isActive = true;
-    }
-
-    public function disable(): void
-    {
-        $this->isActive = false;
     }
 
     protected function validation()

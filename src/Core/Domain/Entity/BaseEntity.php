@@ -2,10 +2,15 @@
 
 namespace Core\Domain\Entity;
 
+use DateTime;
 use Exception;
 
 abstract class BaseEntity
 {
+    protected DateTime|string $createdAt = '';
+    
+    protected ?DateTime $excludedAt = null;
+
     public function __get($property)
     {
         if (isset($this->{$property})) {
@@ -29,5 +34,30 @@ abstract class BaseEntity
     public function excludedAt(): string
     {
         return $this->createdAt->format('Y-m-d H:i:s');
+    }
+
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function getExcludedAt(): ?DateTime
+    {
+        return $this->excludedAt;
+    }
+
+    public function activate(): void
+    {
+        $this->excludedAt = null;
+    }
+
+    public function disable(): void
+    {
+        $this->excludedAt = new DateTime();
+    }
+
+    public function isActive(): bool
+    {
+        return empty($this->excludedAt);
     }
 }
