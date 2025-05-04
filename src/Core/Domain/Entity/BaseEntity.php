@@ -2,14 +2,20 @@
 
 namespace Core\Domain\Entity;
 
+use Core\Domain\ValueObject\Uuid;
 use DateTime;
 use Exception;
 
-abstract class BaseEntity
+class BaseEntity
 {
-    protected DateTime|string $createdAt = '';
-    
-    protected ?DateTime $excludedAt = null;
+    protected function __construct(
+        protected Uuid|string $id = '',
+        protected DateTime|string $createdAt = '',
+        protected ?DateTime $excludedAt = null
+    ) {
+        $this->id = $this->id ? new Uuid($this->id) : Uuid::random();
+        $this->createdAt = $this->createdAt ? new DateTime($this->createdAt) : new DateTime();
+    }
 
     public function __get($property)
     {
@@ -33,7 +39,7 @@ abstract class BaseEntity
 
     public function excludedAt(): string
     {
-        return $this->createdAt->format('Y-m-d H:i:s');
+        return $this->excludedAt->format('Y-m-d H:i:s');
     }
 
     public function getCreatedAt(): DateTime

@@ -20,10 +20,8 @@ class Currency extends BaseEntity
         protected DateTime|string $createdAt = '',
         protected ?DateTime $excludedAt = null,
     ) {
-        $this->id = $this->id ? new Uuid($this->id) : Uuid::random();
+        parent::__construct($id, $createdAt, $excludedAt);
         $this->isoCode = strtoupper($isoCode);
-        $this->createdAt = $this->createdAt ? new DateTime($this->createdAt) : new DateTime();
-
         $this->validation();
     }
 
