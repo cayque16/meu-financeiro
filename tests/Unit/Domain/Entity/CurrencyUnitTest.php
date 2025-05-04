@@ -7,7 +7,7 @@ use Core\Domain\Exception\EntityValidationException;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 
-class CurrencyTest extends TestCase
+class CurrencyUnitTest extends TestCase
 {
     /**
      * @dataProvider providerConstruct

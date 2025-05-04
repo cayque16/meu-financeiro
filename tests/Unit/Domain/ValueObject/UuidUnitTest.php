@@ -6,7 +6,7 @@ use Core\Domain\ValueObject\Uuid;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class UuidTest extends TestCase
+class UuidUnitTest extends TestCase
 {
     public function testConstruct()
     {
