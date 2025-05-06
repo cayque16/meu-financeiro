@@ -20,4 +20,11 @@ class AssetType extends BaseEntity
         $this->validator = AssetTypeValidatorFactory::create();
         $this->validation();
     }
+
+    public function update(string $name, string $description = '')
+    {
+        $this->name = $name;
+        $this->description = $description;
+        $this->validation();
+    }
 }

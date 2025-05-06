@@ -22,7 +22,7 @@ class AssetTypeUnitTest extends TestCase
     public function testExceptionsInConstructor($name, $description)
     {
         $this->expectException(EntityValidationException::class);
-        new AssetType($name, $description);
+        new AssetType(name: $name, description: $description);
     }
 
     protected function providerConstruct(): array
@@ -33,5 +33,27 @@ class AssetTypeUnitTest extends TestCase
                 'description'=> ''
             ]
         ];
+    }
+
+    public function testUpdate()
+    {
+        $nameOld = 'Test Name';
+        $descriptionOld = 'Test Description';
+
+        $type = new AssetType(name: $nameOld, description: $descriptionOld);
+        $type->update('Name update', 'Description update');
+
+        $this->assertNotEquals($type->name, $nameOld);
+        $this->assertNotEquals($type->description, $descriptionOld);
+    }
+
+    /**
+     * @dataProvider providerConstruct
+     */
+    public function testUpdateException($name, $description)
+    {
+        $type = new AssetType(name: 'Name valid', description: 'Description');
+        $this->expectException(EntityValidationException::class);
+        $type->update($name, $description);
     }
 }
