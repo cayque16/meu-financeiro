@@ -2,12 +2,16 @@
 
 namespace Core\Domain\Entity;
 
+use Core\Domain\Exception\EntityValidationException;
+use Core\Domain\Validation\EntityValidatorInterface;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 use Exception;
 
 class BaseEntity
 {
+    protected EntityValidatorInterface $validator;
+
     protected function __construct(
         protected Uuid|string $id = '',
         protected DateTime|string $createdAt = '',
@@ -65,5 +69,17 @@ class BaseEntity
     public function isActive(): bool
     {
         return empty($this->excludedAt);
+    }
+
+    protected function validation()
+    {
+        if (!$this->validator) {
+            throw new EntityValidationException('The child class must define its validation interface.');
+        }
+        
+        $this->validator->validate($this);
+        if($this->validator->failed()) {
+            throw new EntityValidationException(json_encode($this->validator->errors()));
+        }
     }
 }
