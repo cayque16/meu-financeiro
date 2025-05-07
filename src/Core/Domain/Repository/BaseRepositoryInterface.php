@@ -6,6 +6,8 @@ use Core\Domain\Entity\BaseEntity;
 
 interface BaseRepositoryInterface
 {
+    public function insert(BaseEntity $entity): BaseEntity;
+    
     public function findById(string $id): BaseEntity;
 
     public function findAll(string $filter = '', $orderBy = 'DESC'): array;
