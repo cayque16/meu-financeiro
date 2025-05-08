@@ -9,6 +9,7 @@ use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\UseCase\Currency\ListCurrencyUseCase;
 use Core\UseCase\DTO\Currency\CurrencyInputDto;
 use Core\UseCase\DTO\Currency\CurrencyOutputDto;
+use Core\UseCase\Exceptions\NotFoundException;
 use stdClass;
 use Mockery;
 
@@ -30,13 +31,9 @@ class ListCurrencyUseCaseUnitTest extends TestCase
         $mockEntity ->shouldReceive("createdAt")->andReturn($createdAt = date('Y-m-d H:i:s'));
         $mockEntity ->shouldReceive("excludedAt")->andReturn($excludedAt = '');
 
-        $mockRepository = Mockery::mock(stdClass::class, BaseRepositoryInterface::class);
-        $mockRepository ->shouldReceive('findById')
-            ->once()
-            ->with($uuid)
-            ->andReturn($mockEntity);
+        $mockRepository = $this->mockRepository($uuid, $mockEntity);
 
-        $mockInputDto = Mockery::mock(CurrencyInputDto::class, [$uuid]);
+        $mockInputDto = $this->mockInputDto($uuid);
 
         $useCase = new ListCurrencyUseCase($mockRepository);
         $response = $useCase->execute($mockInputDto);
@@ -51,7 +48,38 @@ class ListCurrencyUseCaseUnitTest extends TestCase
         $this->assertEquals($description, $response->description);
         $this->assertEquals($createdAt, $response->createdAt);
         $this->assertEquals($excludedAt, $response->excludedAt);
+    }
 
+    public function testSingleNotFound()
+    {
+        $uuid = (string) RamseyUuid::uuid4();
+        $mockRepository = $this->mockRepository($uuid, null);
+        $mockInputDto = $this->mockInputDto($uuid);
+
+        $useCase = new ListCurrencyUseCase($mockRepository);
+        $this->expectException(NotFoundException::class);
+        $response = $useCase->execute($mockInputDto);
+    }
+
+    private function mockInputDto($uuid)
+    {
+        return Mockery::mock(CurrencyInputDto::class, [$uuid]);
+    }
+
+    private function mockRepository($uuid, $mockEntity)
+    {
+        $mockRepository = Mockery::mock(stdClass::class, BaseRepositoryInterface::class);
+        $mockRepository ->shouldReceive('findById')
+            ->once()
+            ->with($uuid)
+            ->andReturn($mockEntity);
+
+        return $mockRepository;
+    }
+
+    protected function tearDown(): void
+    {
         Mockery::close();
+        parent::tearDown();
     }
 }
