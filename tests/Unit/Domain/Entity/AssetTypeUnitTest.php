@@ -47,6 +47,20 @@ class AssetTypeUnitTest extends TestCase
         $this->assertNotEquals($type->description, $descriptionOld);
     }
 
+    public function testUpdateNotEditOtherFields()
+    {
+        $type = new AssetType(name: 'name', description: 'desc');
+        
+        $this->assertEquals('name', $type->name);
+        $this->assertEquals('desc', $type->description);
+        $type->update(name: 'new name');
+        $this->assertEquals('new name', $type->name);
+        $this->assertEquals('desc', $type->description);
+        $type->update(description: 'new desc');
+        $this->assertEquals('new name', $type->name);
+        $this->assertEquals('new desc', $type->description);
+    }
+
     /**
      * @dataProvider providerConstruct
      */

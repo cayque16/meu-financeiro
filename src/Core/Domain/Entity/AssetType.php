@@ -21,10 +21,10 @@ class AssetType extends BaseEntity
         $this->validation();
     }
 
-    public function update(string $name, string $description = '')
+    public function update(string $name = null, string $description = null)
     {
-        $this->name = $name;
-        $this->description = $description;
+        $this->name = $this->orSelfIfNull($name, $this->name);
+        $this->description = $this->orSelfIfNull($description, $this->description);
         $this->validation();
     }
 }
