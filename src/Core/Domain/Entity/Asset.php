@@ -27,9 +27,9 @@ class Asset extends BaseEntity
         AssetType $type = null,
         string $description = null
     ) {
-        $this->code = $this->orSelfIfNull($code, $this->code);
-        $this->type = $this->orSelfIfNull($type, $this->type);
-        $this->description = $this->orSelfIfNull($description, $this->description);
+        $this->code = $code ?? $this->code;
+        $this->type = $type ?? $this->type;
+        $this->description = $description ?? $this->description;
 
         $this->validation();
     }

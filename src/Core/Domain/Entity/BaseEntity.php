@@ -82,9 +82,4 @@ class BaseEntity
             throw new EntityValidationException(json_encode($this->validator->errors()));
         }
     }
-
-    protected function orSelfIfNull($value, $self)
-    {
-        return is_null($value) ? $self : $value;
-    }
 }
