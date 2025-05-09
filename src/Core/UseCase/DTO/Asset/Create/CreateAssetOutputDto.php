@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\UseCase\DTO\Asset;
+namespace Core\UseCase\DTO\Asset\Create;
 
 class CreateAssetOutputDto
 {

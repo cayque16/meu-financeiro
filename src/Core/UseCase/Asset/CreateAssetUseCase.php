@@ -4,8 +4,8 @@ namespace Core\UseCase\Asset;
 
 use Core\Domain\Entity\Asset;
 use Core\Domain\Repository\BaseRepositoryInterface;
-use Core\UseCase\DTO\Asset\CreateAssetInputDto;
-use Core\UseCase\DTO\Asset\CreateAssetOutputDto;
+use Core\UseCase\DTO\Asset\Create\CreateAssetInputDto;
+use Core\UseCase\DTO\Asset\Create\CreateAssetOutputDto;
 use Core\UseCase\Exceptions\NotFoundException;
 
 class CreateAssetUseCase
