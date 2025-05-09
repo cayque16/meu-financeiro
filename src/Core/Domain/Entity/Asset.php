@@ -23,13 +23,13 @@ class Asset extends BaseEntity
     }
 
     public function update(
-        string $code = '',
+        string $code = null,
         AssetType $type = null,
-        string $description = ''
+        string $description = null
     ) {
-        $this->code = $code !== '' ? $code : $this->code;
-        $this->type = $type ?? $this->type;
-        $this->description = $description !== '' ? $description : $this->description;
+        $this->code = $this->orSelfIfNull($code, $this->code);
+        $this->type = $this->orSelfIfNull($type, $this->type);
+        $this->description = $this->orSelfIfNull($description, $this->description);
 
         $this->validation();
     }
