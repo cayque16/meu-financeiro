@@ -47,10 +47,14 @@ class UpdateAssetUseCaseUnitTest extends TestCase
     public function testUpdateNotFoundAsset()
     {
         $mockRepoAsset = $this->mockRepo("findById", null);
-        $mockRepoAssetType = $this->mockRepo(
-            "findById",
-            $this->mockEntity($this->getUuid(), $this->getUuid(), times1: 0, times2: 0)
+        $mockEntity = $this->mockEntity(
+            uuid: $this->getUuid(),
+            uuidType: $this->getUuid(),
+            times1: 0,
+            times2: 0
         );
+        $mockRepoAssetType = $this->mockRepo("findById", $mockEntity, 0);
+
         $useCase = new UpdateAssetUseCase($mockRepoAsset, $mockRepoAssetType);
 
         $this->expectException(NotFoundException::class);

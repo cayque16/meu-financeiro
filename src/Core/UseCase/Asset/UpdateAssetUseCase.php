@@ -16,17 +16,11 @@ class UpdateAssetUseCase
 
     public function execute(UpdateAssetInputDto $input): UpdateAssetOutputDto
     {
-        $asset = $this->repoAsset->findById($input->id);
-        $type = $this->repoAssetType->findById($input->idType);
+        $asset = $this->repoAsset->findById($input->id)
+            ?? throw new NotFoundException("No asset with that id was found: {$input->id}");
+        $type = $this->repoAssetType->findById($input->idType)
+            ?? throw new NotFoundException("No asset type with that id was found: {$input->idType}");;
 
-        if (!$asset) {
-            throw new NotFoundException("No asset with that id was found: {$input->id}");
-        }
-
-        if (!$type) {
-            throw new NotFoundException("No asset type with that id was found: {$input->idType}");
-        }
-        
         $asset->update(
             code: $input->code,
             type: $type,
@@ -34,7 +28,7 @@ class UpdateAssetUseCase
         );
 
         $return = $this->repoAsset->update($asset);
-        // dd($return->id());
+        
         return new UpdateAssetOutputDto(
             id: $return->id(),
             code: $return->code,
