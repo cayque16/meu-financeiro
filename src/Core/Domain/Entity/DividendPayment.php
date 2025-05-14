@@ -24,4 +24,9 @@ class DividendPayment extends BaseEntity
         $this->validator = DividendPaymentValidatorFactory::create();
         $this->validation();
     }
+
+    public function date(): string
+    {
+        return $this->date->format('Y-m-d H:i:s');
+    }
 }
