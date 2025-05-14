@@ -22,7 +22,7 @@ class ListDividendPaymentUseCase
             id: $payment->id(),
             idAsset: $payment->asset->id(),
             date: $payment->date(),
-            paymentType: $payment->type->value,
+            type: $payment->type,
             amount: $payment->amount,
             idCurrency: $payment->currency->id(),
             isActive: $payment->isActive(),

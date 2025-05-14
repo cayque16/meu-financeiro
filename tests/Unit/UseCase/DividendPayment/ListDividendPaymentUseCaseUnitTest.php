@@ -36,7 +36,7 @@ class ListDividendPaymentUseCaseUnitTest extends TestCase
         $this->assertInstanceOf(DividendPaymentOutputDto::class, $response);
         $this->assertEquals($uuid, $response->id);
         $this->assertEquals($idAsset, $response->idAsset);
-        $this->assertEquals(1, $response->paymentType);
+        $this->assertEquals(1, $response->type->value);
         $this->assertEquals(150, $response->amount);
         $this->assertEquals($idCurrency, $response->idCurrency);
     }
