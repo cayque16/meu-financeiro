@@ -6,7 +6,7 @@ use Core\Domain\Entity\Asset;
 use Core\Domain\Entity\AssetType;
 use Core\Domain\Entity\Currency;
 use Core\Domain\Entity\DividendPayment;
-use Core\Domain\Enum\PaymentType;
+use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\UseCase\DividendPayment\ListDividendPaymentUseCase;
 use Core\UseCase\DTO\DividendPayment\DividendPaymentInputDto;
@@ -77,7 +77,7 @@ class ListDividendPaymentUseCaseUnitTest extends TestCase
         $mockEntity = Mockery::mock(DividendPayment::class, [
             $this->mockAsset($idAsset),
             $date,
-            PaymentType::JCP,
+            DividendType::JCP,
             150,
             $this->mockCurrency($idCurrency),
             $id

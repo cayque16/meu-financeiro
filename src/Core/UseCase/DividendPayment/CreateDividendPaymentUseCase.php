@@ -3,7 +3,7 @@
 namespace Core\UseCase\DividendPayment;
 
 use Core\Domain\Entity\DividendPayment;
-use Core\Domain\Enum\PaymentType;
+use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
 use Core\UseCase\DTO\DividendPayment\Create\CreateDividendPaymentInputDto;

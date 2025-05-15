@@ -6,7 +6,7 @@ use Core\Domain\Entity\Asset;
 use Core\Domain\Entity\AssetType;
 use Core\Domain\Entity\Currency;
 use Core\Domain\Entity\DividendPayment;
-use Core\Domain\Enum\PaymentType;
+use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
 use Core\UseCase\DividendPayment\CreateDividendPaymentUseCase;
@@ -31,7 +31,7 @@ class CreateDividendPaymentUnitTest extends TestCase
         $currency = $this->mockCurrency($idCurrency);
 
         $idDividend = $this->getUuid();
-        $dividend = Mockery::mock(DividendPayment::class, [$asset, new DateTime(), PaymentType::JCP, 250, $currency]);
+        $dividend = Mockery::mock(DividendPayment::class, [$asset, new DateTime(), DividendType::JCP, 250, $currency]);
         $dividend->shouldReceive("id")->andReturn($idDividend);
         $dividend->shouldReceive("date")->andReturn('date');
         $dividend->shouldReceive("isActive")->andReturn(true);
@@ -109,7 +109,7 @@ class CreateDividendPaymentUnitTest extends TestCase
     {
         $mockInput = Mockery::mock(
             CreateDividendPaymentInputDto::class,
-            [$idAsset, (new DateTime())->format('Y-m-d H:i:s'), PaymentType::JCP, 250, $idCurrency]
+            [$idAsset, (new DateTime())->format('Y-m-d H:i:s'), DividendType::JCP, 250, $idCurrency]
         );
 
         return $mockInput;

@@ -6,7 +6,7 @@ use Core\Domain\Entity\Asset;
 use Core\Domain\Entity\AssetType;
 use Core\Domain\Entity\Currency;
 use Core\Domain\Entity\DividendPayment;
-use Core\Domain\Enum\PaymentType;
+use Core\Domain\Enum\DividendType;
 use Core\Domain\Exception\EntityValidationException;
 use DateTime;
 use Mockery;
@@ -20,7 +20,7 @@ class DividendPaymentUnitTest extends TestCase
         $payment =  new DividendPayment(
             $this->mockAsset(),
             new DateTime(),
-            PaymentType::DIVIDENDOS,
+            DividendType::DIVIDENDS,
             150,
             $this->mockCurrency()
         );
@@ -35,7 +35,7 @@ class DividendPaymentUnitTest extends TestCase
         new DividendPayment(
             $this->mockAsset(),
             new DateTime(),
-            PaymentType::DIVIDENDOS,
+            DividendType::DIVIDENDS,
             0,
             $this->mockCurrency()
         );

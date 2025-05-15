@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\UseCase\DividendPayment;
 
-use Core\Domain\Enum\PaymentType;
+use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
 use Core\UseCase\DividendPayment\ListDividendsPaymentUseCase;
 use Core\UseCase\DTO\DividendPayment\ListDividendsPayment\ListDividendsPaymentInputDto;
@@ -25,7 +25,7 @@ class ListDividendsPaymentUseCaseUnitTest extends TestCase
         
         $mockInputDto = Mockery::mock(
             ListDividendsPaymentInputDto::class,
-            [2025, $idAsset, PaymentType::DIVIDENDOS->value]
+            [2025, $idAsset, DividendType::DIVIDENDS->value]
         );
 
         $response = $useCase->execute($mockInputDto);
