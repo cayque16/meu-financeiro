@@ -30,4 +30,14 @@ class DividendPayment extends Model
         'created_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
+
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
+    }
+
+    public function currencies()
+    {
+        return $this->hasMany(Currency::class);
+    }
 }
