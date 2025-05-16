@@ -7,6 +7,6 @@ class ListDividendsPaymentInputDto
     public function __construct(
         public ?int $ano = null,
         public ?string $idAsset = null,
-        public ?int $idType = null,
+        public ?string $idType = null,
     ) { }
 }
