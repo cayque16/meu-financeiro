@@ -4,7 +4,7 @@ namespace Core\Domain\Enum;
 
 enum DividendType: string
 {
-    case JCP = '1';
+    case JCP = 'JCP';
 
-    case DIVIDENDS = '2';
+    case DIVIDENDS = 'Dividendos';
 }

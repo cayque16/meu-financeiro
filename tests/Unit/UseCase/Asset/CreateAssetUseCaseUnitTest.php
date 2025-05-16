@@ -4,6 +4,7 @@ namespace Tests\Unit\UseCase\Asset;
 
 use Core\Domain\Entity\Asset;
 use Core\Domain\Entity\AssetType;
+use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\UseCase\Asset\CreateAssetUseCase;
 use Core\UseCase\DTO\Asset\Create\CreateAssetInputDto;
