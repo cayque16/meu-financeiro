@@ -5,12 +5,26 @@ namespace App\Models;
 use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\MyModelAbstract;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AssetsType extends MyModelAbstract
 {
-    protected $fillable = ['nome', 'descricao', 'e_excluido'];
+    use HasFactory, SoftDeletes;
 
-    use HasFactory;
+    public $incrementing = false;
+
+    protected $fillable = [
+        'uuid',
+        'nome',
+        'descricao',
+        'e_excluido',
+        'created_at'
+    ];
+
+    protected $casts = [
+        'uuid'=> 'string',
+        'created_at'=> 'datetime',
+    ];
 
     public function __construct()
     {
