@@ -19,3 +19,4 @@ public/arquivos/
 .docker/dbdata
 .composer/
 .bash_history
+.config/
