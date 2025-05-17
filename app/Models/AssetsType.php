@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\MyModelAbstract;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AssetsType extends MyModelAbstract
+class AssetsType extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;#, SoftDeletes;
 
     public $incrementing = false;
 
@@ -26,14 +27,14 @@ class AssetsType extends MyModelAbstract
         'created_at'=> 'datetime',
     ];
 
-    public function __construct()
-    {
-        parent::__construct($this);
-    }
+    // public function __construct()
+    // {
+    //     parent::__construct($this);
+    // }
 
     public function assets()
     {
-        return $this->hasMany(Asset::class);
+        return $this->belongsTo(Asset::class, 'uuid_assets_type', 'uuid');
     }
 
     public function sltAssetsTypes($arrayStatus = [Status::ATIVADO])

@@ -18,13 +18,14 @@ class AssetUnitTest extends ModelTestCase
     {
         return [
             HasFactory::class,
-            SoftDeletes::class,
+            // SoftDeletes::class,
         ];
     }
 
     protected function fillable(): array
     {
         return [
+            'uuid',
             'codigo',
             'descricao',
             'id_assets_type',

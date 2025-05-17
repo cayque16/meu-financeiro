@@ -11,7 +11,7 @@ class DividendPayment extends BaseEntity
 {
     public function __construct(
         protected Asset $asset,
-        protected DateTime $date,
+        protected DateTime|string $date,
         protected DividendType $type,
         protected int $amount,
         protected Currency $currency,
@@ -20,7 +20,8 @@ class DividendPayment extends BaseEntity
         protected ?DateTime $excludedAt = null,
     ) {
         parent::__construct($id, $createdAt, $excludedAt);
-
+        
+        $this->date = $date instanceof string ? new DateTime($date) : $date;
         $this->validator = DividendPaymentValidatorFactory::create();
         $this->validation();
     }

@@ -4,15 +4,17 @@ namespace App\Models;
 
 use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Asset extends MyModelAbstract
+class Asset extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;#, SoftDeletes;
 
     public $incrementing = false;
 
     protected $fillable = [
+        'uuid',
         'codigo',
         'descricao',
         'id_assets_type',
@@ -26,10 +28,10 @@ class Asset extends MyModelAbstract
         'created_at'=> 'datetime',
     ];
 
-    public function __construct()
-    {
-        parent::__construct($this);
-    }
+    // public function __construct()
+    // {
+    //     parent::__construct($this);
+    // }
 
     public function sltAssets($arrayStatus = [Status::ATIVADO])
     {
@@ -44,6 +46,6 @@ class Asset extends MyModelAbstract
 
     public function assetsType()
     {
-        return $this->belongsTo(AssetsType::class, 'id_assets_type', 'id');
+        return $this->hasOne(AssetsType::class, 'uuid', 'uuid_assets_type');
     }
 }

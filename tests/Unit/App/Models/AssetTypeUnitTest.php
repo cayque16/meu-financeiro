@@ -18,7 +18,7 @@ class AssetTypeUnitTest extends ModelTestCase
     {
         return [
             HasFactory::class,
-            SoftDeletes::class,
+            // SoftDeletes::class,
         ];
     }
 

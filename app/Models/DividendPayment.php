@@ -10,6 +10,8 @@ class DividendPayment extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = "dividends_payments";
+
     protected $fillable = [
         'id',
         'asset_id',
@@ -31,13 +33,13 @@ class DividendPayment extends Model
         'deleted_at' => 'datetime',
     ];
 
-    public function assets()
+    public function asset()
     {
-        return $this->hasMany(Asset::class);
+        return $this->hasOne(Asset::class, 'uuid', 'asset_id');
     }
 
-    public function currencies()
+    public function currency()
     {
-        return $this->hasMany(Currency::class);
+        return $this->hasOne(Currency::class, 'id', 'currency_id');
     }
 }
