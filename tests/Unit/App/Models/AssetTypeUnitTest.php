@@ -39,6 +39,7 @@ class AssetTypeUnitTest extends ModelTestCase
         return [
             'uuid' => 'string',
             'created_at' => 'datetime',
+            'id' => 'int',
         ];
     }
 }

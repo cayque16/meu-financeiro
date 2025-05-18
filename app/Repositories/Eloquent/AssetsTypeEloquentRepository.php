@@ -18,7 +18,13 @@ class AssetsTypeEloquentRepository implements BaseRepositoryInterface
 
     public function insert(BaseEntity $entity): BaseEntity
     {
-        throw new NotImplementedException('This method has not been implemented!');
+        $typeBd = $this->model->create([
+            "uuid" => $entity->id,
+            "nome"=> $entity->name,
+            "descricao" => $entity->description,
+        ]);
+
+        return $this->toBaseEntity($typeBd);
     }
 
     public function findByUuid(Uuid|string $uuid): ?Model
@@ -41,12 +47,30 @@ class AssetsTypeEloquentRepository implements BaseRepositoryInterface
 
     public function findAll(string $filter = '', $orderBy = 'DESC'): array
     {
-        throw new NotImplementedException('This method has not been implemented!');
+        $result = $this->model
+            ->where(function ($query) use ($filter) {
+                if ($filter) {
+                    $query->where('nome', 'LIKE', "%{$filter}%");
+                }
+            })
+            ->orderBy('nome', $orderBy)
+            ->get();
+        
+        return $result->toArray();
     }
 
-    public function update(BaseEntity $entity): BaseEntity
+    public function update(BaseEntity $entity): ?BaseEntity
     {
-        throw new NotImplementedException('This method has not been implemented!');
+         if (!$assetDb = $this->findByUuid($entity->id)) {
+            return null;
+        }
+
+        $assetDb->update([
+            'nome' => $entity->name,
+            'descricao' => $entity->description,
+        ]);
+
+        return $this->toBaseEntity($assetDb);
     }
 
     public function delete(BaseEntity $entity): bool

@@ -11,8 +11,6 @@ class Asset extends Model
 {
     use HasFactory;#, SoftDeletes;
 
-    public $incrementing = false;
-
     protected $fillable = [
         'uuid',
         'codigo',
