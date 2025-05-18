@@ -7,6 +7,8 @@ use App\Models\AssetsType as AssetsTypeModel;
 use Core\Domain\Entity\AssetType as AssetTypeEntity;
 use Core\Domain\Entity\BaseEntity;
 use Core\UseCase\Exceptions\NotImplementedException;
+use Core\Domain\ValueObject\Uuid;
+use Illuminate\Database\Eloquent\Model;
 
 class AssetsTypeEloquentRepository implements BaseRepositoryInterface
 {
@@ -17,6 +19,15 @@ class AssetsTypeEloquentRepository implements BaseRepositoryInterface
     public function insert(BaseEntity $entity): BaseEntity
     {
         throw new NotImplementedException('This method has not been implemented!');
+    }
+
+    public function findByUuid(Uuid|string $uuid): ?Model
+    {
+        if (!$entity =  $this->model->where('uuid', $uuid)->first()) {
+            return null;
+        } 
+
+        return $entity;
     }
     
     public function findById(string $id): ?BaseEntity
@@ -50,6 +61,7 @@ class AssetsTypeEloquentRepository implements BaseRepositoryInterface
             name: $data->nome,
             description: $data->descricao,
             createdAt: $data->created_at,
+            oldId: $data->id,
         );
 
         return $type;

@@ -8,7 +8,7 @@ use Core\Domain\Entity\Currency as CurrencyEntity;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\Exceptions\NotImplementedException;
-use DateTime;
+use Illuminate\Database\Eloquent\Model;
 
 class CurrencyEloquentRepository implements BaseRepositoryInterface
 {
@@ -29,6 +29,15 @@ class CurrencyEloquentRepository implements BaseRepositoryInterface
         ]);
 
         return $this->toBaseEntity($currencyBd);
+    }
+
+    public function findByUuid(Uuid|string $uuid): ?Model
+    {
+        if (!$entity =  $this->model->where('id', $uuid)->first()) {
+            return null;
+        } 
+
+        return $entity;
     }
 
     public function findById(string $id): ?BaseEntity

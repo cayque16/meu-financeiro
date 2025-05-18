@@ -25,6 +25,7 @@ class AssetTypeUnitTest extends ModelTestCase
     protected function fillable(): array
     {
         return [
+            'id',
             'uuid',
             'nome',
             'descricao',

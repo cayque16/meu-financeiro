@@ -11,6 +11,7 @@ use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
 use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\Exceptions\NotImplementedException;
+use Illuminate\Database\Eloquent\Model;
 
 class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInterface
 {
@@ -41,6 +42,15 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
     public function lstDividends(?int $ano = null, ?string $idAsset = null, ?string $idType = null): array
     {
         throw new NotImplementedException('This method has not been implemented!');
+    }
+
+    public function findByUuid(Uuid|string $uuid): ?Model
+    {
+        if (!$entity =  $this->model->where('id', $uuid)->first()) {
+            return null;
+        } 
+
+        return $entity;
     }
 
     public function findById(string $id): ?BaseEntity

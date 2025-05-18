@@ -8,6 +8,8 @@ use App\Models\AssetsType;
 use Core\Domain\Entity\Asset as AssetEntity;
 use Core\Domain\Entity\BaseEntity;
 use Core\UseCase\Exceptions\NotImplementedException;
+use Core\Domain\ValueObject\Uuid;
+use Illuminate\Database\Eloquent\Model;
 
 class AssetEloquentRepository implements BaseRepositoryInterface
 {
@@ -21,7 +23,24 @@ class AssetEloquentRepository implements BaseRepositoryInterface
 
     public function insert(BaseEntity $entity): BaseEntity
     {
-        throw new NotImplementedException('This method has not been implemented!');
+        $assetBd = $this->model->create([
+            "uuid" => $entity->id,
+            "codigo" => $entity->code,
+            "descricao" => $entity->description,
+            "id_assets_type" => $entity->type->oldId,
+            "uuid_assets_type" => $entity->type->id,
+        ]);
+
+        return $this->toBaseEntity($assetBd);
+    }
+
+    public function findByUuid(Uuid|string $uuid): ?Model
+    {
+        if (!$entity =  $this->model->where('uuid', $uuid)->first()) {
+            return null;
+        } 
+
+        return $entity;
     }
     
     public function findById(string $id): ?BaseEntity
@@ -35,12 +54,32 @@ class AssetEloquentRepository implements BaseRepositoryInterface
 
     public function findAll(string $filter = '', $orderBy = 'DESC'): array
     {
-        throw new NotImplementedException('This method has not been implemented!');
+        $result = $this->model
+            ->where(function ($query) use ($filter) {
+                if ($filter) {
+                    $query->where('codigo', 'LIKE', "%{$filter}%");
+                }
+            })
+            ->orderBy('codigo', $orderBy)
+            ->get();
+        
+        return $result->toArray();
     }
 
-    public function update(BaseEntity $entity): BaseEntity
+    public function update(BaseEntity $entity): ?BaseEntity
     {
-        throw new NotImplementedException('This method has not been implemented!');
+        if (!$assetDb = $this->findByUuid($entity->id)) {
+            return null;
+        }
+
+        $assetDb->update([
+            'codigo' => $entity->code,
+            'id_assets_type' => $entity->type->oldId,
+            'uuid_assets_type'=> $entity->type->id,
+            'descricao'=> $entity->description,
+        ]);
+
+        return $this->toBaseEntity($assetDb);
     }
 
     public function delete(BaseEntity $entity): bool
