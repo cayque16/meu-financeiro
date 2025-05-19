@@ -29,4 +29,9 @@ class Uuid
             throw new InvalidArgumentException(sprintf("<%s> does not allow the value <%s>.", static::class, $id));
         }
     }
+
+    public static function isUuidValid(string $uuid): bool
+    {
+        return RamseyUuid::isValid($uuid);
+    }
 }
