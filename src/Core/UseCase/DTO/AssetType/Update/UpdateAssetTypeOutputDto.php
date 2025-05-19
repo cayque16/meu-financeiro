@@ -10,5 +10,6 @@ class UpdateAssetTypeOutputDto
         public string $description,
         public bool $isActive,
         public string $createdAt,
+        public int $oldId,
     ) { }
 }
