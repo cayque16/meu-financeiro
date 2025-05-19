@@ -38,11 +38,11 @@ class AssetsTypeEloquentRepository implements BaseRepositoryInterface
     
     public function findById(string $id): ?BaseEntity
     {
-        if (!$entity = $this->model->find($id)) {
-            return null;
+        $entity = Uuid::isUuidValid($id) ? $this->findByUuid($id) : $this->model->find($id);
+        if ($entity) {
+            return $this->toBaseEntity($entity);
         }
-        
-        return $this->toBaseEntity($entity);
+        return null;
     }
 
     public function findAll(string $filter = '', $orderBy = 'DESC'): array
