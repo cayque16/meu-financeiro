@@ -57,7 +57,11 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
             ->orderBy('nome', $orderBy)
             ->get();
         
-        return $result->toArray();
+        $return = [];
+        foreach ($result->all() as $model) {
+            $return[] = $this->toBaseEntity($model);
+        }
+        return $return;
     }
 
     public function update(BaseEntity $entity): ?BaseEntity
