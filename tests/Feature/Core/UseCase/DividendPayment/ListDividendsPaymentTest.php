@@ -2,9 +2,6 @@
 
 namespace Tests\Feature\Core\UseCase\DividendPayment;
 
-use App\Models\Asset;
-use App\Models\AssetsType;
-use App\Models\Currency;
 use App\Models\DividendPayment;
 use App\Repositories\Eloquent\DividendPaymentEloquentRepository;
 use Core\Domain\Enum\DividendType;
@@ -16,6 +13,8 @@ use Tests\TestCase;
 
 class ListDividendsPaymentTest extends TestCase
 {
+    use DividendPaymentFakersTrait;
+    
     private function createUseCase($ano = null, $idAsset = null, $idType = null)
     {
         $repository = new DividendPaymentEloquentRepository(new DividendPayment());
@@ -98,12 +97,5 @@ class ListDividendsPaymentTest extends TestCase
         $this->assertCount(0, $result->items);
         $result = $this->createUseCase(ano: 2024, idAsset: $uuid, idType: $type->value);
         $this->assertCount(1, $result->items);
-    }
-
-    private function createFakers()
-    {
-        AssetsType::factory()->create();
-        Asset::factory()->create();
-        Currency::factory()->create();
     }
 }

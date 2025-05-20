@@ -21,7 +21,7 @@ class ListDividendPaymentUseCase
         return new DividendPaymentOutputDto(
             id: $payment->id(),
             idAsset: $payment->asset->id(),
-            date: $payment->date(),
+            date: $payment->date,
             type: $payment->type,
             amount: $payment->amount,
             idCurrency: $payment->currency->id(),
