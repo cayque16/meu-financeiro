@@ -6,11 +6,12 @@ use Core\Domain\Repository\BaseRepositoryInterface;
 use App\Models\AssetsType as AssetsTypeModel;
 use Core\Domain\Entity\AssetType as AssetTypeEntity;
 use Core\Domain\Entity\BaseEntity;
+use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Core\UseCase\Exceptions\NotImplementedException;
 use Core\Domain\ValueObject\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class AssetsTypeEloquentRepository implements BaseRepositoryInterface
+class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
 {
     public function __construct(
         protected AssetsTypeModel $model

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\UseCase\AsseType;
 
+use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\UseCase\AssetType\ListAssetsTypesUseCase;
 use Core\UseCase\DTO\AssetType\ListAssetsTypes\ListAssetsTypesInputDto;
@@ -14,7 +15,7 @@ class ListAssetsTypesUseCaseUnitTest extends TestCase
 {
     public function testListAll()
     {
-        $mockRepository = Mockery::mock(stdClass::class, BaseRepositoryInterface::class);
+        $mockRepository = Mockery::mock(stdClass::class, AssetTypeRepositoryInterface::class);
         $mockRepository->shouldReceive("findAll")->once()->andReturn([]);
 
         $useCase = new ListAssetsTypesUseCase($mockRepository);

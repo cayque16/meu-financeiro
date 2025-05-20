@@ -2,14 +2,14 @@
 
 namespace Core\UseCase\AssetType;
 
-use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Core\UseCase\DTO\AssetType\ListAssetsTypes\ListAssetsTypesInputDto;
 use Core\UseCase\DTO\AssetType\ListAssetsTypes\ListAssetsTypesOutputDto;
 
 class ListAssetsTypesUseCase 
 {
     public function __construct(
-        protected BaseRepositoryInterface $repository,
+        protected AssetTypeRepositoryInterface $repository,
     ) { }
 
     public function execute(ListAssetsTypesInputDto $input): ListAssetsTypesOutputDto
