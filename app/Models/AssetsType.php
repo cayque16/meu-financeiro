@@ -44,4 +44,14 @@ class AssetsType extends Model
                 ->get()
                 ->toArray();
     }
+
+    public function getAll()
+    {
+        return AssetsType::all();
+    }
+
+    public function getFindOrFail($id)
+    {
+        return AssetsType::findOrFail($id);
+    }
 }

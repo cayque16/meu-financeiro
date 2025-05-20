@@ -8,7 +8,7 @@ use App\Enums\Status;
 use App\Http\Requests\StoreAssetsTypeRequest;
 use App\Models\AssetsType;
 
-class AssetsTypeController extends MyControllerAbstract
+class AssetsTypeControllerOld extends MyControllerAbstract
 {
     public function __construct()
     {
