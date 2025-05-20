@@ -16,7 +16,7 @@ class ListCurrencyUseCase
     public function execute(CurrencyInputDto $input): CurrencyOutputDto
     {
         $currency = $this->repository->findById($input->id);
-
+        
         if($currency) {
             return new CurrencyOutputDto(
                 id: $currency->id,
@@ -27,7 +27,7 @@ class ListCurrencyUseCase
                 decimals: $currency->decimals,
                 description: $currency->description,
                 createdAt: $currency->createdAt(),
-                excludedAt: $currency->excludedAt()
+                // excludedAt: $currency->excludedAt()
             );
         }
         throw new NotFoundException("No currency with that id was found: {$input->id}");

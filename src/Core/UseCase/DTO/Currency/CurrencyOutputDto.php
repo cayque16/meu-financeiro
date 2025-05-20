@@ -13,6 +13,6 @@ class CurrencyOutputDto
         public int $decimals,
         public string $description,
         public string $createdAt,
-        public  $excludedAt,
+        public  $excludedAt = null,
     ) {}
 }
