@@ -39,9 +39,26 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
         return $this->toBaseEntity($payment);
     }
 
-    public function lstDividends(?int $ano = null, ?string $idAsset = null, ?string $idType = null): array
-    {
-        throw new NotImplementedException('This method has not been implemented!');
+    public function lstDividends(
+        ?int $ano = null,
+        ?string $idAsset = null,
+        ?string $idType = null
+    ): array {
+        $query = $this->model;
+
+        if ($ano) {
+            $query = $query->whereYear('date', $ano);
+        }
+
+        if ($idAsset) {
+            $query = $query->where('asset_id', $idAsset);
+        }
+
+        if ($idType) {
+            $query = $query->where('type', $idType);
+        }
+
+        return $query->orderBy('date', 'DESC')->get()->toArray();
     }
 
     public function findByUuid(Uuid|string $uuid): ?Model

@@ -15,6 +15,7 @@ use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Tests\TestCase;
 
 class DividendPaymentRepositoryTest extends TestCase
@@ -107,5 +108,81 @@ class DividendPaymentRepositoryTest extends TestCase
         $result = $this->repository->findAll();
 
         $this->assertCount($count, $result);
+    }
+
+    public function testLstDividendsByAno()
+    {
+        $this->createFakers();
+        DividendPaymentModel::factory()
+            ->count(10)
+            ->state(new Sequence(
+                ['date' => '2024-05-20'],
+                ['date' => '2025-05-20'],
+            ))
+            ->create();
+
+        $result = $this->repository->lstDividends(ano: 2024);
+
+        $this->assertCount(5, $result);
+    }
+
+    public function testLstDividendsByIdAsset()
+    {
+        $this->createFakers();
+        $uuid1 = Uuid::random();
+        $uuid2 = Uuid::random();
+        DividendPaymentModel::factory()
+            ->count(10)
+            ->state(new Sequence(
+                ['asset_id' => $uuid1],
+                ['asset_id' => $uuid2],
+            ))
+            ->create();
+
+        $result = $this->repository->lstDividends(idAsset: $uuid1);
+
+        $this->assertCount(5, $result);
+    }
+
+    public function testLstDividendsByType()
+    {
+        $this->createFakers();
+        $type1 = DividendType::JCP;
+        $type2 = DividendType::DIVIDENDS;
+        DividendPaymentModel::factory()
+            ->count(10)
+            ->state(new Sequence(
+                ['type' => $type1],
+                ['type' => $type2],
+            ))
+            ->create();
+
+        $result = $this->repository->lstDividends(idType: $type1->value);
+
+        $this->assertCount(5, $result);
+    }
+
+    public function testListsDividendsAllFilters()
+    {
+        $this->createFakers();
+        $uuid = Uuid::random();
+        $type = DividendType::JCP;
+        DividendPaymentModel::factory()->create([
+            'asset_id' => $uuid,
+            'type' => $type,
+            'date' => '2024-01-05',
+        ]);
+
+        $result = $this->repository->lstDividends(ano: 2024, idAsset: 'uuid', idType: $type->value);
+        $this->assertCount(0, $result);
+        $result = $this->repository->lstDividends(ano: 2024, idAsset: $uuid, idType: $type->value);
+        $this->assertCount(1, $result);
+    }
+
+    private function createFakers()
+    {
+        AssetsTypeModel::factory()->create();
+        AssetModel::factory()->create();
+        CurrencyModel::factory()->create();
     }
 }
