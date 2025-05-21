@@ -8,10 +8,12 @@ use App\Http\Requests\StoreAssetsTypeRequest;
 use App\Http\Requests\UpdateAssetsTypeRequest;
 use App\Models\AssetsType;
 use Core\UseCase\Asset\UpdateAssetUseCase;
+use Core\UseCase\AssetType\CreateAssetTypeUseCase;
 use Core\UseCase\AssetType\ListAssetsTypesUseCase;
 use Core\UseCase\AssetType\ListAssetTypeUseCase;
 use Core\UseCase\AssetType\UpdateAssetTypeUseCase;
 use Core\UseCase\DTO\AssetType\AssetTypeInputDto;
+use Core\UseCase\DTO\AssetType\Create\CreateAssetTypeInputDto;
 use Core\UseCase\DTO\AssetType\ListAssetsTypes\ListAssetsTypesInputDto;
 use Core\UseCase\DTO\AssetType\Update\UpdateAssetTypeInputDto;
 use Illuminate\Http\Request;
@@ -29,6 +31,29 @@ class AssetsTypeController extends Controller
         $dados['btnAdd'] = getBtnLink(ButtonType::INCLUDE, link: "assets_type/create");
 
         return view("assets_type.index", $dados);
+    }
+
+    public function create()
+    {
+        $dados['btnVoltar'] = getBtnLink(ButtonType::BACK, link: "/assets_type");
+        $dados['titulo'] = 'Adicionar';
+        $dados['action'] = "/assets_type";
+
+        return view("assets_type.create_edit", $dados);
+    }
+
+    public function store(
+        StoreAssetsTypeRequest $request,
+        CreateAssetTypeUseCase $useCase
+    ) {
+        $response = $useCase->execute(
+            new CreateAssetTypeInputDto(
+                $request->nome,
+                $request->descricao,
+            )
+        );
+        
+        return redirect("/assets_type")->with('msg', 'Tipo de ativo inserido com sucesso!');
     }
 
     public function edit(

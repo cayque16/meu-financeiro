@@ -3,6 +3,7 @@
 namespace Core\UseCase\AssetType;
 
 use Core\Domain\Entity\AssetType;
+use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\UseCase\DTO\AssetType\Create\CreateAssetTypeInputDto;
 use Core\UseCase\DTO\AssetType\Create\CreateAssetTypeOutputDto;
@@ -10,7 +11,7 @@ use Core\UseCase\DTO\AssetType\Create\CreateAssetTypeOutputDto;
 class CreateAssetTypeUseCase
 {
     public function __construct(
-        protected BaseRepositoryInterface $repository,
+        protected AssetTypeRepositoryInterface $repository,
     ) { }
 
     public function execute(CreateAssetTypeInputDto $input): CreateAssetTypeOutputDto
