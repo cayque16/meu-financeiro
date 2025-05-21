@@ -78,8 +78,8 @@ class UpdateAssetTypeUseCaseUnitTest extends TestCase
         $mockEntity = Mockery::mock(AssetType::class, ['name', $uuid, 'desc']);
         $mockEntity->shouldReceive('update')->once();
         $mockEntity->shouldReceive('id')->once()->andReturn($uuid);
-        $mockEntity->shouldReceive('isActive')->once()->andReturn(true);
-        $mockEntity->shouldReceive('createdAt')->once()->andReturn(date('Y-m-d H:i:s'));
+        // $mockEntity->shouldReceive('isActive')->once()->andReturn(true);
+        // $mockEntity->shouldReceive('createdAt')->once()->andReturn(date('Y-m-d H:i:s'));
 
         return $mockEntity;
     }

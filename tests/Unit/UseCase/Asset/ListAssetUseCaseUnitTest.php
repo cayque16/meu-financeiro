@@ -72,8 +72,8 @@ class ListAssetUseCaseUnitTest extends TestCase
             'desc'
         ]);
         $mockEntity->shouldReceive('id')->once()->andReturn($uuid);
-        $mockEntity->shouldReceive('isActive')->once()->andReturn(true);
-        $mockEntity->shouldReceive('createdAt')->once()->andReturn(date('Y-m-d H:i:s'));
+        // $mockEntity->shouldReceive('isActive')->once()->andReturn(true);
+        // $mockEntity->shouldReceive('createdAt')->once()->andReturn(date('Y-m-d H:i:s'));
 
         return $mockEntity;
     }

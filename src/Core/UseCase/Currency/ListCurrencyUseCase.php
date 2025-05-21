@@ -26,8 +26,8 @@ class ListCurrencyUseCase
                 split: $currency->split,
                 decimals: $currency->decimals,
                 description: $currency->description,
-                createdAt: $currency->createdAt(),
-                // excludedAt: $currency->excludedAt()
+                createdAt: $currency->createdAt,
+                excludedAt: $currency->deletedAt,
             );
         }
         throw new NotFoundException("No currency with that id was found: {$input->id}");

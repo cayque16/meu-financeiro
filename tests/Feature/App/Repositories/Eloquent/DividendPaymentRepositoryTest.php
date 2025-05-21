@@ -13,8 +13,8 @@ use App\Models\AssetsType as AssetsTypeModel;
 use App\Models\Currency as CurrencyModel;
 use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
+use Core\Domain\ValueObject\Date;
 use Core\Domain\ValueObject\Uuid;
-use DateTime;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Tests\TestCase;
 
@@ -61,7 +61,7 @@ class DividendPaymentRepositoryTest extends TestCase
 
         $payment = new DividendPaymentEntity(
             asset: $assetEntity,
-            date: new DateTime(),
+            date: new Date(),
             type: DividendType::DIVIDENDS,
             amount: 1500,
             currency: $currencyEntity,

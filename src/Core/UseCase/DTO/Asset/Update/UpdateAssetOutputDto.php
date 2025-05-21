@@ -2,6 +2,8 @@
 
 namespace Core\UseCase\DTO\Asset\Update;
 
+use Core\Domain\ValueObject\Date;
+
 class UpdateAssetOutputDto
 {
     public function __construct(
@@ -9,7 +11,7 @@ class UpdateAssetOutputDto
         public string $code,
         public string $description,
         public string $idType,
-        public bool $isActive,
-        public string $createdAt,
+        // public bool $isActive,
+        public Date $createdAt,
     ) { }
 }

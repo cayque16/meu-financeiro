@@ -27,8 +27,8 @@ class ListDividendPaymentUseCase
             type: $payment->type,
             amount: $payment->amount,
             idCurrency: $payment->currency->id(),
-            isActive: $payment->isActive(),
-            createdAt: $payment->createdAt()
+            // isActive: $payment->isActive(),
+            createdAt: $payment->createdAt,
         );
     }
 }

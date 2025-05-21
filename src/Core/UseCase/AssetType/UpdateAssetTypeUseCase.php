@@ -25,8 +25,8 @@ class UpdateAssetTypeUseCase
                 id: $return->id(),
                 name: $return->name,
                 description: $return->description,
-                isActive: $return->isActive(),
-                createdAt: $return->createdAt(),
+                // isActive: $return->isActive(),
+                createdAt: $return->createdAt,
                 oldId: $return->oldId,
             );
         }

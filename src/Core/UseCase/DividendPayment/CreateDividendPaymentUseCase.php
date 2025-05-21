@@ -39,12 +39,12 @@ class CreateDividendPaymentUseCase
         return new CreateDividendPaymentOutputDto(
             id: $return->id(),
             idAsset: $return->asset->id(),
-            date: $return->date(),
+            date: $return->date,
             type: $return->type,
             amount: $return->amount,
             idCurrency: $return->currency->id(),
-            isActive: $return->isActive(),
-            createdAt: $return->createdAt(),
+            // isActive: $return->isActive(),
+            createdAt: $return->createdAt,
         );
     }
 }

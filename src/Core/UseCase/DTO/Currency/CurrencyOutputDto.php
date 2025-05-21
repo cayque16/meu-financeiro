@@ -2,6 +2,8 @@
 
 namespace Core\UseCase\DTO\Currency;
 
+use Core\Domain\ValueObject\Date;
+
 class CurrencyOutputDto
 {
     public function __construct(
@@ -12,7 +14,7 @@ class CurrencyOutputDto
         public int $split,
         public int $decimals,
         public string $description,
-        public string $createdAt,
-        public  $excludedAt = null,
+        public Date $createdAt,
+        public Date|string $excludedAt = '',
     ) {}
 }

@@ -3,6 +3,7 @@
 namespace Core\UseCase\DTO\DividendPayment;
 
 use Core\Domain\Enum\DividendType;
+use Core\Domain\ValueObject\Date;
 
 class DividendPaymentOutputDto
 {
@@ -13,7 +14,7 @@ class DividendPaymentOutputDto
         public DividendType $type,
         public int $amount,
         public string $idCurrency,
-        public bool $isActive,
-        public string $createdAt,
+        // public bool $isActive,
+        public Date $createdAt,
     ) { }
 }

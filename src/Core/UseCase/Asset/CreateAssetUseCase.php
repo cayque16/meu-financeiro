@@ -32,8 +32,8 @@ class CreateAssetUseCase
                 code: $return->code,
                 description: $return->description,
                 idType: $type->id(),
-                isActive: $return->isActive(),
-                createdAt: $return->createdAt(),
+                // isActive: $return->isActive(),
+                createdAt: $return->createdAt,
             );
         }
         throw new NotFoundException("No asset type with that id was found: {$input->idType}");
