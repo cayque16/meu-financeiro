@@ -2,11 +2,9 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
-final class Status extends Enum
+enum Status: int
 {
-    const ATIVADO = 0;
+    const ACTIVE = 0;
 
-    const DESATIVADO = 1;
+    const INACTIVE = 1;
 }

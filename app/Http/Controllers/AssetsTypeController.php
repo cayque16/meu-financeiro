@@ -18,7 +18,7 @@ class AssetsTypeController extends Controller
 
         $dados['tabela'] = ['data' => $this->getTabela($allDados)];
 
-        $dados['btnAdd'] = getBtnLink(ButtonType::INCLUIR, link: "assets_type/create");
+        $dados['btnAdd'] = getBtnLink(ButtonType::INCLUDE, link: "assets_type/create");
 
         return view("assets_type.index", $dados);
     }
@@ -39,17 +39,17 @@ class AssetsTypeController extends Controller
     {
         $data = [];
         foreach($dados->items as $dado) {
-            // $botao = $dado->e_excluido ? ButtonType::ATIVAR : ButtonType::DESATIVAR;
-            $botao = ButtonType::ATIVAR;
-            // $eExcluido = $dado->e_excluido ? Status::ATIVADO : Status::DESATIVADO;
-            $eExcluido = Status::ATIVADO;
+            // $botao = $dado->e_excluido ? ButtonType::ACTIVATE : ButtonType::DISABLE;
+            $botao = ButtonType::ACTIVATE;
+            // $eExcluido = $dado->e_excluido ? Status::ACTIVE : Status::INACTIVE;
+            $eExcluido = Status::ACTIVE;
             $data[] = [
                 $dado->id, 
                 $dado->name,
                 $dado->description,
                 $dado->createdAt,
                 $dado->updatedAt,
-                "<nobr>".getBtnLink(ButtonType::EDITAR, "/assets_type/edit/$dado->id")."  ".getBtnLink($botao, "/assets_type/enable/$dado->id/0")."</nobr>"
+                "<nobr>".getBtnLink(ButtonType::EDIT, "/assets_type/edit/$dado->id")."  ".getBtnLink($botao, "/assets_type/enable/$dado->id/0")."</nobr>"
             ];
         }
         return $data;

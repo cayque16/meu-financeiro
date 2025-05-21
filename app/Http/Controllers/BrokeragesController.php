@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brokerage;
 use App\Enums\ButtonType;
-use App\Enums\Operacao;
+use App\Enums\Operation;
 use App\Enums\Status;
 use App\Http\Requests\StoreBrokerageRequest;
 
@@ -43,8 +43,8 @@ class BrokeragesController extends MyControllerAbstract
     {
         $data = [];
         foreach($dados as $dado) {
-            $botao = $dado->e_excluido ?  ButtonType::ATIVAR : ButtonType::DESATIVAR;
-            $eExcluido = $dado->e_excluido ? Status::ATIVADO : Status::DESATIVADO;
+            $botao = $dado->e_excluido ?  ButtonType::ACTIVATE : ButtonType::DISABLE;
+            $eExcluido = $dado->e_excluido ? Status::ACTIVE : Status::INACTIVE;
             $data[] = [
                 $dado->id,
                 $dado->nome,
@@ -52,7 +52,7 @@ class BrokeragesController extends MyControllerAbstract
                 $dado->cnpj,
                 formataDataBr($dado->created_at),
                 formataDataBr($dado->updated_at),
-                "<nobr>".getBtnLink(ButtonType::EDITAR, "/brokerages/edit/$dado->id")."  ".getBtnLink($botao, "/brokerages/enable/$dado->id/$eExcluido")."</nobr>"
+                "<nobr>".getBtnLink(ButtonType::EDIT, "/brokerages/edit/$dado->id")."  ".getBtnLink($botao, "/brokerages/enable/$dado->id/$eExcluido")."</nobr>"
             ];
         }
         return $data;

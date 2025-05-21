@@ -2,15 +2,13 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
-final class Operacao extends Enum
+enum Operation: string
 {
-    const CRIAR = 'criar';
+    const CREATE = 'criar';
 
-    const EDITAR =  'editar';
+    const EDIT =  'editar';
 
-    const CRIADOS = 'criad(o)a';
+    const CREATED = 'criad(o)a';
 
-    const EDITADOS = 'editad(o)a';
+    const EDITED = 'editad(o)a';
 }

@@ -36,7 +36,7 @@ class AssetsType extends Model
         return $this->belongsTo(Asset::class, 'uuid_assets_type', 'uuid');
     }
 
-    public function sltAssetsTypes($arrayStatus = [Status::ATIVADO])
+    public function sltAssetsTypes($arrayStatus = [Status::ACTIVE])
     {
         return AssetsType::select('id', 'nome')
                 ->whereIn('e_excluido', $arrayStatus)

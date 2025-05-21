@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Enums\ButtonType;
-use App\Enums\Operacao;
+use App\Enums\Operation;
 use App\Enums\Status;
 use App\Http\Requests\StoreAssetRequest;
 use App\Models\AssetsType;
@@ -66,8 +66,8 @@ class AssetsController extends MyControllerAbstract
     {
         $data = [];
         foreach($dados as $dado) {
-            $botao = $dado->e_excluido ?  ButtonType::ATIVAR : ButtonType::DESATIVAR;
-            $eExcluido = $dado->e_excluido ? Status::ATIVADO : Status::DESATIVADO;
+            $botao = $dado->e_excluido ?  ButtonType::ACTIVATE : ButtonType::DISABLE;
+            $eExcluido = $dado->e_excluido ? Status::ACTIVE : Status::INACTIVE;
             $data[] = [
                 $dado->id, 
                 $dado->codigo,
@@ -75,7 +75,7 @@ class AssetsController extends MyControllerAbstract
                 $dado->assetsType->nome,
                 formataDataBr($dado->created_at),
                 formataDataBr($dado->updated_at),
-                "<nobr>".getBtnLink(ButtonType::EDITAR, "/assets/edit/$dado->id")."  ".getBtnLink($botao, "/assets/enable/$dado->id/$eExcluido")."</nobr>"
+                "<nobr>".getBtnLink(ButtonType::EDIT, "/assets/edit/$dado->id")."  ".getBtnLink($botao, "/assets/enable/$dado->id/$eExcluido")."</nobr>"
             ];
         }
         return $data;

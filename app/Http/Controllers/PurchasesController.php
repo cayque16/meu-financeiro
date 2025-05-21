@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\StorePurchaseRequest;
 use App\Models\AssetPurchase;
-use App\Enums\Operacao;
-use App\Enums\TabelaReferencia;
+use App\Enums\Operation;
+use App\Enums\ReferenceTable;
 use App\Models\ControlFile;
 use Exception;
 
@@ -79,11 +79,11 @@ class PurchasesController extends MyControllerAbstract
             if($retorno && $request->hasFile('notaCorretagem') && $request->file('notaCorretagem')->isValid()) {
                 $requestFile = $request->notaCorretagem;
                 $extensao = $requestFile->extension();
-                $fileName = hashNomeDeArquivos($requestFile->getClientOriginalName(), $purchase->id, TabelaReferencia::PURCHASES);
+                $fileName = hashNomeDeArquivos($requestFile->getClientOriginalName(), $purchase->id, ReferenceTable::PURCHASES);
                 
                 $retorno = ControlFile::create([
                     'id_referencia' => $purchase->id,
-                    'id_table_references' => TabelaReferencia::PURCHASES, 
+                    'id_table_references' => ReferenceTable::PURCHASES, 
                     'nome_original' => $requestFile->getClientOriginalName(), 
                     'extensao' => $extensao
                 ]);
@@ -93,7 +93,7 @@ class PurchasesController extends MyControllerAbstract
                 }
             }
             
-            $this->trataRetorno($retorno, Operacao::CRIAR);
+            $this->trataRetorno($retorno, Operation::CREATE);
 
             return redirect("/$this->viewBase/show/$purchase->id")->with($this->withKey, $this->withValue);
         } catch (Exception $erro) {
@@ -109,7 +109,7 @@ class PurchasesController extends MyControllerAbstract
 
     public function show($id)
     {
-        $this->setDados('btnVoltar', getBtnLink(ButtonType::VOLTAR, link: "/$this->viewBase"));
+        $this->setDados('btnVoltar', getBtnLink(ButtonType::BACK, link: "/$this->viewBase"));
 
         $tabela = (new AssetPurchase)->lstAtivosPorIdCompra($id);
         $valorTotal = 0;
@@ -283,7 +283,7 @@ class PurchasesController extends MyControllerAbstract
                 formataDataBr($dado->data, false),
                 formataDataBr($dado->created_at),
                 formataDataBr($dado->updated_at),
-                "<nobr>".getBtnLink(ButtonType::EXIBIR, "/purchases/show/$dado->id")." ".getBtnLink(ButtonType::PDF, $this->getLinkNotaCorretagem($dado->id), "Nota Corretagem", "_blank")."</nobr>"
+                "<nobr>".getBtnLink(ButtonType::DISPLAY, "/purchases/show/$dado->id")." ".getBtnLink(ButtonType::PDF, $this->getLinkNotaCorretagem($dado->id), "Nota Corretagem", "_blank")."</nobr>"
             ];
         }
         return $data;
@@ -292,9 +292,9 @@ class PurchasesController extends MyControllerAbstract
     private function getLinkNotaCorretagem($idCompra)
     {
         $retorno = null;
-        $arquivo = (new ControlFile())->lstArquivoPorIdReferencia($idCompra, TabelaReferencia::PURCHASES);
+        $arquivo = (new ControlFile())->lstArquivoPorIdReferencia($idCompra, ReferenceTable::PURCHASES);
         if(!empty($arquivo)) {
-            $id = hashNomeDeArquivos(reset($arquivo)['nome_original'], $idCompra, TabelaReferencia::PURCHASES);
+            $id = hashNomeDeArquivos(reset($arquivo)['nome_original'], $idCompra, ReferenceTable::PURCHASES);
             $retorno = "/purchases/exibirPdf/$id";
         } 
         return $retorno;

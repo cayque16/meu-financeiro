@@ -16,7 +16,7 @@ class Brokerage extends MyModelAbstract
         parent::__construct($this);
     }
 
-    public function sltBrokerages($arrayStatus = [Status::ATIVADO])
+    public function sltBrokerages($arrayStatus = [Status::ACTIVE])
     {
         $result = Brokerage::select('id', 'nome')
             ->whereIn('e_excluido', $arrayStatus)

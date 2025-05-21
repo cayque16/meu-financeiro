@@ -2,9 +2,7 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
-final class TabelaReferencia extends Enum
+enum ReferenceTable: int
 {
     const PURCHASES = 1;
 }

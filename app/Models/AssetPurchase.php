@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\TabelaReferencia;
+use App\Enums\ReferenceTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 
@@ -26,7 +26,7 @@ class AssetPurchase extends MyModelAbstract
             ->join('purchases', 'purchase_id', '=', 'purchases.id')
             ->leftJoin('control_files', function ($leftJoin){
                 $leftJoin->on('purchase_id', '=', 'id_referencia')
-                    ->where('id_table_references', '=', TabelaReferencia::PURCHASES);
+                    ->where('id_table_references', '=', ReferenceTable::PURCHASES);
             })
             ->where('purchase_id', '=', $idCompra)
             ->get()

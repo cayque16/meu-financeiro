@@ -2,21 +2,19 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Enum;
-
-final class ButtonType extends Enum
+enum ButtonType: int
 {
-    const EDITAR =  1;
+    const EDIT =  1;
 
-    const DESATIVAR = 2;
+    const DISABLE = 2;
 
-    const INCLUIR = 3;
+    const INCLUDE = 3;
 
-    const VOLTAR = 4;
+    const BACK = 4;
 
-    const ATIVAR = 5;
+    const ACTIVATE = 5;
 
-    const EXIBIR = 6;
+    const DISPLAY = 6;
 
     const PDF = 7;
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ButtonType;
-use App\Enums\Operacao;
+use App\Enums\Operation;
 
 abstract class MyControllerAbstract extends Controller
 {
@@ -38,14 +38,14 @@ abstract class MyControllerAbstract extends Controller
 
         $this->dados['tabela'] = ['data' => $this->getTabela($allDados)];
 
-        $this->dados['btnAdd'] = getBtnLink(ButtonType::INCLUIR, link: "$this->viewBase/create");
+        $this->dados['btnAdd'] = getBtnLink(ButtonType::INCLUDE, link: "$this->viewBase/create");
 
         return view("$this->viewBase.index", $this->dados);
     }
 
     public function create()
     {
-        $this->dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: "/$this->viewBase");
+        $this->dados['btnVoltar'] = getBtnLink(ButtonType::BACK, link: "/$this->viewBase");
         $this->dados['titulo'] = 'Adicionar';
         $this->dados['action'] = "/$this->viewBase";
 
@@ -56,7 +56,7 @@ abstract class MyControllerAbstract extends Controller
     {
         $retorno = $this->modelBase->insert($request);
 
-        $this->trataRetorno($retorno, Operacao::CRIAR);
+        $this->trataRetorno($retorno, Operation::CREATE);
 
         return redirect("/$this->viewBase")->with($this->withKey, $this->withValue);
     }
@@ -67,25 +67,25 @@ abstract class MyControllerAbstract extends Controller
             ->getFindOrFail($request->id)
             ->update($request->all());
         
-        $this->trataRetorno($retorno, Operacao::EDITAR);
+        $this->trataRetorno($retorno, Operation::EDIT);
 
         return redirect("/$this->viewBase")->with($this->withKey, $this->withValue);
     }
 
-    protected function trataRetorno($retorno, $operacao)
+    protected function trataRetorno($retorno, $Operation)
     {
-        $acao = $operacao == Operacao::EDITAR 
-            ? Operacao::EDITADOS 
-            : Operacao::CRIADOS;
+        $acao = $Operation == Operation::EDIT 
+            ? Operation::EDITED 
+            : Operation::CREATED;
             
         list($this->withKey, $this->withValue) = $retorno ? 
             ['msg', $this->getTextoMsg()." $acao com sucesso!"] : 
-            ['erro', "Houve um erro ao $operacao o ".$this->getTextoMsg()];
+            ['erro', "Houve um erro ao $Operation o ".$this->getTextoMsg()];
     }
 
     public function edit($id)
     {
-        $this->dados['btnVoltar'] = getBtnLink(ButtonType::VOLTAR, link: "/".$this->viewBase);
+        $this->dados['btnVoltar'] = getBtnLink(ButtonType::BACK, link: "/".$this->viewBase);
         $this->dados['modelBase'] = $this->modelBase->getFindOrFail($id);
         $this->dados['titulo'] = 'Editar';
         $this->dados['action'] = "/$this->viewBase/update/$id";
@@ -99,7 +99,7 @@ abstract class MyControllerAbstract extends Controller
             ->getFindOrFail($id)
             ->update(['e_excluido' => $eExcluido]);
          
-        $this->trataRetorno($retorno, Operacao::EDITAR);
+        $this->trataRetorno($retorno, Operation::EDIT);
 
         return redirect("/".$this->viewBase)->with($this->withKey, $this->withValue);
     }

@@ -31,7 +31,7 @@ class Asset extends Model
     //     parent::__construct($this);
     // }
 
-    public function sltAssets($arrayStatus = [Status::ATIVADO])
+    public function sltAssets($arrayStatus = [Status::ACTIVE])
     {
         $result = Asset::select('id', 'codigo')
             ->whereIn('e_excluido', $arrayStatus)
