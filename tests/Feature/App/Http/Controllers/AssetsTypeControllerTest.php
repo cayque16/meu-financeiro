@@ -4,16 +4,11 @@ namespace Tests\Feature\App\Http\Controllers;
 
 use App\Models\AssetsType;
 use Tests\TestCase;
-use App\Models\User;
 use Illuminate\Http\Response;
 
 class AssetsTypeControllerTest extends TestCase
 {
-    private function login()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-    }
+    use ControllerTrait;    
     public function testIndex()
     {
         $this->login();
