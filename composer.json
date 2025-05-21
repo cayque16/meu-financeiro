@@ -16,7 +16,6 @@
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
-        "pimple/pimple": "^3.0",
         "ramsey/uuid": "^4.7",
         "respect/validation": "^2.4"
     },
@@ -39,7 +38,10 @@
             "middlewares\\": ""
         },
         "files": [
-            "helperSet.php"
+            "app/Helpers/data_hora_helper.php",
+            "app/Helpers/hash_helper.php",
+            "app/Helpers/numeros_helper.php",
+            "app/Helpers/views_helper.php"
         ]
     },
     "autoload-dev": {
