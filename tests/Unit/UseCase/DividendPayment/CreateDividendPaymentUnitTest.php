@@ -9,12 +9,12 @@ use Core\Domain\Entity\DividendPayment;
 use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
+use Core\Domain\ValueObject\Date;
 use Core\UseCase\DividendPayment\CreateDividendPaymentUseCase;
 use Core\UseCase\DTO\DividendPayment\Create\CreateDividendPaymentInputDto;
 use Core\UseCase\DTO\DividendPayment\Create\CreateDividendPaymentOutputDto;
 use Core\UseCase\Exceptions\NotFoundException;
 use DateTime;
-use Faker\Provider\ar_EG\Payment;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -31,7 +31,7 @@ class CreateDividendPaymentUnitTest extends TestCase
         $currency = $this->mockCurrency($idCurrency);
 
         $idDividend = $this->getUuid();
-        $dividend = Mockery::mock(DividendPayment::class, [$asset, new DateTime(), DividendType::JCP, 250, $currency]);
+        $dividend = Mockery::mock(DividendPayment::class, [$asset, new Date(), DividendType::JCP, 250, $currency]);
         $dividend->shouldReceive("id")->andReturn($idDividend);
         $dividend->shouldReceive("date")->andReturn('date');
         $dividend->shouldReceive("isActive")->andReturn(true);

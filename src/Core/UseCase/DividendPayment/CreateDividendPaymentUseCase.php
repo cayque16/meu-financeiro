@@ -6,10 +6,10 @@ use Core\Domain\Entity\DividendPayment;
 use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
+use Core\Domain\ValueObject\Date;
 use Core\UseCase\DTO\DividendPayment\Create\CreateDividendPaymentInputDto;
 use Core\UseCase\DTO\DividendPayment\Create\CreateDividendPaymentOutputDto;
 use Core\UseCase\Exceptions\NotFoundException;
-use DateTime;
 
 class CreateDividendPaymentUseCase
 {
@@ -28,7 +28,7 @@ class CreateDividendPaymentUseCase
 
         $dividend = new DividendPayment(
             asset: $asset,
-            date: new DateTime($input->date),
+            date: new Date($input->date),
             type: $input->type,
             amount: $input->amount,
             currency: $currency,

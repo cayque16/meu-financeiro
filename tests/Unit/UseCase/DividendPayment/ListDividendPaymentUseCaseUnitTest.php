@@ -8,6 +8,7 @@ use Core\Domain\Entity\Currency;
 use Core\Domain\Entity\DividendPayment;
 use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\ValueObject\Date;
 use Core\UseCase\DividendPayment\ListDividendPaymentUseCase;
 use Core\UseCase\DTO\DividendPayment\DividendPaymentInputDto;
 use Core\UseCase\DTO\DividendPayment\DividendPaymentOutputDto;
@@ -73,7 +74,7 @@ class ListDividendPaymentUseCaseUnitTest extends TestCase
 
     private function mockEntity($id, $idAsset, $idCurrency)
     {
-        $date = new DateTime();
+        $date = new Date();
         $mockEntity = Mockery::mock(DividendPayment::class, [
             $this->mockAsset($idAsset),
             $date,
@@ -83,7 +84,7 @@ class ListDividendPaymentUseCaseUnitTest extends TestCase
             $id
         ]);
         $mockEntity->shouldReceive('id')->once()->andReturn($id);
-        $mockEntity->shouldReceive('date')->once()->andReturn($date->format('Y-m-d H:i:s'));
+        // $mockEntity->shouldReceive('date')->once()->andReturn($date);
         $mockEntity->shouldReceive('isActive')->once()->andReturn(true);
         $mockEntity->shouldReceive('createdAt')->once()->andReturn(date('Y-m-d H:i:s'));
 
