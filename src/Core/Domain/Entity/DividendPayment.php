@@ -4,6 +4,7 @@ namespace Core\Domain\Entity;
 
 use Core\Domain\Enum\DividendType;
 use Core\Domain\Validation\Factories\DividendPaymentValidatorFactory;
+use Core\Domain\ValueObject\Date;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 
@@ -11,23 +12,18 @@ class DividendPayment extends BaseEntity
 {
     public function __construct(
         protected Asset $asset,
-        protected DateTime|string $date,
+        protected Date|string $date,
         protected DividendType $type,
         protected int $amount,
         protected Currency $currency,
         protected Uuid|string $id = '',
-        protected DateTime|string $createdAt = '',
-        protected ?DateTime $excludedAt = null,
+        protected Date|string $createdAt = '',
+        protected Date|string $deletedAt = '',
+        protected Date|string $updatedAt = '',
     ) {
-        parent::__construct($id, $createdAt, $excludedAt);
+        parent::__construct($id, $createdAt, $deletedAt);
         
-        $this->date = $date instanceof string ? new DateTime($date) : $date;
         $this->validator = DividendPaymentValidatorFactory::create();
         $this->validation();
-    }
-
-    public function date(): string
-    {
-        return $this->date->format('Y-m-d H:i:s');
     }
 }

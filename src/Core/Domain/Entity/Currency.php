@@ -3,8 +3,8 @@
 namespace Core\Domain\Entity;
 
 use Core\Domain\Validation\Factories\CurrencyValidatorFactory;
+use Core\Domain\ValueObject\Date;
 use Core\Domain\ValueObject\Uuid;
-use DateTime;
 
 class Currency extends BaseEntity
 {
@@ -16,10 +16,11 @@ class Currency extends BaseEntity
         protected int $decimals = 2,
         protected Uuid|string $id = '',
         protected string $description = '',
-        protected DateTime|string $createdAt = '',
-        protected ?DateTime $excludedAt = null,
+        protected Date|string $createdAt = '',
+        protected Date|string $deletedAt = '',
+        protected Date|string $updatedAt = '',
     ) {
-        parent::__construct($id, $createdAt, $excludedAt);
+        parent::__construct($id, $createdAt, $deletedAt);
         $this->isoCode = strtoupper($isoCode);
 
         $this->validator = CurrencyValidatorFactory::create();

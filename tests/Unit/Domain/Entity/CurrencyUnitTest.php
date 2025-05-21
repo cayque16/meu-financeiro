@@ -4,11 +4,19 @@ namespace Tests\Unit\Domain\Entity;
 
 use Core\Domain\Entity\Currency;
 use Core\Domain\Exception\EntityValidationException;
-use DateTime;
+use Core\Domain\ValueObject\Date;
 use PHPUnit\Framework\TestCase;
 
 class CurrencyUnitTest extends TestCase
 {
+    public function testConstruct()
+    {
+        $currency = new Currency("test", "R$", "BRL", 100, description: "desc");
+        $this->assertNotNull($currency->id());
+        $this->assertInstanceOf(Date::class, $currency->createdAt);
+        $this->assertSame("", $currency->deletedAt);
+        $this->assertSame("", $currency->updatedAt);
+    }
     /**
      * @dataProvider providerConstruct
      */
@@ -84,7 +92,7 @@ class CurrencyUnitTest extends TestCase
         $this->assertEquals(strtoupper($isoCode), $currency->isoCode);
     }
 
-    public function testDisable()
+    /*public function testDisable()
     {
         $currency = new Currency(
             name: 'test',
@@ -115,7 +123,7 @@ class CurrencyUnitTest extends TestCase
         $currency->activate();
         $this->assertNull($currency->getExcludedAt());
         $this->assertTrue($currency->isActive());
-    }
+    }*/
 
     /**
      * @dataProvider providerPrint

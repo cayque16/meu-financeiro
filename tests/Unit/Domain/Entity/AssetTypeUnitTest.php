@@ -4,6 +4,7 @@ namespace Tests\Unit\Domain\Entity;
 
 use Core\Domain\Entity\AssetType;
 use Core\Domain\Exception\EntityValidationException;
+use Core\Domain\ValueObject\Date;
 use PHPUnit\Framework\TestCase;
 
 class AssetTypeUnitTest extends TestCase
@@ -13,7 +14,10 @@ class AssetTypeUnitTest extends TestCase
         $type = new AssetType("Ação");
         
         $this->assertNotNull($type->id());
-        $this->assertNotNull($type->createdAt());
+        $this->assertNotNull($type->createdAt);
+        $this->assertInstanceOf(Date::class, $type->createdAt);
+        $this->assertSame("", $type->deletedAt);
+        $this->assertSame("", $type->updatedAt);
     }
 
     /**

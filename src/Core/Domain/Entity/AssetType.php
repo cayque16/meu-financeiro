@@ -3,8 +3,8 @@
 namespace Core\Domain\Entity;
 
 use Core\Domain\Validation\Factories\AssetTypeValidatorFactory;
+use Core\Domain\ValueObject\Date;
 use Core\Domain\ValueObject\Uuid;
-use DateTime;
 
 class AssetType extends BaseEntity
 {
@@ -12,11 +12,12 @@ class AssetType extends BaseEntity
         protected string $name,
         protected Uuid|string $id = '',
         protected string $description = '',
-        protected DateTime|string $createdAt = '',
-        protected ?DateTime $excludedAt = null,
+        protected Date|string $createdAt = '',
+        protected Date|string $deletedAt = '',
+        protected Date|string $updatedAt = '',
         protected ?int $oldId = 0,
     ) {
-        parent::__construct($id, $createdAt, $excludedAt);
+        parent::__construct($id, $createdAt, $deletedAt);
         
         $this->validator = AssetTypeValidatorFactory::create();
         $this->validation();

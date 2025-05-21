@@ -4,8 +4,8 @@ namespace Core\Domain\Entity;
 
 use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\Validation\EntityValidatorInterface;
+use Core\Domain\ValueObject\Date;
 use Core\Domain\ValueObject\Uuid;
-use DateTime;
 use Exception;
 
 class BaseEntity
@@ -14,11 +14,12 @@ class BaseEntity
 
     protected function __construct(
         protected Uuid|string $id = '',
-        protected DateTime|string $createdAt = '',
-        protected ?DateTime $excludedAt = null
+        protected Date|string $createdAt = '',
+        protected Date|string $deletedAt = '',
+        protected Date|string $updatedAt = '',
     ) {
         $this->id = $this->id ? new Uuid($this->id) : Uuid::random();
-        $this->createdAt = $this->createdAt ? new DateTime($this->createdAt) : new DateTime();
+        $this->createdAt = $this->createdAt ? new Date($this->createdAt) : new Date();
     }
 
     public function __get($property)
@@ -36,14 +37,14 @@ class BaseEntity
         return (string) $this->id;
     }
 
-    public function createdAt(): string
+    /*public function createdAt(): Date|string
     {
-        return $this->createdAt->format('Y-m-d H:i:s');
+        return $this->createdAt;
     }
 
-    public function excludedAt(): string
+    public function deletedAt(): Date|string
     {
-        return $this->excludedAt->format('Y-m-d H:i:s');
+        return $this->excludedAt;
     }
 
     public function getCreatedAt(): DateTime
@@ -69,7 +70,7 @@ class BaseEntity
     public function isActive(): bool
     {
         return empty($this->excludedAt);
-    }
+    }*/
 
     protected function validation()
     {

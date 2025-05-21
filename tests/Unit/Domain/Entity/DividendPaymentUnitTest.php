@@ -8,7 +8,7 @@ use Core\Domain\Entity\Currency;
 use Core\Domain\Entity\DividendPayment;
 use Core\Domain\Enum\DividendType;
 use Core\Domain\Exception\EntityValidationException;
-use DateTime;
+use Core\Domain\ValueObject\Date;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -19,14 +19,16 @@ class DividendPaymentUnitTest extends TestCase
     {
         $payment =  new DividendPayment(
             $this->mockAsset(),
-            new DateTime(),
+            new Date(),
             DividendType::DIVIDENDS,
             150,
             $this->mockCurrency()
         );
 
         $this->assertNotNull($payment->id());
-        $this->assertNotNull($payment->createdAt());
+        $this->assertInstanceOf(Date::class, $payment->createdAt);
+        $this->assertSame("", $payment->deletedAt);
+        $this->assertSame("", $payment->updatedAt);
     }
 
     public function testExceptionsInConstructor()
@@ -34,7 +36,7 @@ class DividendPaymentUnitTest extends TestCase
         $this->expectException(EntityValidationException::class);
         new DividendPayment(
             $this->mockAsset(),
-            new DateTime(),
+            new Date(),
             DividendType::DIVIDENDS,
             0,
             $this->mockCurrency()
