@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Domain\Entity;
+namespace Core\Domain\Entity\ExemploArrayTipado;
 
 use ArrayIterator;
 use IteratorIterator;
