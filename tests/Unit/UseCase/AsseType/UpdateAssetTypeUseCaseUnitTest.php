@@ -3,6 +3,7 @@
 namespace Tests\Unit\UseCase\AsseType;
 
 use Core\Domain\Entity\AssetType;
+use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\UseCase\AssetType\UpdateAssetTypeUseCase;
 use Core\UseCase\DTO\AssetType\Update\UpdateAssetTypeInputDto;
@@ -59,7 +60,7 @@ class UpdateAssetTypeUseCaseUnitTest extends TestCase
     {
         $mockRepository = Mockery::mock(
             stdClass::class,
-            BaseRepositoryInterface::class
+            AssetTypeRepositoryInterface::class
         );
         $mockRepository->shouldReceive("findById")
             ->times($times1)
