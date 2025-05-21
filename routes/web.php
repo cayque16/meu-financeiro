@@ -26,7 +26,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::post('/home', [App\Http\Controllers\HomeController::class, 'index']);
   
-    Route::resource('/assets_type', AssetsTypeController::class);
+    // Route::resource('/assets_type', AssetsTypeController::class);
+    Route::get('/assets_type', [AssetsTypeController::class, 'index']);
+    Route::get('/assets_type/edit/{uuid}', [AssetsTypeController::class, 'edit']);
+    Route::post('/assets_type/update/{uuid}', [AssetsTypeController::class, 'update']);
     // Route::get('/assets_type', [App\Http\Controllers\AssetsTypeControllerOld::class, 'index']);
     // Route::get('/assets_type/create', [App\Http\Controllers\AssetsTypeControllerOld::class, 'create']);
     // Route::post('/assets_type', [App\Http\Controllers\AssetsTypeControllerOld::class, 'store']);

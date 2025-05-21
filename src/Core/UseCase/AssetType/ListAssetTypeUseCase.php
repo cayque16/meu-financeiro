@@ -2,6 +2,7 @@
 
 namespace Core\UseCase\AssetType;
 
+use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\UseCase\DTO\AssetType\AssetTypeInputDto;
 use Core\UseCase\DTO\AssetType\AssetTypeOutputDto;
@@ -10,7 +11,7 @@ use Core\UseCase\Exceptions\NotFoundException;
 class ListAssetTypeUseCase
 {
     public function __construct(
-        protected BaseRepositoryInterface $repository,
+        protected AssetTypeRepositoryInterface $repository,
     ) { }
 
     public function execute(AssetTypeInputDto $input): AssetTypeOutputDto

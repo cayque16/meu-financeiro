@@ -18,8 +18,8 @@
     @endif
     @php
         echo $btnVoltar;
-        $vNome = isset($modelBase) ? $modelBase->nome : (isset($request) ? $request->old('nome') : '');
-        $vDescricao = isset($modelBase) ? $modelBase->descricao : (isset($request) ? $request->old('nome') : '');
+        $vNome = isset($modelBase) ? $modelBase->name : (isset($request) ? $request->old('nome') : '');
+        $vDescricao = isset($modelBase) ? $modelBase->description : (isset($request) ? $request->old('nome') : '');
     @endphp
     <form action="{{ $action }}" method="post">
         {{ csrf_field() }}

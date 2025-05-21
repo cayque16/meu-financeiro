@@ -24,8 +24,8 @@ class StoreAssetsTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'required',
-            'descricao' => 'required'
+            'nome' => 'required|min:3|max:30',
+            'descricao' => 'required|max:150'
         ];
     }
 }
