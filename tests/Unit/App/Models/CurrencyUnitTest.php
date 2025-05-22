@@ -34,6 +34,7 @@ class CurrencyUnitTest extends ModelTestCase
             'description',
             'deleted_at',
             'created_at',
+            'updated_at',
         ];
     }
 
@@ -42,6 +43,7 @@ class CurrencyUnitTest extends ModelTestCase
         return [
             'id' => 'string',
             'created_at' => 'datetime',
+            'updated_at' => 'datetime',
             'deleted_at' => 'datetime',
         ];
     }

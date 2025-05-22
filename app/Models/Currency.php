@@ -20,6 +20,7 @@ class Currency extends Model
         'description',
         'deleted_at',
         'created_at',
+        'updated_at',
     ];
 
     public $incrementing = false;
@@ -27,6 +28,7 @@ class Currency extends Model
     protected $casts = [
         'id' => 'string',
         'created_at' => 'datetime',
+        'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
 }

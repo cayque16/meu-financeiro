@@ -21,6 +21,7 @@ class DividendPayment extends Model
         'currency_id',
         'deleted_at',
         'created_at',
+        'updated_at',
     ];
 
     public $incrementing = false;
@@ -30,6 +31,7 @@ class DividendPayment extends Model
         'asset_id' => 'string',
         'currency_id' => 'string',
         'created_at' => 'datetime',
+        'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
 

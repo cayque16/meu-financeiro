@@ -18,7 +18,7 @@ class AssetUnitTest extends ModelTestCase
     {
         return [
             HasFactory::class,
-            // SoftDeletes::class,
+            SoftDeletes::class,
         ];
     }
 
@@ -32,6 +32,8 @@ class AssetUnitTest extends ModelTestCase
             'uuid_assets_type',
             'e_excluido',
             'created_at',
+            'updated_at',
+            'deleted_at',
         ];
     }
 
@@ -39,7 +41,9 @@ class AssetUnitTest extends ModelTestCase
     {
         return [
             'uuid_assets_type' => 'string',
-            'created_at'  => 'datetime',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+            'deleted_at' => 'datetime',
             'id' => 'int',
         ];
     }

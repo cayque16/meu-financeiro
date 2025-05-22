@@ -33,6 +33,7 @@ class DividendPaymentUnitTest extends ModelTestCase
             'currency_id',
             'deleted_at',
             'created_at',
+            'updated_at',
         ];
     }
 
@@ -43,6 +44,7 @@ class DividendPaymentUnitTest extends ModelTestCase
             'asset_id' => 'string',
             'currency_id' => 'string',
             'created_at' => 'datetime',
+            'updated_at' => 'datetime',
             'deleted_at' => 'datetime',
         ];
     }
