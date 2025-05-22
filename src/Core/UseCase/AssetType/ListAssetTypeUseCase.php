@@ -23,8 +23,10 @@ class ListAssetTypeUseCase
                 id: $type->id,
                 name: $type->name,
                 description: $type->description,
-                // isActive: $type->isActive(),
-                createdAt: $type->createdAt,
+                isActive: $type->isActive(),
+                createdAt: $type->createdAt(),
+                updatedAt: $type->updatedAt(),
+                deletedAt: $type->deletedAt(),
             );
         }
         throw new NotFoundException("No asset with that id was found: {$input->id}");

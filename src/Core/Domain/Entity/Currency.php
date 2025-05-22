@@ -20,7 +20,7 @@ class Currency extends BaseEntity
         protected ?Date $deletedAt = null,
         protected ?Date $updatedAt = null,
     ) {
-        parent::__construct($id, $createdAt, $deletedAt);
+        parent::__construct($id, $createdAt, $deletedAt, $updatedAt);
         $this->isoCode = strtoupper($isoCode);
 
         $this->validator = CurrencyValidatorFactory::create();

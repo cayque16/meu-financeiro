@@ -11,7 +11,9 @@ class UpdateAssetOutputDto
         public string $code,
         public string $description,
         public string $idType,
-        // public bool $isActive,
-        public Date $createdAt,
+        public bool $isActive,
+        public ?Date $createdAt = null,
+        public ?Date $updatedAt = null,
+        public ?Date $deletedAt = null,
     ) { }
 }

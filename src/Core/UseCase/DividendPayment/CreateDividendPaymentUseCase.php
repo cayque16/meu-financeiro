@@ -43,8 +43,10 @@ class CreateDividendPaymentUseCase
             type: $return->type,
             amount: $return->amount,
             idCurrency: $return->currency->id(),
-            // isActive: $return->isActive(),
-            createdAt: $return->createdAt,
+            isActive: $return->isActive(),
+            createdAt: $return->createdAt(),
+            updatedAt: $return->updatedAt(),
+            deletedAt: $return->deletedAt(),
         );
     }
 }

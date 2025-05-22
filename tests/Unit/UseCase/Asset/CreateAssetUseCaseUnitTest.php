@@ -6,6 +6,7 @@ use Core\Domain\Entity\Asset;
 use Core\Domain\Entity\AssetType;
 use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\ValueObject\Date;
 use Core\UseCase\Asset\CreateAssetUseCase;
 use Core\UseCase\DTO\Asset\Create\CreateAssetInputDto;
 use Core\UseCase\DTO\Asset\Create\CreateAssetOutputDto;
@@ -28,7 +29,9 @@ class CreateAssetUseCaseUnitTest extends TestCase
         $mockEntity = Mockery::mock(Asset::class, ['BTC', $mockType, $uuidAsset, 'desc']);
         $mockEntity->shouldReceive('id')->andReturn($uuidAsset);
         $mockEntity->shouldReceive('isActive')->andReturn(true);
-        $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-a H:i:s'));
+        $mockEntity->shouldReceive('createdAt')->once()->andReturn(new Date());
+        $mockEntity->shouldReceive('updatedAt')->once()->andReturn(null);
+        $mockEntity->shouldReceive('deletedAt')->once()->andReturn(null);
 
         $mockRepoAsset = $this->mockRepo("insert", $mockEntity);
 

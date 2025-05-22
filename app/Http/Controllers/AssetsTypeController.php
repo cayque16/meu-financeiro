@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\ButtonType;
 use App\Enums\Status;
 use App\Http\Requests\StoreAssetsTypeRequest;
-use App\Http\Requests\UpdateAssetsTypeRequest;
-use App\Models\AssetsType;
-use Core\UseCase\Asset\UpdateAssetUseCase;
 use Core\UseCase\AssetType\CreateAssetTypeUseCase;
 use Core\UseCase\AssetType\ListAssetsTypesUseCase;
 use Core\UseCase\AssetType\ListAssetTypeUseCase;
@@ -92,6 +89,7 @@ class AssetsTypeController extends Controller
             'Descrição',
             'Data Criação',
             'Data Atualização',
+            'Data Desativação',
             ['label' => 'Ações','no-export' => true, 'width' => 5]
         ];
     }
@@ -100,17 +98,16 @@ class AssetsTypeController extends Controller
     {
         $data = [];
         foreach($dados->items as $dado) {
-            // $botao = $dado->e_excluido ? ButtonType::ACTIVATE : ButtonType::DISABLE;
-            $botao = ButtonType::ACTIVATE;
-            // $eExcluido = $dado->e_excluido ? Status::ACTIVE : Status::INACTIVE;
-            $eExcluido = Status::ACTIVE;
+            $button = $dado->isActive() ? ButtonType::DISABLE : ButtonType::ACTIVATE;
+            $action = $dado->isActive() ? Status::INACTIVE : Status::ACTIVE;
             $data[] = [
                 $dado->id, 
                 $dado->name,
                 $dado->description,
-                $dado->createdAt,
-                $dado->updatedAt,
-                "<nobr>".getBtnLink(ButtonType::EDIT, "/assets_type/edit/$dado->id")."  ".getBtnLink($botao, "/assets_type/enable/$dado->id/0")."</nobr>"
+                $dado->createdAt()?->toDateBr(),
+                $dado->updatedAt()?->toDateBr(),
+                $dado->deletedAt()?->toDateBr() ?? "-",
+                "<nobr>".getBtnLink(ButtonType::EDIT, "/assets_type/edit/$dado->id")."  ".getBtnLink($button, "/assets_type/enable/$dado->id/$action")."</nobr>"
             ];
         }
         return $data;

@@ -5,6 +5,7 @@ namespace Tests\Unit\UseCase\Asset;
 use Core\Domain\Entity\Asset;
 use Core\Domain\Entity\AssetType;
 use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\ValueObject\Date;
 use Core\UseCase\Asset\UpdateAssetUseCase;
 use Core\UseCase\DTO\Asset\Update\UpdateAssetInputDto;
 use Core\UseCase\DTO\Asset\Update\UpdateAssetOutputDto;
@@ -113,8 +114,10 @@ class UpdateAssetUseCaseUnitTest extends TestCase
         $mockEntity = Mockery::mock(Asset::class, [$code, $this->mockType($uuidType), $uuid, $desc]);
         $mockEntity->shouldReceive('update')->times($times1);
         $mockEntity->shouldReceive('id')->times($times2)->andReturn($uuid);
-        // $mockEntity->shouldReceive('isActive')->times($times2)->andReturn(true);
-        // $mockEntity->shouldReceive('createdAt')->times($times2)->andReturn(date('Y-m-d H:i:s'));
+        $mockEntity->shouldReceive('isActive')->times($times2)->andReturn(true);
+        $mockEntity->shouldReceive('createdAt')->times($times2)->andReturn(new Date());
+        $mockEntity->shouldReceive('updatedAt')->times($times2)->andReturn(null);
+        $mockEntity->shouldReceive('deletedAt')->times($times2)->andReturn(null);
 
         return $mockEntity;
     }

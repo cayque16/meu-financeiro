@@ -44,7 +44,9 @@ class DividendPaymentRepositoryTest extends TestCase
                 id: $typeBd->uuid,
                 name: $typeBd->nome,
                 description: $typeBd->descricao,
-                createdAt: $typeBd->created_at,
+                createdAt: Date::fromNullable($typeBd->created_at),
+                updatedAt: Date::fromNullable($typeBd->updated_at),
+                deletedAt: Date::fromNullable($typeBd->deleted_at),
             ),
         );
 

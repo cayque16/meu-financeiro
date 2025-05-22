@@ -10,7 +10,9 @@ class CreateAssetTypeOutputDto
         public string $id,
         public string $name,
         public string $description,
-        // public bool $isActive,
-        public Date $createdAt,
+        public bool $isActive,
+        public ?Date $createdAt = null,
+        public ?Date $updatedAt = null,
+        public ?Date $deletedAt = null,
     ) { }
 }

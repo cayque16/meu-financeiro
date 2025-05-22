@@ -17,7 +17,7 @@ class AssetType extends BaseEntity
         protected ?Date $updatedAt = null,
         protected ?int $oldId = 0,
     ) {
-        parent::__construct($id, $createdAt, $deletedAt);
+        parent::__construct($id, $createdAt, $deletedAt, $updatedAt);
         
         $this->validator = AssetTypeValidatorFactory::create();
         $this->validation();

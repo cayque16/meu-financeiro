@@ -6,6 +6,7 @@ use App\Models\Currency as CurrencyModel;
 use Core\Domain\Entity\BaseEntity;
 use Core\Domain\Entity\Currency as CurrencyEntity;
 use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\ValueObject\Date;
 use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\Exceptions\NotImplementedException;
 use Illuminate\Database\Eloquent\Model;
@@ -83,7 +84,9 @@ class CurrencyEloquentRepository implements BaseRepositoryInterface
             split: $data->split,
             decimals: $data->decimals,
             description: $data->description,
-            createdAt: $data->created_at,
+            createdAt: Date::fromNullable($data->created_at),
+            updatedAt: Date::fromNullable($data->updated_at),
+            deletedAt: Date::fromNullable($data->deleted_at),
         );
 
         return $currency;

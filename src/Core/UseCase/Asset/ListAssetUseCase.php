@@ -23,8 +23,10 @@ class ListAssetUseCase
             code: $asset->code,
             description: $asset->description,
             typeId: $asset->type->id(),
-            // isActive: $asset->isActive(),
-            createdAt: $asset->createdAt,
+            isActive: $asset->isActive(),
+            createdAt: $asset->createdAt(),
+            updatedAt: $asset->updatedAt(),
+            deletedAt: $asset->deletedAt(),
         );
     }
 }

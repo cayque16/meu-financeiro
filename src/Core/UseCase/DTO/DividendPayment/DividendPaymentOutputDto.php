@@ -10,11 +10,13 @@ class DividendPaymentOutputDto
     public function __construct(
         public string $id,
         public string $idAsset,
-        public string $date,
+        public Date $date,
         public DividendType $type,
         public int $amount,
         public string $idCurrency,
-        // public bool $isActive,
-        public Date $createdAt,
+        public bool $isActive,
+        public ?Date $createdAt = null,
+        public ?Date $updatedAt = null,
+        public ?Date $deletedAt = null,
     ) { }
 }

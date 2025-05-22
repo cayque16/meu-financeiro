@@ -4,6 +4,7 @@ namespace Tests\Feature\Core\UseCase\DividendPayment;
 
 use App\Models\DividendPayment;
 use App\Repositories\Eloquent\DividendPaymentEloquentRepository;
+use Core\Domain\ValueObject\Date;
 use Core\UseCase\DividendPayment\ListDividendPaymentUseCase;
 use Core\UseCase\DTO\DividendPayment\DividendPaymentInputDto;
 use Tests\TestCase;
@@ -24,7 +25,7 @@ class ListDividendPaymentTest extends TestCase
 
         $this->assertEquals($payment->id, $response->id);
         $this->assertEquals($payment->asset_id, $response->idAsset);
-        $this->assertEquals($payment->date, $response->date);
+        $this->assertEquals(new Date($payment->date), new Date($response->date));
         $this->assertEquals($payment->type, $response->type);
         $this->assertEquals($payment->amount, $response->amount);
         $this->assertEquals($payment->currency_id, $response->idCurrency);

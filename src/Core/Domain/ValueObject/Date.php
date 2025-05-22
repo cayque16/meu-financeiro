@@ -35,6 +35,11 @@ final class Date
     {
         return $this->date->format($time ? 'd/m/Y H:i:s' : 'd/m/Y');
     }
+    
+    public static function fromNullable(?string $input): ?self
+    {
+        return $input ? new self($input) : null;
+    }
 
     public function __toString(): string
     {

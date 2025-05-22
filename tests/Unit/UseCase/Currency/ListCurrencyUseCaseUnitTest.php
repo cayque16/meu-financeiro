@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 use Core\Domain\Entity\Currency as EntityCurrency;
 use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\ValueObject\Date;
 use Core\UseCase\Currency\ListCurrencyUseCase;
 use Core\UseCase\DTO\Currency\CurrencyInputDto;
 use Core\UseCase\DTO\Currency\CurrencyOutputDto;
@@ -28,8 +29,10 @@ class ListCurrencyUseCaseUnitTest extends TestCase
             $uuid,
             $description = 'test description'
         ]);
-        $mockEntity ->shouldReceive("createdAt")->andReturn($createdAt = date('Y-m-d H:i:s'));
-        $mockEntity ->shouldReceive("excludedAt")->andReturn($excludedAt = '');
+        $mockEntity->shouldReceive("isActive")->once()->andReturn($isActive = true);
+        $mockEntity->shouldReceive("createdAt")->once()->andReturn($createdAt = new Date());
+        $mockEntity->shouldReceive("updatedAt")->once()->andReturn($updatedAt = null);
+        $mockEntity->shouldReceive("deletedAt")->once()->andReturn($deletedAt = null);
 
         $mockRepository = $this->mockRepository($uuid, $mockEntity);
 
@@ -46,8 +49,10 @@ class ListCurrencyUseCaseUnitTest extends TestCase
         $this->assertEquals($split, $response->split);
         $this->assertEquals($decimals, $response->decimals);
         $this->assertEquals($description, $response->description);
+        $this->assertEquals($isActive, $response->isActive);
         $this->assertEquals($createdAt, $response->createdAt);
-        $this->assertEquals($excludedAt, $response->excludedAt);
+        $this->assertEquals($updatedAt, $response->updatedAt);
+        $this->assertEquals($deletedAt, $response->deletedAt);
     }
 
     public function testSingleNotFound()

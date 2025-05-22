@@ -14,7 +14,9 @@ class CurrencyOutputDto
         public int $split,
         public int $decimals,
         public string $description,
-        public Date $createdAt,
-        public Date|string $excludedAt = '',
+        public bool $isActive,
+        public ?Date $createdAt = null,
+        public ?Date $updatedAt = null,
+        public ?Date $deletedAt = null,
     ) {}
 }

@@ -8,7 +8,8 @@ use Illuminate\Http\Response;
 
 class AssetsTypeControllerTest extends TestCase
 {
-    use ControllerTrait;    
+    use ControllerTrait;
+
     public function testIndex()
     {
         $this->login();
@@ -69,5 +70,4 @@ class AssetsTypeControllerTest extends TestCase
             'descricao'=> 'desc'
         ]);
     }
-
 }

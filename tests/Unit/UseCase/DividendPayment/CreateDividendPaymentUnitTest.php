@@ -35,7 +35,9 @@ class CreateDividendPaymentUnitTest extends TestCase
         $dividend->shouldReceive("id")->andReturn($idDividend);
         $dividend->shouldReceive("date")->andReturn('date');
         $dividend->shouldReceive("isActive")->andReturn(true);
-        $dividend->shouldReceive("createdAt")->andReturn('date');
+        $dividend->shouldReceive("createdAt")->andReturn(new Date());
+        $dividend->shouldReceive("updatedAt")->andReturn(null);
+        $dividend->shouldReceive("deletedAt")->andReturn(null);
 
         $repoDividendPayment = $this->mockRepo('insert', $dividend, interface: DividendPaymentRepositoryInterface::class);
         $repoAsset = $this->mockRepo('findById', $asset);

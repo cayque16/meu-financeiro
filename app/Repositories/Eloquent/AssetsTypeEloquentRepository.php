@@ -7,6 +7,7 @@ use App\Models\AssetsType as AssetsTypeModel;
 use Core\Domain\Entity\AssetType as AssetTypeEntity;
 use Core\Domain\Entity\BaseEntity;
 use Core\Domain\Repository\AssetTypeRepositoryInterface;
+use Core\Domain\ValueObject\Date;
 use Core\UseCase\Exceptions\NotImplementedException;
 use Core\Domain\ValueObject\Uuid;
 use Illuminate\Database\Eloquent\Model;
@@ -49,6 +50,7 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
     public function findAll(string $filter = '', $orderBy = 'DESC'): array
     {
         $result = $this->model
+            ->withTrashed()
             ->where(function ($query) use ($filter) {
                 if ($filter) {
                     $query->where('nome', 'LIKE', "%{$filter}%");
@@ -89,10 +91,12 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
             id: $data->uuid,
             name: $data->nome,
             description: $data->descricao,
-            createdAt: $data->created_at,
+            createdAt: Date::fromNullable($data->created_at),
+            updatedAt: Date::fromNullable($data->updated_at),
+            deletedAt: Date::fromNullable($data->deleted_at),
             oldId: $data->id,
         );
-
+        
         return $type;
     }
 }

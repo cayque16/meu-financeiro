@@ -7,6 +7,7 @@ use App\Models\Asset as AssetModel;
 use App\Models\AssetsType;
 use Core\Domain\Entity\Asset as AssetEntity;
 use Core\Domain\Entity\BaseEntity;
+use Core\Domain\ValueObject\Date;
 use Core\UseCase\Exceptions\NotImplementedException;
 use Core\Domain\ValueObject\Uuid;
 use Illuminate\Database\Eloquent\Model;
@@ -94,7 +95,9 @@ class AssetEloquentRepository implements BaseRepositoryInterface
             code: $data->codigo,
             type: $this->repoAssetsType->toBaseEntity($data->assetsType),
             description: $data->descricao,
-            createdAt: $data->created_at,
+            createdAt: Date::fromNullable($data->created_at),
+            updatedAt: Date::fromNullable($data->updated_at),
+            deletedAt: Date::fromNullable($data->deleted_at),
         );
 
         return $asset;

@@ -5,6 +5,7 @@ namespace Tests\Unit\UseCase\Asset;
 use Core\Domain\Entity\Asset;
 use Core\Domain\Entity\AssetType;
 use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\ValueObject\Date;
 use Core\UseCase\Asset\ListAssetUseCase;
 use Core\UseCase\DTO\Asset\AssetInputDto;
 use Core\UseCase\DTO\Asset\AssetOutputDto;
@@ -72,8 +73,10 @@ class ListAssetUseCaseUnitTest extends TestCase
             'desc'
         ]);
         $mockEntity->shouldReceive('id')->once()->andReturn($uuid);
-        // $mockEntity->shouldReceive('isActive')->once()->andReturn(true);
-        // $mockEntity->shouldReceive('createdAt')->once()->andReturn(date('Y-m-d H:i:s'));
+        $mockEntity->shouldReceive('isActive')->once()->andReturn(true);
+        $mockEntity->shouldReceive('createdAt')->once()->andReturn(new Date());
+        $mockEntity->shouldReceive('updatedAt')->once()->andReturn(null);
+        $mockEntity->shouldReceive('deletedAt')->once()->andReturn(null);
 
         return $mockEntity;
     }

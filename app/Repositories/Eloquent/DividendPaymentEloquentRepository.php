@@ -9,6 +9,7 @@ use App\Models\Currency as CurrencyModel;
 use Core\Domain\Entity\BaseEntity;
 use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
+use Core\Domain\ValueObject\Date;
 use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\Exceptions\NotImplementedException;
 use Illuminate\Database\Eloquent\Model;
@@ -111,11 +112,13 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
         $payment = new DividendPaymentEntity(
             id: new Uuid($data->id),
             asset: $asset,
-            date: $data->date,
+            date: new Date($data->date),
             type: DividendType::from($data->type),
             amount: $data->amount,
             currency: $currency,
-            createdAt: $data->created_at,
+            createdAt: Date::fromNullable($data->created_at),
+            updatedAt: Date::fromNullable($data->updated_at),
+            deletedAt: Date::fromNullable($data->deleted_at),
         );
 
         return $payment;

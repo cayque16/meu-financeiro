@@ -9,6 +9,7 @@ use Core\Domain\Entity\AssetType as AssetTypeEntity;
 use App\Models\AssetsType as AssetTypeModel;
 use App\Repositories\Eloquent\AssetsTypeEloquentRepository;
 use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\ValueObject\Date;
 use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
@@ -35,7 +36,7 @@ class AssetEloquentRepositoryTest extends TestCase
             id: $typeBd->uuid,
             name: $typeBd->nome,
             description: $typeBd->descricao,
-            createdAt: $typeBd->created_at,
+            createdAt: new Date($typeBd->created_at),
             oldId: $typeBd->id,
         );
 
