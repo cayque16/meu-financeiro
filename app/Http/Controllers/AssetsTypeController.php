@@ -118,9 +118,9 @@ class AssetsTypeController extends Controller
                 $dado->id, 
                 $dado->name,
                 $dado->description,
-                $dado->createdAt()?->toDateBr(),
-                $dado->updatedAt()?->toDateBr(),
-                $dado->deletedAt()?->toDateBr() ?? "-",
+                $dado->createdAt()?->toDateBr(true),
+                $dado->updatedAt()?->toDateBr(true),
+                $dado->deletedAt()?->toDateBr(true) ?? "-",
                 "<nobr>".getBtnLink(ButtonType::EDIT, "/assets_type/edit/$dado->id")."  ".getBtnLink($button, "/assets_type/enable/$dado->id/$action")."</nobr>"
             ];
         }
