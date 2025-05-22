@@ -20,5 +20,9 @@ interface BaseRepositoryInterface
 
     public function delete(BaseEntity $entity): bool;
 
+    public function activate(string $id): ?bool;
+
+    public function disable(string $id): ?bool;
+
     public function toBaseEntity(object $data): BaseEntity;
 }

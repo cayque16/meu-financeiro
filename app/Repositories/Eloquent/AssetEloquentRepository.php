@@ -88,6 +88,24 @@ class AssetEloquentRepository implements BaseRepositoryInterface
         throw new NotImplementedException('This method has not been implemented!');
     }
 
+    public function activate(string $id): ?bool
+    {
+        if (!$typeBd = $this->findByUuid($id)) {
+            return null;
+        }
+
+        return $typeBd->restore();
+    }
+
+    public function disable(string $id): ?bool
+    {
+        if (!$typeBd = $this->findByUuid($id)) {
+            return null;
+        }
+
+        return $typeBd->delete();
+    }
+
     public function toBaseEntity(object $data): BaseEntity
     {
         $asset = new AssetEntity(

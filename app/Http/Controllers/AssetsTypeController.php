@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Enums\ButtonType;
 use App\Enums\Status;
 use App\Http\Requests\StoreAssetsTypeRequest;
+use Core\UseCase\AssetType\ActivateDisableAssetTypeUseCase;
 use Core\UseCase\AssetType\CreateAssetTypeUseCase;
 use Core\UseCase\AssetType\ListAssetsTypesUseCase;
 use Core\UseCase\AssetType\ListAssetTypeUseCase;
 use Core\UseCase\AssetType\UpdateAssetTypeUseCase;
+use Core\UseCase\DTO\AssetType\ActivateDisable\ActivateDisableAssetTypeInputDto;
 use Core\UseCase\DTO\AssetType\AssetTypeInputDto;
 use Core\UseCase\DTO\AssetType\Create\CreateAssetTypeInputDto;
 use Core\UseCase\DTO\AssetType\ListAssetsTypes\ListAssetsTypesInputDto;
@@ -81,6 +83,18 @@ class AssetsTypeController extends Controller
         return redirect("/assets_type")->with('msg', 'Tipo de ativo editado com sucesso!');
     }
 
+    public function enable(ActivateDisableAssetTypeUseCase $useCase, $id, $value)
+    {
+        $useCase->execute(
+            new ActivateDisableAssetTypeInputDto(
+                id: $id,
+                activate: (bool) $value,
+            )
+        );
+
+        return redirect("/assets_type")->with('msg', 'Tipo de ativo editado com sucesso!');
+    }
+
     protected function getHead()
     {
         return  [
@@ -99,7 +113,7 @@ class AssetsTypeController extends Controller
         $data = [];
         foreach($dados->items as $dado) {
             $button = $dado->isActive() ? ButtonType::DISABLE : ButtonType::ACTIVATE;
-            $action = $dado->isActive() ? Status::INACTIVE : Status::ACTIVE;
+            $action = $dado->isActive() ? Status::ACTIVE : Status::INACTIVE;
             $data[] = [
                 $dado->id, 
                 $dado->name,

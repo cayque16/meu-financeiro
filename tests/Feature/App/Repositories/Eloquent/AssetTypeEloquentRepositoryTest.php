@@ -2,14 +2,12 @@
 
 namespace Tests\Feature\App\Repositories\Eloquent;
 
-use App\Models\Asset;
 use App\Repositories\Eloquent\AssetsTypeEloquentRepository;
 use Tests\TestCase;
 use App\Models\AssetsType as AssetTypeModel;
 use Core\Domain\Entity\AssetType as AssetTypeEntity;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\ValueObject\Uuid;
-use Tests\Unit\Domain\ValueObject\UuidUnitTest;
 
 class AssetTypeEloquentRepositoryTest extends TestCase
 {
@@ -112,5 +110,21 @@ class AssetTypeEloquentRepositoryTest extends TestCase
         $this->assertEquals('new desc', $result->description);
         $this->assertNotEquals($typeDb->nome, $result->name);
         $this->assertNotEquals($typeDb->descricao, $result->description);
+    }
+
+    public function testActivate()
+    {
+        $typeDb = AssetTypeModel::factory()->create([
+            'deleted_at' => now(),
+        ]);
+        
+        $this->assertTrue($this->repository->activate($typeDb->uuid));
+    }
+
+    public function testDisable()
+    {
+        $typeDb = AssetTypeModel::factory()->create();
+        
+        $this->assertTrue($this->repository->disable($typeDb->uuid));
     }
 }

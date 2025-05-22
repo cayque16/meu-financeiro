@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Eloquent;
 
-use Core\Domain\Repository\BaseRepositoryInterface;
 use App\Models\AssetsType as AssetsTypeModel;
 use Core\Domain\Entity\AssetType as AssetTypeEntity;
 use Core\Domain\Entity\BaseEntity;
@@ -31,7 +30,7 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
 
     public function findByUuid(Uuid|string $uuid): ?Model
     {
-        if (!$entity =  $this->model->where('uuid', $uuid)->first()) {
+        if (!$entity =  $this->model->withTrashed()->where('uuid', $uuid)->first()) {
             return null;
         } 
 
@@ -83,6 +82,24 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
     public function delete(BaseEntity $entity): bool
     {
         throw new NotImplementedException('This method has not been implemented!');
+    }
+
+    public function activate(string $id): ?bool
+    {
+        if (!$typeBd = $this->findByUuid($id)) {
+            return null;
+        }
+
+        return $typeBd->restore();
+    }
+
+    public function disable(string $id): ?bool
+    {
+        if (!$typeBd = $this->findByUuid($id)) {
+            return null;
+        }
+
+        return $typeBd->delete();
     }
 
     public function toBaseEntity(object $data): BaseEntity
