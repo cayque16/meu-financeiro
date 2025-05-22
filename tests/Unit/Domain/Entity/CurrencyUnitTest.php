@@ -2,21 +2,19 @@
 
 namespace Tests\Unit\Domain\Entity;
 
+use Core\Domain\Entity\BaseEntity;
 use Core\Domain\Entity\Currency;
 use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\ValueObject\Date;
 use PHPUnit\Framework\TestCase;
 
-class CurrencyUnitTest extends TestCase
+class CurrencyUnitTest extends EntityTestCaseUnitTest
 {
-    public function testConstruct()
+    protected function entity(): BaseEntity
     {
-        $currency = new Currency("test", "R$", "BRL", 100, description: "desc");
-        $this->assertNotNull($currency->id());
-        $this->assertInstanceOf(Date::class, $currency->createdAt);
-        $this->assertSame("", $currency->deletedAt);
-        $this->assertSame("", $currency->updatedAt);
+        return new Currency("test", "R$", "BRL", 100, description: "desc");
     }
+
     /**
      * @dataProvider providerConstruct
      */

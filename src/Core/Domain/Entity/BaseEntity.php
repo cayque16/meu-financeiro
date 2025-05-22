@@ -14,9 +14,9 @@ class BaseEntity
 
     protected function __construct(
         protected Uuid|string $id = '',
-        protected Date|string $createdAt = '',
-        protected Date|string $deletedAt = '',
-        protected Date|string $updatedAt = '',
+        protected ?Date $createdAt = null,
+        protected ?Date $deletedAt = null,
+        protected ?Date $updatedAt = null,
     ) {
         $this->id = $this->id ? new Uuid($this->id) : Uuid::random();
         $this->createdAt = $this->createdAt ? new Date($this->createdAt) : new Date();
@@ -37,40 +37,25 @@ class BaseEntity
         return (string) $this->id;
     }
 
-    /*public function createdAt(): Date|string
+    public function createdAt(): ?Date
     {
-        return $this->createdAt;
+        return $this->createdAt ?? null;
     }
 
-    public function deletedAt(): Date|string
+    public function updatedAt(): ?Date
     {
-        return $this->excludedAt;
+        return $this->updatedAt ?? null;
     }
 
-    public function getCreatedAt(): DateTime
+    public function deletedAt(): ?Date
     {
-        return $this->createdAt;
-    }
-
-    public function getExcludedAt(): ?DateTime
-    {
-        return $this->excludedAt;
-    }
-
-    public function activate(): void
-    {
-        $this->excludedAt = null;
-    }
-
-    public function disable(): void
-    {
-        $this->excludedAt = new DateTime();
+        return $this->deletedAt ?? null;
     }
 
     public function isActive(): bool
     {
-        return empty($this->excludedAt);
-    }*/
+        return is_null($this->deletedAt);
+    }
 
     protected function validation()
     {

@@ -6,7 +6,6 @@ use Core\Domain\Enum\DividendType;
 use Core\Domain\Validation\Factories\DividendPaymentValidatorFactory;
 use Core\Domain\ValueObject\Date;
 use Core\Domain\ValueObject\Uuid;
-use DateTime;
 
 class DividendPayment extends BaseEntity
 {
@@ -17,9 +16,9 @@ class DividendPayment extends BaseEntity
         protected int $amount,
         protected Currency $currency,
         protected Uuid|string $id = '',
-        protected Date|string $createdAt = '',
-        protected Date|string $deletedAt = '',
-        protected Date|string $updatedAt = '',
+        protected ?Date $createdAt = null,
+        protected ?Date $deletedAt = null,
+        protected ?Date $updatedAt = null,
     ) {
         parent::__construct($id, $createdAt, $deletedAt);
         

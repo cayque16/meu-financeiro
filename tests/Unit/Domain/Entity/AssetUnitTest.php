@@ -4,22 +4,16 @@ namespace Tests\Unit\Domain\Entity;
 
 use Core\Domain\Entity\Asset;
 use Core\Domain\Entity\AssetType;
+use Core\Domain\Entity\BaseEntity;
 use Core\Domain\Exception\EntityValidationException;
-use Core\Domain\ValueObject\Date;
 use Mockery;
-use PHPUnit\Framework\TestCase;
 
-class AssetUnitTest extends TestCase
+class AssetUnitTest extends EntityTestCaseUnitTest
 {
-    public function testConstruct()
+    protected function entity(): BaseEntity
     {
         $mockType = $this->mockType();
-        $asset = new Asset("TEST", $mockType);
-
-        $this->assertNotNull($asset->id());
-        $this->assertInstanceOf(Date::class, $asset->createdAt);
-        $this->assertSame("", $asset->deletedAt);
-        $this->assertSame("", $asset->updatedAt);
+        return new Asset("TEST", $mockType);
     }
 
     /**

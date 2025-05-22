@@ -4,6 +4,7 @@ namespace Tests\Unit\Domain\Entity;
 
 use Core\Domain\Entity\Asset;
 use Core\Domain\Entity\AssetType;
+use Core\Domain\Entity\BaseEntity;
 use Core\Domain\Entity\Currency;
 use Core\Domain\Entity\DividendPayment;
 use Core\Domain\Enum\DividendType;
@@ -13,9 +14,9 @@ use Mockery;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
-class DividendPaymentUnitTest extends TestCase
+class DividendPaymentUnitTest extends EntityTestCaseUnitTest
 {
-    public function testConstruct()
+    protected function entity(): BaseEntity
     {
         $payment =  new DividendPayment(
             $this->mockAsset(),
@@ -25,10 +26,7 @@ class DividendPaymentUnitTest extends TestCase
             $this->mockCurrency()
         );
 
-        $this->assertNotNull($payment->id());
-        $this->assertInstanceOf(Date::class, $payment->createdAt);
-        $this->assertSame("", $payment->deletedAt);
-        $this->assertSame("", $payment->updatedAt);
+        return $payment;
     }
 
     public function testExceptionsInConstructor()

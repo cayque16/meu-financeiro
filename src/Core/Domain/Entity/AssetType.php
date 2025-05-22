@@ -12,9 +12,9 @@ class AssetType extends BaseEntity
         protected string $name,
         protected Uuid|string $id = '',
         protected string $description = '',
-        protected Date|string $createdAt = '',
-        protected Date|string $deletedAt = '',
-        protected Date|string $updatedAt = '',
+        protected ?Date $createdAt = null,
+        protected ?Date $deletedAt = null,
+        protected ?Date $updatedAt = null,
         protected ?int $oldId = 0,
     ) {
         parent::__construct($id, $createdAt, $deletedAt);
