@@ -4,6 +4,7 @@ namespace Tests\Unit\UseCase\Asset;
 
 use Core\Domain\Entity\Asset;
 use Core\Domain\Entity\AssetType;
+use Core\Domain\Repository\AssetRepositoryInterface;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\ValueObject\Date;
 use Core\UseCase\Asset\ListAssetUseCase;
@@ -55,7 +56,7 @@ class ListAssetUseCaseUnitTest extends TestCase
 
     private function mockRepository($uuid, $mockEntity)
     {
-        $mockRepository = Mockery::mock(stdClass::class, BaseRepositoryInterface::class);
+        $mockRepository = Mockery::mock(stdClass::class, AssetRepositoryInterface::class);
         $mockRepository->shouldReceive("findById")
             ->once()   
             ->with($uuid)

@@ -3,7 +3,8 @@
 namespace Core\UseCase\Asset;
 
 use Core\Domain\Entity\Asset;
-use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\Repository\AssetRepositoryInterface;
+use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Core\UseCase\DTO\Asset\Create\CreateAssetInputDto;
 use Core\UseCase\DTO\Asset\Create\CreateAssetOutputDto;
 use Core\UseCase\Exceptions\NotFoundException;
@@ -11,8 +12,8 @@ use Core\UseCase\Exceptions\NotFoundException;
 class CreateAssetUseCase
 {
     public function __construct(
-        protected BaseRepositoryInterface $repoAsset,
-        protected BaseRepositoryInterface $repoAssetType,
+        protected AssetRepositoryInterface $repoAsset,
+        protected AssetTypeRepositoryInterface $repoAssetType,
     ) { }
 
     public function execute(CreateAssetInputDto $input): CreateAssetOutputDto

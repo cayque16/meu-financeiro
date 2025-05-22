@@ -85,6 +85,9 @@ class AssetEloquentRepositoryTest extends TestCase
         $result = $this->repository->findAll();
 
         $this->assertCount($count, $result);
+        foreach ($result as $item) {
+            $this->assertInstanceOf(AssetEntity::class, $item);
+        }
     }
 
     public function testUpdateNotFound()

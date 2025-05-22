@@ -2,17 +2,17 @@
 
 namespace App\Repositories\Eloquent;
 
-use Core\Domain\Repository\BaseRepositoryInterface;
 use App\Models\Asset as AssetModel;
 use App\Models\AssetsType;
 use Core\Domain\Entity\Asset as AssetEntity;
 use Core\Domain\Entity\BaseEntity;
+use Core\Domain\Repository\AssetRepositoryInterface;
 use Core\Domain\ValueObject\Date;
 use Core\UseCase\Exceptions\NotImplementedException;
 use Core\Domain\ValueObject\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class AssetEloquentRepository implements BaseRepositoryInterface
+class AssetEloquentRepository implements AssetRepositoryInterface
 {
     protected AssetsTypeEloquentRepository $repoAssetsType;
 
@@ -56,6 +56,7 @@ class AssetEloquentRepository implements BaseRepositoryInterface
     public function findAll(string $filter = '', $orderBy = 'DESC'): array
     {
         $result = $this->model
+            ->withTrashed()
             ->where(function ($query) use ($filter) {
                 if ($filter) {
                     $query->where('codigo', 'LIKE', "%{$filter}%");
@@ -64,7 +65,11 @@ class AssetEloquentRepository implements BaseRepositoryInterface
             ->orderBy('codigo', $orderBy)
             ->get();
         
-        return $result->toArray();
+        $return = [];
+        foreach ($result->all() as $model) {
+            $return[] = $this->toBaseEntity($model);
+        }
+        return $return;
     }
 
     public function update(BaseEntity $entity): ?BaseEntity

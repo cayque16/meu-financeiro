@@ -4,6 +4,8 @@ namespace Tests\Unit\UseCase\Asset;
 
 use Core\Domain\Entity\Asset;
 use Core\Domain\Entity\AssetType;
+use Core\Domain\Repository\AssetRepositoryInterface;
+use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\ValueObject\Date;
 use Core\UseCase\Asset\UpdateAssetUseCase;
@@ -24,7 +26,7 @@ class UpdateAssetUseCaseUnitTest extends TestCase
         
         $mockEntity = $this->mockEntity($uuid, $uuidType, times1: 1, times2: 0);
 
-        $mockRepoAssetType = $this->mockRepo("findById", $this->mockType($uuidType));
+        $mockRepoAssetType = $this->mockRepo("findById", $this->mockType($uuidType), interface: AssetTypeRepositoryInterface::class);
 
         $mockRepoAsset = $this->mockRepo(
             "update",
@@ -54,7 +56,7 @@ class UpdateAssetUseCaseUnitTest extends TestCase
             times1: 0,
             times2: 0
         );
-        $mockRepoAssetType = $this->mockRepo("findById", $mockEntity, 0);
+        $mockRepoAssetType = $this->mockRepo("findById", $mockEntity, 0, interface: AssetTypeRepositoryInterface::class);
 
         $useCase = new UpdateAssetUseCase($mockRepoAsset, $mockRepoAssetType);
 
@@ -68,7 +70,7 @@ class UpdateAssetUseCaseUnitTest extends TestCase
             "findById",
             $this->mockEntity($this->getUuid(), $this->getUuid(), times1: 0, times2: 0)
         );
-        $mockRepoAssetType = $this->mockRepo("findById", null);
+        $mockRepoAssetType = $this->mockRepo("findById", null, interface: AssetTypeRepositoryInterface::class);
         $useCase = new UpdateAssetUseCase($mockRepoAsset, $mockRepoAssetType);
 
         $this->expectException(NotFoundException::class);
@@ -90,11 +92,11 @@ class UpdateAssetUseCaseUnitTest extends TestCase
         return $mockInput;
     }
 
-    private function mockRepo($name, $return, $times = 1)
+    private function mockRepo($name, $return, $times = 1, $interface = AssetRepositoryInterface::class)
     {
         $mockRepository = Mockery::mock(
             stdClass::class,
-            BaseRepositoryInterface::class
+            $interface
         );
         $mockRepository->shouldReceive($name)
             ->times($times)

@@ -30,10 +30,10 @@ class Asset extends Model
         'deleted_at' => 'datetime',
     ];
 
-    // public function __construct()
-    // {
-    //     parent::__construct($this);
-    // }
+    public function getAll()
+    {
+        return self::all();
+    }
 
     public function sltAssets($arrayStatus = [Status::ACTIVE])
     {

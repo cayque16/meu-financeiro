@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\Eloquent\AssetEloquentRepository;
 use App\Repositories\Eloquent\AssetsTypeEloquentRepository;
+use Core\Domain\Repository\AssetRepositoryInterface;
 use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             AssetTypeRepositoryInterface::class,
             AssetsTypeEloquentRepository::class
+        );
+        $this->app->singleton(
+            AssetRepositoryInterface::class,
+            AssetEloquentRepository::class
         );
     }
 }

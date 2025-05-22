@@ -2,7 +2,8 @@
 
 namespace Core\UseCase\Asset;
 
-use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\Repository\AssetRepositoryInterface;
+use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Core\UseCase\DTO\Asset\Update\UpdateAssetInputDto;
 use Core\UseCase\DTO\Asset\Update\UpdateAssetOutputDto;
 use Core\UseCase\Exceptions\NotFoundException;
@@ -10,8 +11,8 @@ use Core\UseCase\Exceptions\NotFoundException;
 class UpdateAssetUseCase
 {
     public function __construct(
-        protected BaseRepositoryInterface $repoAsset,
-        protected BaseRepositoryInterface $repoAssetType,
+        protected AssetRepositoryInterface $repoAsset,
+        protected AssetTypeRepositoryInterface $repoAssetType,
     ) { }
 
     public function execute(UpdateAssetInputDto $input): UpdateAssetOutputDto

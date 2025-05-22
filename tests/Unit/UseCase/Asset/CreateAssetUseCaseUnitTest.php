@@ -5,6 +5,8 @@ namespace Tests\Unit\UseCase\Asset;
 use Core\Domain\Entity\Asset;
 use Core\Domain\Entity\AssetType;
 use Core\Domain\Enum\DividendType;
+use Core\Domain\Repository\AssetRepositoryInterface;
+use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\ValueObject\Date;
 use Core\UseCase\Asset\CreateAssetUseCase;
@@ -33,9 +35,9 @@ class CreateAssetUseCaseUnitTest extends TestCase
         $mockEntity->shouldReceive('updatedAt')->once()->andReturn(null);
         $mockEntity->shouldReceive('deletedAt')->once()->andReturn(null);
 
-        $mockRepoAsset = $this->mockRepo("insert", $mockEntity);
+        $mockRepoAsset = $this->mockRepo("insert", $mockEntity, interface: AssetRepositoryInterface::class);
 
-        $mockRepoAssetType = $this->mockRepo("findById", $mockType);
+        $mockRepoAssetType = $this->mockRepo("findById", $mockType, interface: AssetTypeRepositoryInterface::class);
 
         $useCase = new CreateAssetUseCase($mockRepoAsset, $mockRepoAssetType);
 
@@ -48,9 +50,9 @@ class CreateAssetUseCaseUnitTest extends TestCase
 
     public function testCreateNotFoundAssetType()
     {
-        $mockRepoAsset = $this->mockRepo("insert", null, 0);
+        $mockRepoAsset = $this->mockRepo("insert", null, 0, interface: AssetRepositoryInterface::class);
 
-        $mockRepoAssetType = $this->mockRepo("findById", null);
+        $mockRepoAssetType = $this->mockRepo("findById", null, interface: AssetTypeRepositoryInterface::class);
 
         $useCase = new CreateAssetUseCase($mockRepoAsset, $mockRepoAssetType);
 
@@ -68,9 +70,9 @@ class CreateAssetUseCaseUnitTest extends TestCase
         return $mockInput;
     }
 
-    private function mockRepo($name, $return, $times = 1)
+    private function mockRepo($name, $return, $times = 1, $interface = AssetRepositoryInterface::class)
     {
-        $mockRepo = Mockery::mock(stdClass::class, BaseRepositoryInterface::class);
+        $mockRepo = Mockery::mock(stdClass::class, $interface);
         $mockRepo->shouldReceive($name)
             ->times($times)
             ->andReturn($return);
