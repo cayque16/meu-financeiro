@@ -30,32 +30,8 @@ class AssetsType extends Model
         'deleted_at' => 'datetime',
     ];
 
-    // public function __construct()
-    // {
-    //     parent::__construct($this);
-    // }
-
     public function assets()
     {
         return $this->belongsTo(Asset::class, 'uuid_assets_type', 'uuid');
-    }
-
-    public function sltAssetsTypes($arrayStatus = [Status::ACTIVE])
-    {
-        return AssetsType::select('id', 'nome')
-                ->whereIn('e_excluido', $arrayStatus)
-                ->orderBy('nome')
-                ->get()
-                ->toArray();
-    }
-
-    public function getAll()
-    {
-        return AssetsType::all();
-    }
-
-    public function getFindOrFail($id)
-    {
-        return AssetsType::findOrFail($id);
     }
 }
