@@ -70,4 +70,24 @@ class AssetsTypeControllerTest extends TestCase
             'descricao'=> 'desc'
         ]);
     }
+
+    public function testActivate()
+    {
+        $this->login();
+        $type = AssetsType::factory()->create();
+        
+        $response = $this->get("/assets_type/enable/{$type->uuid}/0");        
+        $response->assertStatus(Response::HTTP_FOUND);
+        $response->assertRedirect("/assets_type");
+    }
+
+    public function testDisable()
+    {
+        $this->login();
+        $type = AssetsType::factory()->create();
+
+        $response = $this->get("/assets_type/enable/{$type->uuid}/1");
+        $response->assertStatus(Response::HTTP_FOUND);
+        $response->assertRedirect("/assets_type");
+    }
 }
