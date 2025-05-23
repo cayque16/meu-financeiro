@@ -7,7 +7,9 @@ use App\Enums\Status;
 use App\Http\Requests\StoreAssetRequest;
 use Core\UseCase\Asset\CreateAssetUseCase;
 use Core\UseCase\Asset\ListAssetsUseCase;
+use Core\UseCase\Asset\ListAssetUseCase;
 use Core\UseCase\AssetType\ListAssetsTypesUseCase;
+use Core\UseCase\DTO\Asset\AssetInputDto;
 use Core\UseCase\DTO\Asset\Create\CreateAssetInputDto;
 use Core\UseCase\DTO\Asset\ListAssets\ListAssetsInputDto;
 use Core\UseCase\DTO\AssetType\ListAssetsTypes\ListAssetsTypesInputDto;
@@ -49,6 +51,16 @@ class AssetsController extends Controller
         );
 
         return redirect("/assets")->with("msg", "Ativo inserido com sucesso!");
+    }
+    
+    public function edit(ListAssetUseCase $useCase, $id)
+    {
+        $dados['btnVoltar'] = getBtnLink(ButtonType::BACK, link: "/assets");
+        $dados['modelBase'] = $useCase->execute(new AssetInputDto($id));
+        $dados['titulo'] = 'Editar';
+        $dados['action'] = "/assets/update/$id";
+
+        return view("assets.create_edit", $dados);
     }
 
     private function getAssetsType($types)

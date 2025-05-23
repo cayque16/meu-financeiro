@@ -49,4 +49,15 @@ class AssetControllerTest extends TestCase
             "descricao" => "desc",
         ]);
     }
+
+    public function testEdit()
+    {
+        $this->login();
+        AssetsType::factory()->create();
+        $asset = Asset::factory()->create();
+
+        $response = $this->get("/assets/edit/{$asset->uuid}");
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertViewIs("assets.create_edit");
+    }
 }
