@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::table("assets", function (Blueprint $table) {
             $table->uuid("uuid")->nullable()->after("id");
         });
-        Asset::whereNull('uuid')->chunk(100, function ($types) {
+        Asset::whereNull('uuid')->withTrashed()->chunk(100, function ($types) {
             foreach ($types as $type) {
                 $type->uuid = Str::uuid();
                 $type->save();
