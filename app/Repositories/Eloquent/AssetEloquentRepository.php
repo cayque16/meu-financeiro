@@ -37,7 +37,7 @@ class AssetEloquentRepository implements AssetRepositoryInterface
 
     public function findByUuid(Uuid|string $uuid): ?Model
     {
-        if (!$entity =  $this->model->where('uuid', $uuid)->first()) {
+        if (!$entity =  $this->model->withTrashed()->where('uuid', $uuid)->first()) {
             return null;
         } 
 

@@ -18,9 +18,9 @@
     @endif
     @php
         echo $btnVoltar;    
-        $vCodigo = isset($modelBase) ? $modelBase->codigo : (isset($request) ? $request->old('codigo') : '') ;
-        $vDescricao = isset($modelBase) ? $modelBase->descricao : (isset($request) ? $request->old('descricao') : '');
-        $vIdAssetsType = isset($modelBase) ? $modelBase->id_assets_type : (isset($request) ? $request->old('id_assets_type') : '');
+        $vCodigo = isset($modelBase) ? $modelBase->code : (isset($request) ? $request->old('codigo') : '') ;
+        $vDescricao = isset($modelBase) ? $modelBase->description : (isset($request) ? $request->old('descricao') : '');
+        $vIdAssetsType = isset($modelBase) ? $modelBase->typeId : (isset($request) ? $request->old('id_assets_type') : '');
     @endphp
     <form action="{{ $action }}" method="post">
         {{ csrf_field() }}

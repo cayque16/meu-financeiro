@@ -8,11 +8,15 @@ use App\Http\Requests\StoreAssetRequest;
 use Core\UseCase\Asset\CreateAssetUseCase;
 use Core\UseCase\Asset\ListAssetsUseCase;
 use Core\UseCase\Asset\ListAssetUseCase;
+use Core\UseCase\Asset\UpdateAssetUseCase;
 use Core\UseCase\AssetType\ListAssetsTypesUseCase;
 use Core\UseCase\DTO\Asset\AssetInputDto;
 use Core\UseCase\DTO\Asset\Create\CreateAssetInputDto;
 use Core\UseCase\DTO\Asset\ListAssets\ListAssetsInputDto;
+use Core\UseCase\DTO\Asset\Update\UpdateAssetInputDto;
 use Core\UseCase\DTO\AssetType\ListAssetsTypes\ListAssetsTypesInputDto;
+
+use function PHPSTORM_META\type;
 
 class AssetsController extends Controller
 {
@@ -53,14 +57,36 @@ class AssetsController extends Controller
         return redirect("/assets")->with("msg", "Ativo inserido com sucesso!");
     }
     
-    public function edit(ListAssetUseCase $useCase, $id)
-    {
-        $dados['btnVoltar'] = getBtnLink(ButtonType::BACK, link: "/assets");
-        $dados['modelBase'] = $useCase->execute(new AssetInputDto($id));
-        $dados['titulo'] = 'Editar';
-        $dados['action'] = "/assets/update/$id";
+    public function edit(
+        ListAssetUseCase $useCaseAsset,
+        ListAssetsTypesUseCase $useCaseType,
+        $id
+    ) {
+        $types = $useCaseType->execute(new ListAssetsTypesInputDto(includeInactive: false));
+        $data['btnVoltar'] = getBtnLink(ButtonType::BACK, link: "/assets");
+        $data['modelBase'] = $useCaseAsset->execute(new AssetInputDto($id));
+        $data['titulo'] = 'Editar';
+        $data['action'] = "/assets/update/$id";
+        $data["assetsType"] = $this->getAssetsType(($types->items));
 
-        return view("assets.create_edit", $dados);
+        return view("assets.create_edit", $data);
+    }
+
+    public function update(
+        StoreAssetRequest $request,
+        UpdateAssetUseCase $useCase,
+        $id,
+    ) {
+        $useCase->execute(
+            new UpdateAssetInputDto(
+                id: $id,
+                code: $request->codigo,
+                idType: $request->id_assets_type,
+                description: $request->descricao,
+            )
+        );
+
+        return redirect("/assets")->with("msg", "Ativo editado com sucesso!");
     }
 
     private function getAssetsType($types)

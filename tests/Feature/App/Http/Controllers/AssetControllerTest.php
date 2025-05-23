@@ -60,4 +60,58 @@ class AssetControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertViewIs("assets.create_edit");
     }
+
+    public function testUpdate()
+    {
+        $this->login();
+        $type = AssetsType::factory()->create();
+        $asset = Asset::factory()->create();
+
+        $response = $this->post("/assets/update/{$asset->uuid}", [
+            "codigo" => "test",
+            "descricao" => "desc",
+            "id_assets_type" => $type->uuid,
+        ]);
+        
+        $response->assertStatus(Response::HTTP_FOUND);
+        $response->assertRedirect("/assets");
+        $this->assertDatabaseHas("assets", [
+            'id' => $asset->id,
+            'uuid' => $asset->uuid,
+            'codigo' => 'test',
+            'descricao'=> 'desc',
+            "uuid_assets_type" => $type->uuid,
+        ]);
+    }
+
+    /**
+     * @dataProvider providerUpdateValidation
+     */
+    public function testUpdateFailsValidation(
+        $key1,
+        $value1,
+        $key2,
+        $value2,
+        $failed
+    ) {
+        $this->login();
+        AssetsType::factory()->create();
+        $asset = Asset::factory()->create();
+
+        $response = $this->post("/assets/update/{$asset->uuid}", [
+            $key1 => $value1,
+            $key2 => $value2,
+        ]);
+
+        $response->assertSessionHasErrors([$failed]);
+    }
+
+    protected function providerUpdateValidation()
+    {
+        return [
+            "codigoMissing" => ["descricao", "desc", "id_assets_type", "uuid", "codigo"],
+            "descricaoMissing" => ["codigo", "test", "id_assets_type", "uuid", "descricao"],
+            "idAssetsTypeMissing" => ["codigo", "test", "descricao", "desc", "id_assets_type"],
+        ];
+    }
 }

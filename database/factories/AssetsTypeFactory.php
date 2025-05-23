@@ -24,7 +24,7 @@ class AssetsTypeFactory extends Factory
             'uuid' => (string) Str::uuid(),
             'nome' => $this->faker->name(),
             'descricao' => $this->faker->sentence(1),
-            // 'deleted_at' => null,
+            'deleted_at' => null,
             'created_at' => now(),
         ];
     }

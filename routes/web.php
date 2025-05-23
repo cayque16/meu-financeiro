@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/assets/create', [App\Http\Controllers\AssetsController::class, 'create']);
     Route::post('/assets', [App\Http\Controllers\AssetsController::class, 'store']);
     Route::get('/assets/edit/{id}', [App\Http\Controllers\AssetsController::class, 'edit']);
-    Route::post('/assets/update/{id}', [App\Http\Controllers\AssetsController::class, 'update']);
+    Route::post('/assets/update/{uuid}', [App\Http\Controllers\AssetsController::class, 'update']);
     Route::get('/assets/enable/{id}/{eExcluido}', [App\Http\Controllers\AssetsController::class, 'enable']);
 
     // Route::get('/assetsOld', [App\Http\Controllers\AssetsControllerOld::class, 'index']);
