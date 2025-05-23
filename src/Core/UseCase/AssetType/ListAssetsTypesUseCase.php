@@ -17,6 +17,7 @@ class ListAssetsTypesUseCase
         $assetsTypes = $this->repository->findAll(
             filter: $input->filter,
             orderBy: $input->order,
+            includeInactive: $input->includeInactive,
         );
 
         return new ListAssetsTypesOutputDto($assetsTypes);

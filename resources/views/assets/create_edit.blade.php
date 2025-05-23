@@ -25,11 +25,20 @@
     <form action="{{ $action }}" method="post">
         {{ csrf_field() }}
         <div class="col-sm-12 col-sm-offset-3">
-            <x-adminlte-input name="codigo" label="Código" placeholder="Insira o código do ativo..."
+            <label for="codigo">Código:
+                <span class="asterisco" data-toggle="tooltip" title data-original-title="Campo com preenchimento obrigatório.">*</span>
+            </label>
+            <x-adminlte-input name="codigo" placeholder="Insira o código do ativo..."
                 fgroup-class="col-md-12" value="{{ $vCodigo }}" disable-feedback/>
-            <x-adminlte-input name="descricao" label="Descrição" placeholder="Insira a descrição do ativo..."
+            <label for="descricao">Descrição:
+                <span class="asterisco" data-toggle="tooltip" title data-original-title="Campo com preenchimento obrigatório.">*</span>
+            </label>
+            <x-adminlte-input name="descricao" placeholder="Insira a descrição do ativo..."
             fgroup-class="col-md-12" value="{{ $vDescricao }}" disable-feedback/>
-            <x-adminlte-select2 name="id_assets_type" label="Tipo de Ativo" fgroup-class="col-md-12" disable-feedback>
+            <label for="id_assets_type">Tipo de Ativo:
+                <span class="asterisco" data-toggle="tooltip" title data-original-title="Campo com preenchimento obrigatório.">*</span>
+            </label>
+            <x-adminlte-select2 name="id_assets_type" fgroup-class="col-md-12" disable-feedback>
                 <option value='' selected>Selecione...</option>
                 @foreach ($assetsType as $id => $type)
                     @if($vIdAssetsType == $id)

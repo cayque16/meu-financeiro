@@ -46,23 +46,17 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
         return null;
     }
 
-    public function findAll(string $filter = '', $orderBy = 'DESC'): array
+    public function findAll(string $filter = '', string $orderBy = 'DESC', bool $includeInactive = true): array
     {
-        $result = $this->model
-            ->withTrashed()
-            ->where(function ($query) use ($filter) {
-                if ($filter) {
-                    $query->where('nome', 'LIKE', "%{$filter}%");
-                }
-            })
-            ->orderBy('nome', $orderBy)
-            ->get();
-        
-        $return = [];
-        foreach ($result->all() as $model) {
-            $return[] = $this->toBaseEntity($model);
+        $query = $includeInactive ? $this->model->withTrashed() : $this->model->newQuery();
+
+        if ($filter) {
+            $query->where('nome', 'LIKE', "%{$filter}%");
         }
-        return $return;
+
+        $result = $query->orderBy('nome', $orderBy)->get();
+
+        return $result->map(fn ($model) => $this->toBaseEntity($model))->all();
     }
 
     public function update(BaseEntity $entity): ?BaseEntity

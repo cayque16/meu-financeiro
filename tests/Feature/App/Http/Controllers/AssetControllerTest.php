@@ -21,4 +21,32 @@ class AssetControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertViewIs("assets.index");
     }
+
+    public function testCreate()
+    {
+        $this->login();
+        $response = $this->get('/assets/create');
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertViewIs("assets.create_edit");
+    }
+
+    public function testStore()
+    {
+        $this->login();
+        $type = AssetsType::factory()->create();
+        $data = [
+            "codigo" => "test",
+            "id_assets_type" => $type->uuid,
+            "descricao" => "desc",
+        ];
+
+        $response = $this->post("/assets", $data);
+        $response->assertStatus(Response::HTTP_FOUND);
+        $response->assertRedirect("/assets");
+        $this->assertDatabaseHas("assets", [
+            "codigo" => "test",
+            "uuid_assets_type" => $type->uuid,
+            "descricao" => "desc",
+        ]);
+    }
 }

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AssetsTypeController;
-use App\Http\Controllers\AssetsTypeControllerOld;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,19 +25,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::post('/home', [App\Http\Controllers\HomeController::class, 'index']);
   
-    // Route::resource('/assets_type', AssetsTypeController::class);
     Route::get('/assets_type', [AssetsTypeController::class, 'index']);
     Route::get('/assets_type/create', [AssetsTypeController::class, 'create']);
     Route::post('/assets_type', [AssetsTypeController::class, 'store']);
     Route::get('/assets_type/edit/{uuid}', [AssetsTypeController::class, 'edit']);
     Route::post('/assets_type/update/{uuid}', [AssetsTypeController::class, 'update']);
     Route::get('/assets_type/enable/{uuid}/{value}', [AssetsTypeController::class, 'enable']);
-    // Route::get('/assets_type', [App\Http\Controllers\AssetsTypeControllerOld::class, 'index']);
-    // Route::get('/assets_type/create', [App\Http\Controllers\AssetsTypeControllerOld::class, 'create']);
-    // Route::post('/assets_type', [App\Http\Controllers\AssetsTypeControllerOld::class, 'store']);
-    // Route::get('assets_type/edit/{id}', [App\Http\Controllers\AssetsTypeControllerOld::class, 'edit']);
-    // Route::post('/assets_type/update/{id}', [App\Http\Controllers\AssetsTypeControllerOld::class, 'update']);
-    // Route::get('assets_type/enable/{id}/{eExcluido}', [App\Http\Controllers\AssetsTypeControllerOld::class, 'enable']);
 
     Route::get('/assets', [App\Http\Controllers\AssetsController::class, 'index']);
     Route::get('/assets/create', [App\Http\Controllers\AssetsController::class, 'create']);
@@ -46,6 +38,13 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/assets/edit/{id}', [App\Http\Controllers\AssetsController::class, 'edit']);
     Route::post('/assets/update/{id}', [App\Http\Controllers\AssetsController::class, 'update']);
     Route::get('/assets/enable/{id}/{eExcluido}', [App\Http\Controllers\AssetsController::class, 'enable']);
+
+    // Route::get('/assetsOld', [App\Http\Controllers\AssetsControllerOld::class, 'index']);
+    // Route::get('/assetsOld/create', [App\Http\Controllers\AssetsControllerOld::class, 'create']);
+    // Route::post('/assetsOld', [App\Http\Controllers\AssetsControllerOld::class, 'store']);
+    // Route::get('/assetsOld/edit/{id}', [App\Http\Controllers\AssetsControllerOld::class, 'edit']);
+    // Route::post('/assetsOld/update/{id}', [App\Http\Controllers\AssetsControllerOld::class, 'update']);
+    // Route::get('/assetsOld/enable/{id}/{eExcluido}', [App\Http\Controllers\AssetsControllerOld::class, 'enable']);
 
     Route::get('/brokerages', [App\Http\Controllers\BrokeragesController::class, 'index']);
     Route::get('/brokerages/create', [App\Http\Controllers\BrokeragesController::class, 'create']);

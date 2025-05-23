@@ -53,7 +53,7 @@ class AssetEloquentRepository implements AssetRepositoryInterface
         return null;
     }
 
-    public function findAll(string $filter = '', $orderBy = 'DESC'): array
+    public function findAll(string $filter = '', string $orderBy = 'DESC', bool $includeInactive = true): array
     {
         $result = $this->model
             ->withTrashed()

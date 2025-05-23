@@ -14,7 +14,7 @@ interface BaseRepositoryInterface
 
     public function findByUuid(Uuid|string $uuid): ?Model;
 
-    public function findAll(string $filter = '', $orderBy = 'DESC'): array;
+    public function findAll(string $filter = '', string $orderBy = 'DESC', bool $includeInactive = true): array;
 
     public function update(BaseEntity $entity): ?BaseEntity;
 

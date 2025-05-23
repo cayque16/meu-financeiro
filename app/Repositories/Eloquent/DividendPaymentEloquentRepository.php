@@ -80,7 +80,7 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
         return $this->toBaseEntity($entity);
     }
 
-    public function findAll(string $filter = '', $orderBy = 'DESC'): array
+    public function findAll(string $filter = '', string $orderBy = 'DESC', bool $includeInactive = true): array
     {
         $result = $this->model
             ->where(function ($query) use ($filter) {
