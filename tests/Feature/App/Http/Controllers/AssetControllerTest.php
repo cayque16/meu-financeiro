@@ -50,6 +50,27 @@ class AssetControllerTest extends TestCase
         ]);
     }
 
+     /**
+     * @dataProvider providerValidations
+     */
+    public function testStoreFailsValidation(
+        $key1,
+        $value1,
+        $key2,
+        $value2,
+        $failed
+    ) {
+        $this->login();
+        $data = [
+            $key1 => $value1,
+            $key2 => $value2,
+        ];
+
+        $response = $this->post("/assets", $data);
+
+        $response->assertSessionHasErrors([$failed]);
+    }
+
     public function testEdit()
     {
         $this->login();
@@ -85,7 +106,7 @@ class AssetControllerTest extends TestCase
     }
 
     /**
-     * @dataProvider providerUpdateValidation
+     * @dataProvider providerValidations
      */
     public function testUpdateFailsValidation(
         $key1,
@@ -106,7 +127,7 @@ class AssetControllerTest extends TestCase
         $response->assertSessionHasErrors([$failed]);
     }
 
-    protected function providerUpdateValidation()
+    protected function providerValidations()
     {
         return [
             "codigoMissing" => ["descricao", "desc", "id_assets_type", "uuid", "codigo"],
