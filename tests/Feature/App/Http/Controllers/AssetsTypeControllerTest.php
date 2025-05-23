@@ -5,6 +5,7 @@ namespace Tests\Feature\App\Http\Controllers;
 use App\Models\AssetsType;
 use Tests\TestCase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 
 class AssetsTypeControllerTest extends TestCase
 {
@@ -74,11 +75,19 @@ class AssetsTypeControllerTest extends TestCase
     public function testActivate()
     {
         $this->login();
-        $type = AssetsType::factory()->create();
+        $uuid = (string) Str::uuid();
+        $type = AssetsType::factory()->create([
+            'uuid' => $uuid,
+            'deleted_at' => now(),
+        ]);
         
-        $response = $this->get("/assets_type/enable/{$type->uuid}/0");        
+        $response = $this->get("/assets_type/enable/{$type->uuid}/1");        
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect("/assets_type");
+        $this->assertDatabaseHas("assets_types", [
+            "uuid" => $type->uuid,
+            "deleted_at" => null,
+        ]);
     }
 
     public function testDisable()
@@ -86,8 +95,16 @@ class AssetsTypeControllerTest extends TestCase
         $this->login();
         $type = AssetsType::factory()->create();
 
-        $response = $this->get("/assets_type/enable/{$type->uuid}/1");
+        $this->assertDatabaseHas("assets_types", [
+            "uuid" => $type->uuid,
+            "deleted_at" => null,
+        ]);
+        $response = $this->get("/assets_type/enable/{$type->uuid}/0");
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect("/assets_type");
+        $this->assertDatabaseMissing("assets_types", [
+            "uuid" => $type->uuid,
+            "deleted_at" => null,
+        ]);
     }
 }
