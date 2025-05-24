@@ -6,8 +6,6 @@ use Core\Domain\Repository\AssetRepositoryInterface;
 use Core\UseCase\Asset\ActivateDisableAssetUseCase;
 use Core\UseCase\DTO\Asset\ActivateDisable\ActivateDisableAssetInputDto;
 use Core\UseCase\DTO\Asset\ActivateDisable\ActivateDisableAssetOutputDto;
-use Mockery;
-use stdClass;
 use Tests\Unit\UseCase\AbstractActivateDisableUseCaseTest;
 
 class ActivateDisableAssetUseCaseUnitTest extends AbstractActivateDisableUseCaseTest

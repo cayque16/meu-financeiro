@@ -9,10 +9,6 @@ use stdClass;
 
 abstract class AbstractActivateDisableUseCaseTest extends TestCase
 {
-    // abstract protected function mockRepo($methodName, $return);
-
-    // abstract protected function mockInputDto($uuid, $return);
-
     abstract protected function getUseCase($mockRepo);
 
     abstract protected function getInputDto();
