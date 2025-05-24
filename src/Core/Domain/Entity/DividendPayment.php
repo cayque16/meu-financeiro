@@ -25,4 +25,9 @@ class DividendPayment extends BaseEntity
         $this->validator = DividendPaymentValidatorFactory::create();
         $this->validation();
     }
+
+    public function getAmountFormatted(): string
+    {
+        return $this->currency->printFormatted($this->amount);
+    }
 }
