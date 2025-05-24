@@ -6,6 +6,7 @@ use App\Models\Asset;
 use App\Models\AssetsType;
 use Illuminate\Http\Response;
 use Tests\TestCase;
+use Illuminate\Support\Str;
 
 class AssetControllerTest extends TestCase
 {
@@ -102,6 +103,44 @@ class AssetControllerTest extends TestCase
             'codigo' => 'test',
             'descricao'=> 'desc',
             "uuid_assets_type" => $type->uuid,
+        ]);
+    }
+
+    public function testActivate()
+    {
+        $this->login();
+        $uuid = (string) Str::uuid();
+        AssetsType::factory()->create();
+        $asset = Asset::factory()->create([
+            "uuid" => $uuid,
+            "deleted_at" => now(),
+        ]);
+
+        $response = $this->get("/assets/enable/{$asset->uuid}/1");        
+        $response->assertStatus(Response::HTTP_FOUND);
+        $response->assertRedirect("/assets");
+        $this->assertDatabaseHas("assets", [
+            "uuid" => $asset->uuid,
+            "deleted_at" => null,
+        ]);
+    }
+
+    public function testDisable()
+    {
+        $this->login();
+        AssetsType::factory()->create();
+        $asset = Asset::factory()->create();
+
+        $this->assertDatabaseHas("assets", [
+            "uuid" => $asset->uuid,
+            "deleted_at" => null,
+        ]);
+        $response = $this->get("/assets/enable/{$asset->uuid}/0");
+        $response->assertStatus(Response::HTTP_FOUND);
+        $response->assertRedirect("/assets");
+        $this->assertDatabaseMissing("assets", [
+            "uuid" => $asset->uuid,
+            "deleted_at" => null,
         ]);
     }
 

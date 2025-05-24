@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Enums\ButtonType;
 use App\Enums\Status;
 use App\Http\Requests\StoreAssetRequest;
+use Core\UseCase\Asset\ActivateDisableAssetUseCase;
 use Core\UseCase\Asset\CreateAssetUseCase;
 use Core\UseCase\Asset\ListAssetsUseCase;
 use Core\UseCase\Asset\ListAssetUseCase;
 use Core\UseCase\Asset\UpdateAssetUseCase;
 use Core\UseCase\AssetType\ListAssetsTypesUseCase;
+use Core\UseCase\DTO\Asset\ActivateDisable\ActivateDisableAssetInputDto;
 use Core\UseCase\DTO\Asset\AssetInputDto;
 use Core\UseCase\DTO\Asset\Create\CreateAssetInputDto;
 use Core\UseCase\DTO\Asset\ListAssets\ListAssetsInputDto;
@@ -87,6 +89,18 @@ class AssetsController extends Controller
         );
 
         return redirect("/assets")->with("msg", "Ativo editado com sucesso!");
+    }
+
+    public function enable(ActivateDisableAssetUseCase $useCase, $id, $value)
+    {
+        $useCase->execute(
+            new ActivateDisableAssetInputDto(
+                id: $id,
+                activate: (bool) $value,
+            )
+        );
+
+        return redirect("/assets")->with('msg', 'Ativo editado com sucesso!');
     }
 
     private function getAssetsType($types)
