@@ -257,7 +257,7 @@ return [
         [
             'text'    => 'records',
             'icon'    => 'fas fa-fw fa-plus',
-            'icon_color' => 'green',
+            'icon_color' => 'yellow',
             'submenu' => [
                 [
                     'text' => 'assets',
@@ -311,7 +311,7 @@ return [
         [
             'text' => 'movements',
             'icon' => 'fas fa-fw fa-book',
-            'icon_color' => 'blue',
+            'icon_color' => 'green',
             'submenu' => [
                 [
                     'text' => 'purchases',
