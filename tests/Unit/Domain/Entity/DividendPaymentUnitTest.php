@@ -41,6 +41,25 @@ class DividendPaymentUnitTest extends EntityTestCaseUnitTest
         );
     }
 
+    public function testGetAmountFormatted()
+    {
+        $mockCurrency = Mockery::mock(
+            Currency::class,
+            ['Real', 'R$', 'BRL', 100, 2, $this->getUuid(), 'desc']
+        );
+        $mockCurrency->shouldReceive('printFormatted')->once()->andReturn('R$ 15,00');
+
+        $payment = new DividendPayment(
+            $this->mockAsset(),
+            new Date(),
+            DividendType::DIVIDENDS,
+            1500,
+            $mockCurrency,
+        );
+
+        $this->assertEquals("R$ 15,00", $payment->getAmountFormatted());
+    }
+
     private function mockAsset()
     {
         $mockAsset = Mockery::mock(Asset::class, ['BTC', $this->mockType()]);
