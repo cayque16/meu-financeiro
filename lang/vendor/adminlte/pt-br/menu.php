@@ -19,7 +19,7 @@ return [
     'records'                       => 'Cadastros',
     'movements'                     => 'Movimentos',  
     'purchases' => 'Compras',
-    'receipts' => 'Recebimentos',
+    'dividends' => 'Dividendos',
     'views' => 'Visualizações',
     'graphics' => 'Gráficos',
     'operations' => 'Operações',

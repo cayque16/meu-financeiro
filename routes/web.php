@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AssetsTypeController;
+use App\Http\Controllers\DividendsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,4 +57,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/purchases/removeAtivos', [App\Http\Controllers\PurchasesController::class, 'removeAtivos']);
     Route::get('/purchases/show/{id}', [App\Http\Controllers\PurchasesController::class, 'show']);
     Route::get('/purchases/exibirPdf/{id}', [App\Http\Controllers\PurchasesController::class, 'exibirPdf']);
+
+    Route::get('/dividends', [DividendsController::class, 'index']);
 });

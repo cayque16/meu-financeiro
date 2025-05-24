@@ -320,9 +320,10 @@ return [
                     'url' => 'purchases'
                 ],
                 [
-                    'text' => 'receipts',
+                    'text' => 'dividends',
                     'icon' => 'fas fa-fw fa-money-bill',
-                    'url' => '#'
+                    'icon_color' => 'green',
+                    'url' => 'dividends'
                 ]
             ]
         ],
