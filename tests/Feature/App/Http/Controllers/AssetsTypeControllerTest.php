@@ -43,6 +43,24 @@ class AssetsTypeControllerTest extends TestCase
         $this->assertDatabaseHas("assets_types", $data);
     }
 
+    /**
+     * @dataProvider providerValidations
+     */
+    public function testStoreFailsValidation(
+        $key1,
+        $value1,
+        $failed
+    ) {
+        $this->login();
+        $data = [
+            $key1 => $value1,
+        ];
+
+        $response = $this->post("/assets_type", $data);
+
+        $response->assertSessionHasErrors([$failed]);
+    }
+
     public function testEdit()
     {
         $this->login();
@@ -70,6 +88,24 @@ class AssetsTypeControllerTest extends TestCase
             'nome' => 'test',
             'descricao'=> 'desc'
         ]);
+    }
+
+    /**
+     * @dataProvider providerValidations
+     */
+    public function testUpdateFailsValidation(
+        $key1,
+        $value1,
+        $failed
+    ) {
+        $this->login();
+        $type = AssetsType::factory()->create();
+
+        $response = $this->post("/assets_type/update/{$type->uuid}", [
+            $key1 => $value1,
+        ]);
+
+        $response->assertSessionHasErrors([$failed]);
     }
 
     public function testActivate()
@@ -106,5 +142,13 @@ class AssetsTypeControllerTest extends TestCase
             "uuid" => $type->uuid,
             "deleted_at" => null,
         ]);
+    }
+
+    protected function providerValidations()
+    {
+        return [
+            "nomeMissing" => ["descricao", "desc",  "nome"],
+            "descricaoMissing" => ["nome", "test",  "descricao"],
+        ];
     }
 }
