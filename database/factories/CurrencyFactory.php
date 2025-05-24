@@ -24,7 +24,7 @@ class CurrencyFactory extends Factory
             'iso_code' => strtoupper($this->faker->lexify('???')),
             'split' => 100,
             'decimals' => 2,
-            'description' => $this->faker->sentence(1),
+            'description' => $this->faker->lexify('?????????'),
             'deleted_at' => null,
             'created_at' => now(),
         ];
