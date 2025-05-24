@@ -45,7 +45,7 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
         ?string $idAsset = null,
         ?string $idType = null
     ): array {
-        $query = $this->model;
+        $query = $this->model->withTrashed();
 
         if ($ano) {
             $query = $query->whereYear('date', $ano);
@@ -59,7 +59,9 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
             $query = $query->where('type', $idType);
         }
 
-        return $query->orderBy('date', 'DESC')->get()->toArray();
+        $result = $query->orderBy('date', 'DESC')->get();
+        
+        return $result->map(fn ($model) => $this->toBaseEntity($model))->all();
     }
 
     public function findByUuid(Uuid|string $uuid): ?Model
@@ -82,16 +84,15 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
 
     public function findAll(string $filter = '', string $orderBy = 'DESC', bool $includeInactive = true): array
     {
-        $result = $this->model
-            ->where(function ($query) use ($filter) {
-                if ($filter) {
-                    $query->where('date', 'LIKE', "%{$filter}%");
-                }
-            })
-            ->orderBy('date', $orderBy)
-            ->get();
-        
-        return $result->toArray();
+        $query = $includeInactive ? $this->model->withTrashed() : $this->model->newQuery();
+
+        if ($filter) {
+            $query->where('date', 'LIKE', "%{$filter}%");
+        }
+
+        $result = $query->orderBy('date', $orderBy)->get();
+
+        return $result->map(fn ($model) => $this->toBaseEntity($model))->all();
     }
 
     public function update(BaseEntity $entity): BaseEntity

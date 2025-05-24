@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Core\UseCase\DividendPayment;
 
+use App\Models\Asset;
 use App\Models\DividendPayment;
 use App\Repositories\Eloquent\DividendPaymentEloquentRepository;
 use Core\Domain\Enum\DividendType;
@@ -51,6 +52,8 @@ class ListDividendsPaymentTest extends TestCase
         $this->createFakers();
         $uuid1 = Uuid::random();
         $uuid2 = Uuid::random();
+        Asset::factory()->create(['uuid' => $uuid1]);
+        Asset::factory()->create(['uuid' => $uuid2]);
         DividendPayment::factory()
             ->count(10)
             ->state(new Sequence(
@@ -86,6 +89,7 @@ class ListDividendsPaymentTest extends TestCase
     {
         $this->createFakers();
         $uuid = Uuid::random();
+        Asset::factory()->create(['uuid' => $uuid]);
         $type = DividendType::JCP;
         DividendPayment::factory()->create([
             'asset_id' => $uuid,

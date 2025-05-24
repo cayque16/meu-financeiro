@@ -110,6 +110,9 @@ class DividendPaymentRepositoryTest extends TestCase
         $result = $this->repository->findAll();
 
         $this->assertCount($count, $result);
+        foreach ($result as $item) {
+            $this->assertInstanceOf(DividendPaymentEntity::class, $item);
+        }
     }
 
     public function testLstDividendsByAno()
@@ -126,6 +129,9 @@ class DividendPaymentRepositoryTest extends TestCase
         $result = $this->repository->lstDividends(ano: 2024);
 
         $this->assertCount(5, $result);
+        foreach ($result as $item) {
+            $this->assertInstanceOf(DividendPaymentEntity::class, $item);
+        }
     }
 
     public function testLstDividendsByIdAsset()
@@ -133,6 +139,8 @@ class DividendPaymentRepositoryTest extends TestCase
         $this->createFakers();
         $uuid1 = Uuid::random();
         $uuid2 = Uuid::random();
+        AssetModel::factory()->create(['uuid' => $uuid1]);
+        AssetModel::factory()->create(['uuid' => $uuid2]);
         DividendPaymentModel::factory()
             ->count(10)
             ->state(new Sequence(
@@ -144,6 +152,9 @@ class DividendPaymentRepositoryTest extends TestCase
         $result = $this->repository->lstDividends(idAsset: $uuid1);
 
         $this->assertCount(5, $result);
+        foreach ($result as $item) {
+            $this->assertInstanceOf(DividendPaymentEntity::class, $item);
+        }
     }
 
     public function testLstDividendsByType()
@@ -162,6 +173,9 @@ class DividendPaymentRepositoryTest extends TestCase
         $result = $this->repository->lstDividends(idType: $type1->value);
 
         $this->assertCount(5, $result);
+        foreach ($result as $item) {
+            $this->assertInstanceOf(DividendPaymentEntity::class, $item);
+        }
     }
 
     public function testListsDividendsAllFilters()
@@ -169,6 +183,7 @@ class DividendPaymentRepositoryTest extends TestCase
         $this->createFakers();
         $uuid = Uuid::random();
         $type = DividendType::JCP;
+        AssetModel::factory()->create(['uuid' => $uuid]);
         DividendPaymentModel::factory()->create([
             'asset_id' => $uuid,
             'type' => $type,
@@ -179,6 +194,9 @@ class DividendPaymentRepositoryTest extends TestCase
         $this->assertCount(0, $result);
         $result = $this->repository->lstDividends(ano: 2024, idAsset: $uuid, idType: $type->value);
         $this->assertCount(1, $result);
+        foreach ($result as $item) {
+            $this->assertInstanceOf(DividendPaymentEntity::class, $item);
+        }
     }
 
     private function createFakers()
