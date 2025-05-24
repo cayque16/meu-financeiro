@@ -20,7 +20,7 @@ class AssetsTypeFactory extends Factory
     public function definition()
     {
         return [
-            'id' => $this->faker->numberBetween(1, 1500),
+            'id' => $this->faker->numberBetween(1, 15000),
             'uuid' => (string) Str::uuid(),
             'nome' => $this->faker->name(),
             'descricao' => $this->faker->sentence(1),

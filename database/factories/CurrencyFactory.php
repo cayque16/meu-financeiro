@@ -19,7 +19,7 @@ class CurrencyFactory extends Factory
     {
         return [
             'id' => (string) Str::uuid(),
-            'name' => $this->faker->name(),
+            'name' => $this->faker->lexify('?????'),
             'symbol' => $this->faker->lexify('?????'),
             'iso_code' => strtoupper($this->faker->lexify('???')),
             'split' => 100,
