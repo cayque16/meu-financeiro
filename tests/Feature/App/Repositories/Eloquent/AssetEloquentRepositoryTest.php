@@ -135,4 +135,22 @@ class AssetEloquentRepositoryTest extends TestCase
         $this->assertNotEquals($assetDb->code, $asset->code);
         $this->assertNotEquals($assetDb->id_assets_type, $asset->type->oldId);
     }
+
+    public function testActivate()
+    {
+        AssetTypeModel::factory()->create();
+        $assetDb = AssetModel::factory()->create([
+            'deleted_at' => now(),
+        ]);
+
+        $this->assertTrue($this->repository->activate($assetDb->uuid));
+    }
+
+    public function testDisable()
+    {
+        AssetTypeModel::factory()->create();
+        $assetDb = AssetModel::factory()->create();
+
+        $this->assertTrue($this->repository->disable($assetDb->uuid));
+    }
 }

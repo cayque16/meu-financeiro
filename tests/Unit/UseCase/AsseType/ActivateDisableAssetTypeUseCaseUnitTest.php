@@ -3,64 +3,34 @@
 namespace Tests\Unit\UseCase\AsseType;
 
 use Core\Domain\Repository\AssetTypeRepositoryInterface;
-use Core\Domain\ValueObject\Uuid;
+
 use Core\UseCase\AssetType\ActivateDisableAssetTypeUseCase;
 use Core\UseCase\DTO\AssetType\ActivateDisable\ActivateDisableAssetTypeInputDto;
 use Core\UseCase\DTO\AssetType\ActivateDisable\ActivateDisableAssetTypeOutputDto;
 use Mockery;
-use PHPUnit\Framework\TestCase;
 use stdClass;
+use Tests\Unit\UseCase\AbstractActivateDisableUseCaseTest;
 
-class ActivateDisableAssetTypeUseCaseUnitTest extends TestCase
+class ActivateDisableAssetTypeUseCaseUnitTest extends AbstractActivateDisableUseCaseTest
 {
-    /**
-     * @dataProvider providerTest
-     */
-    public function testActivateDisable(
-        $typeId,
-        $method,
-        $returnRepo,
-        $returnInput,
-        $expected
-    ) {
-        $mockRepo = $this->mockRepo($method, $returnRepo);
-
-        $mockInputDto = $this->mockInputDto($typeId, $returnInput);
-
-        $useCase = new ActivateDisableAssetTypeUseCase($mockRepo);
-        $response = $useCase->execute($mockInputDto);
-
-        $this->assertInstanceOf(ActivateDisableAssetTypeOutputDto::class, $response);
-        $this->assertEquals($expected, $response->success);
-    }
-
-    protected function providerTest()
+    
+    protected function getUseCase($mockRepo)
     {
-        $typeId = Uuid::random();
-        return [
-            "activate success" => [$typeId, "activate", true, true, true],
-            "disable success" => [$typeId, "disable", true, false, true],
-            "activate failed" => [$typeId, "activate", false, true, false],
-            "disable failed" => [$typeId, "disable", false, false, false],
-        ];
+        return new ActivateDisableAssetTypeUseCase($mockRepo);
     }
 
-    private function mockRepo($methodName, $return)
+    protected function getOutputDto()
     {
-        $mockRepo = Mockery::mock(stdClass::class, AssetTypeRepositoryInterface::class);
-        $mockRepo->shouldReceive($methodName)->once()->andReturn($return);
-
-        return $mockRepo;
+        return ActivateDisableAssetTypeOutputDto::class;
     }
 
-    private function mockInputDto($uuid, $return)
+    protected function getRepositoryInterface()
     {
-        return Mockery::mock(ActivateDisableAssetTypeInputDto::class, [$uuid, $return]);
+        return AssetTypeRepositoryInterface::class;
     }
 
-    protected function tearDown(): void
+    protected function getInputDto()
     {
-        Mockery::close();
-        parent::tearDown();
-    }
+        return ActivateDisableAssetTypeInputDto::class;
+    }   
 }

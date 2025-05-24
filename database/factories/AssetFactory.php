@@ -26,7 +26,7 @@ class AssetFactory extends Factory
             'id_assets_type' => AssetsType::inRandomOrder()->value('id'),
             'uuid_assets_type' => AssetsType::inRandomOrder()->value('uuid'),
             'e_excluido' => 0,
-            // 'deleted_at' => null,
+            'deleted_at' => null,
             'created_at' => now(),
         ];
     }
