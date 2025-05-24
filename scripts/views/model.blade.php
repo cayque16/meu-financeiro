@@ -15,5 +15,5 @@
 @stop 
 
 @section('js')
-    
+    <script language="javascript" src="/js/desativa.js"></script>
 @stop
