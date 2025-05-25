@@ -10,6 +10,7 @@ use App\Repositories\Eloquent\AssetEloquentRepository;
 use App\Repositories\Eloquent\CurrencyEloquentRepository;
 use App\Repositories\Eloquent\DividendPaymentEloquentRepository;
 use Core\Domain\Enum\DividendType;
+use Core\Domain\ValueObject\Date;
 use Core\UseCase\DividendPayment\CreateDividendPaymentUseCase;
 use Core\UseCase\DTO\DividendPayment\Create\CreateDividendPaymentInputDto;
 use Tests\TestCase;
@@ -30,7 +31,8 @@ class CreateDividendPaymentUseCaseTest extends TestCase
         $response = $useCase->execute(
             new CreateDividendPaymentInputDto(
                 $asset->uuid,
-                '2025-05-20',
+                new Date('2025-05-20'),
+                2025,
                 DividendType::DIVIDENDS,
                 500,
                 $currency->id,

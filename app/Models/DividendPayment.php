@@ -15,7 +15,8 @@ class DividendPayment extends Model
     protected $fillable = [
         'id',
         'asset_id',
-        'date',
+        'payment_date',
+        'fiscal_year',
         'type',
         'amount',
         'currency_id',

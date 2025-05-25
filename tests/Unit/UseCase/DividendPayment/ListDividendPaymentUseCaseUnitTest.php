@@ -78,6 +78,7 @@ class ListDividendPaymentUseCaseUnitTest extends TestCase
         $mockEntity = Mockery::mock(DividendPayment::class, [
             $this->mockAsset($idAsset),
             $date,
+            $date->getYear(),
             DividendType::JCP,
             150,
             $this->mockCurrency($idCurrency),

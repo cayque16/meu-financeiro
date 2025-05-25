@@ -21,15 +21,17 @@ class DividendPaymentFactory extends Factory
     public function definition()
     {
         $randomType = collect(DividendType::cases())->random();
+        $now = now();
         return [
             'id' => (string) Str::uuid(),
             'asset_id' => Asset::inRandomOrder()->value('uuid'),
-            'date' => $this->faker->date(),
+            'payment_date' => $this->faker->date(),
+            'fiscal_year' => $this->faker->date('Y'),
             'type' => $randomType,
             'amount' => $this->faker->numberBetween(1,1000),
             'currency_id' => Currency::inRandomOrder()->value('id'),
-            'created_at' => now(),
-            // 'updated_at '=> null,
+            'created_at' => $now,
+            // 'updated_at '=> $now,
             'deleted_at' => null,
         ];
     }

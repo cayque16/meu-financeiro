@@ -16,12 +16,12 @@ class ListDividendsPaymentTest extends TestCase
 {
     use DividendPaymentFakersTrait;
     
-    private function createUseCase($ano = null, $idAsset = null, $idType = null)
+    private function createUseCase($paymentYear = null, $fiscalYear = null, $idAsset = null, $idType = null)
     {
         $repository = new DividendPaymentEloquentRepository(new DividendPayment());
         $useCase = new ListDividendsPaymentUseCase($repository);
 
-        return $useCase->execute(new ListDividendsPaymentInputDto($ano, $idAsset, $idType));
+        return $useCase->execute(new ListDividendsPaymentInputDto($paymentYear, $fiscalYear, $idAsset, $idType));
     }
 
     public function testListEmpty()
@@ -31,18 +31,34 @@ class ListDividendsPaymentTest extends TestCase
         $this->assertCount(0, $response->items);
     }
 
-    public function testLstDividendsByAno()
+    public function testLstDividendsByPaymentYear()
     {
         $this->createFakers();
         DividendPayment::factory()
             ->count(10)
             ->state(new Sequence(
-                ['date' => '2024-05-20'],
-                ['date' => '2025-05-20'],
+                ['payment_date' => '2024-05-20'],
+                ['payment_date' => '2025-05-20'],
             ))
             ->create();
 
-        $result = $this->createUseCase(ano: 2024);
+        $result = $this->createUseCase(paymentYear: 2024);
+
+        $this->assertCount(5, $result->items);
+    }
+
+    public function testLstDividendsByFiscalYear()
+    {
+        $this->createFakers();
+        DividendPayment::factory()
+            ->count(10)
+            ->state(new Sequence(
+                ['fiscal_year' => 2024],
+                ['fiscal_year' => 2025],
+            ))
+            ->create();
+
+        $result = $this->createUseCase(fiscalYear: 2024);
 
         $this->assertCount(5, $result->items);
     }
@@ -94,12 +110,12 @@ class ListDividendsPaymentTest extends TestCase
         DividendPayment::factory()->create([
             'asset_id' => $uuid,
             'type' => $type,
-            'date' => '2024-01-05',
+            'payment_date' => '2024-01-05',
         ]);
 
-        $result = $this->createUseCase(ano: 2024, idAsset: 'uuid', idType: $type->value);
+        $result = $this->createUseCase(paymentYear: 2024, idAsset: 'uuid', idType: $type->value);
         $this->assertCount(0, $result->items);
-        $result = $this->createUseCase(ano: 2024, idAsset: $uuid, idType: $type->value);
+        $result = $this->createUseCase(paymentYear: 2024, idAsset: $uuid, idType: $type->value);
         $this->assertCount(1, $result->items);
     }
 }

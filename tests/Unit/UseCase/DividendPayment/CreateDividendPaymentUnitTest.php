@@ -31,7 +31,7 @@ class CreateDividendPaymentUnitTest extends TestCase
         $currency = $this->mockCurrency($idCurrency);
 
         $idDividend = $this->getUuid();
-        $dividend = Mockery::mock(DividendPayment::class, [$asset, new Date(), DividendType::JCP, 250, $currency]);
+        $dividend = Mockery::mock(DividendPayment::class, [$asset, new Date(), 2024, DividendType::JCP, 250, $currency]);
         $dividend->shouldReceive("id")->andReturn($idDividend);
         $dividend->shouldReceive("date")->andReturn('date');
         $dividend->shouldReceive("isActive")->andReturn(true);
@@ -111,7 +111,7 @@ class CreateDividendPaymentUnitTest extends TestCase
     {
         $mockInput = Mockery::mock(
             CreateDividendPaymentInputDto::class,
-            [$idAsset, (new DateTime())->format('Y-m-d H:i:s'), DividendType::JCP, 250, $idCurrency]
+            [$idAsset, new Date(), 2025, DividendType::JCP, 250, $idCurrency]
         );
 
         return $mockInput;

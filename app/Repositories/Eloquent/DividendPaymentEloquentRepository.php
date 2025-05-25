@@ -31,7 +31,8 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
         $payment = $this->model->create([
             "id" => $entity->id,
             "asset_id" => $entity->asset->id(),
-            "date" => $entity->date,
+            "payment_date" => $entity->paymentDate,
+            "fiscal_year" => $entity->fiscalYear,
             "type" => $entity->type->value,
             "amount" => $entity->amount,
             "currency_id" => $entity->currency->id(),
@@ -41,14 +42,19 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
     }
 
     public function lstDividends(
-        ?int $ano = null,
+        ?int $paymentYear = null,
+        ?int $fiscalYear = null,
         ?string $idAsset = null,
         ?string $idType = null
     ): array {
         $query = $this->model->withTrashed();
 
-        if ($ano) {
-            $query = $query->whereYear('date', $ano);
+        if ($paymentYear) {
+            $query = $query->whereYear('payment_date', $paymentYear);
+        }
+
+        if ($fiscalYear) {
+            $query = $query->where('fiscal_year', $fiscalYear);
         }
 
         if ($idAsset) {
@@ -59,7 +65,7 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
             $query = $query->where('type', $idType);
         }
 
-        $result = $query->orderBy('date', 'DESC')->get();
+        $result = $query->orderBy('payment_date', 'DESC')->get();
         
         return $result->map(fn ($model) => $this->toBaseEntity($model))->all();
     }
@@ -131,7 +137,8 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
         $payment = new DividendPaymentEntity(
             id: new Uuid($data->id),
             asset: $asset,
-            date: new Date($data->date),
+            paymentDate: new Date($data->payment_date),
+            fiscalYear: $data->fiscal_year,
             type: DividendType::from($data->type),
             amount: $data->amount,
             currency: $currency,

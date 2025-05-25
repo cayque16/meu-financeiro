@@ -28,7 +28,8 @@ class CreateDividendPaymentUseCase
 
         $dividend = new DividendPayment(
             asset: $asset,
-            date: new Date($input->date),
+            paymentDate: $input->paymentDate,
+            fiscalYear: $input->fiscalYear,
             type: $input->type,
             amount: $input->amount,
             currency: $currency,
@@ -39,7 +40,8 @@ class CreateDividendPaymentUseCase
         return new CreateDividendPaymentOutputDto(
             id: $return->id(),
             idAsset: $return->asset->id(),
-            date: $return->date,
+            paymentDate: $return->paymentDate,
+            fiscalYear: $input->fiscalYear,
             type: $return->type,
             amount: $return->amount,
             idCurrency: $return->currency->id(),

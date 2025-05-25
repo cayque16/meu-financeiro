@@ -27,7 +27,8 @@ class DividendPaymentUnitTest extends ModelTestCase
         return [
             'id',
             'asset_id',
-            'date',
+            'payment_date',
+            'fiscal_year',
             'type',
             'amount',
             'currency_id',

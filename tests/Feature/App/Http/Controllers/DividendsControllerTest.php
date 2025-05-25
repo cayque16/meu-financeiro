@@ -13,11 +13,11 @@ class DividendsControllerTest extends TestCase
 {
     use ControllerTrait;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->markTestSkipped("ignored for now");
-    }
+    // protected function setUp(): void
+    // {
+    //     parent::setUp();
+    //     $this->markTestSkipped("ignored for now");
+    // }
 
     public function testIndex()
     {

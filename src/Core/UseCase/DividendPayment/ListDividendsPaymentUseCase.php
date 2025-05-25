@@ -15,7 +15,8 @@ class ListDividendsPaymentUseCase
     public function execute(ListDividendsPaymentInputDto $input): ListDividendsPaymentOutputDto
     {
         $result = $this->repository->lstDividends(
-            ano: $input->ano,
+            paymentYear: $input->paymentYear,
+            fiscalYear: $input->fiscalYear,
             idAsset: $input->idAsset,
             idType: $input->idType,
         );

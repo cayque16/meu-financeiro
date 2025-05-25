@@ -10,7 +10,8 @@ class CreateDividendPaymentOutputDto
     public function __construct(
         public string $id,
         public string $idAsset,
-        public Date $date,
+        public Date $paymentDate,
+        public int $fiscalYear,
         public DividendType $type,
         public int $amount,
         public string $idCurrency,

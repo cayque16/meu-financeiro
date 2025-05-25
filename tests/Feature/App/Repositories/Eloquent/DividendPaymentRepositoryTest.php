@@ -63,7 +63,8 @@ class DividendPaymentRepositoryTest extends TestCase
 
         $payment = new DividendPaymentEntity(
             asset: $assetEntity,
-            date: new Date(),
+            paymentDate: new Date(),
+            fiscalYear: 2024,
             type: DividendType::DIVIDENDS,
             amount: 1500,
             currency: $currencyEntity,
@@ -115,18 +116,37 @@ class DividendPaymentRepositoryTest extends TestCase
         }
     }
 
-    public function testLstDividendsByAno()
+    public function testLstDividendsByPaymentYear()
     {
         $this->createFakers();
         DividendPaymentModel::factory()
             ->count(10)
             ->state(new Sequence(
-                ['date' => '2024-05-20'],
-                ['date' => '2025-05-20'],
+                ['payment_date' => '2024-05-20'],
+                ['payment_date' => '2025-05-20'],
             ))
             ->create();
 
-        $result = $this->repository->lstDividends(ano: 2024);
+        $result = $this->repository->lstDividends(paymentYear: 2024);
+
+        $this->assertCount(5, $result);
+        foreach ($result as $item) {
+            $this->assertInstanceOf(DividendPaymentEntity::class, $item);
+        }
+    }
+
+    public function testLstDividendsByFiscalYear()
+    {
+        $this->createFakers();
+        DividendPaymentModel::factory()
+            ->count(10)
+            ->state(new Sequence(
+                ['fiscal_year' => 2024],
+                ['fiscal_year' => 2025],
+            ))
+            ->create();
+
+        $result = $this->repository->lstDividends(fiscalYear: 2024);
 
         $this->assertCount(5, $result);
         foreach ($result as $item) {
@@ -187,12 +207,13 @@ class DividendPaymentRepositoryTest extends TestCase
         DividendPaymentModel::factory()->create([
             'asset_id' => $uuid,
             'type' => $type,
-            'date' => '2024-01-05',
+            'payment_date' => '2024-01-05',
+            'fiscal_year' => '2024',
         ]);
 
-        $result = $this->repository->lstDividends(ano: 2024, idAsset: 'uuid', idType: $type->value);
+        $result = $this->repository->lstDividends(paymentYear: 2024, idAsset: 'uuid', idType: $type->value, fiscalYear: 2024);
         $this->assertCount(0, $result);
-        $result = $this->repository->lstDividends(ano: 2024, idAsset: $uuid, idType: $type->value);
+        $result = $this->repository->lstDividends(paymentYear: 2024, idAsset: $uuid, idType: $type->value, fiscalYear: 2024);
         $this->assertCount(1, $result);
         foreach ($result as $item) {
             $this->assertInstanceOf(DividendPaymentEntity::class, $item);

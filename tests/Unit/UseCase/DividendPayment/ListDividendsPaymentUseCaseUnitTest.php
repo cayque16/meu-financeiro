@@ -25,7 +25,7 @@ class ListDividendsPaymentUseCaseUnitTest extends TestCase
         
         $mockInputDto = Mockery::mock(
             ListDividendsPaymentInputDto::class,
-            [2025, $idAsset, DividendType::DIVIDENDS->value]
+            [2025, 2024, $idAsset, DividendType::DIVIDENDS->value]
         );
 
         $response = $useCase->execute($mockInputDto);

@@ -25,7 +25,8 @@ class ListDividendPaymentTest extends TestCase
 
         $this->assertEquals($payment->id, $response->id);
         $this->assertEquals($payment->asset_id, $response->idAsset);
-        $this->assertEquals(new Date($payment->date), new Date($response->date));
+        $this->assertEquals(new Date($payment->payment_date), $response->paymentDate);
+        $this->assertEquals($payment->fiscal_year, $response->fiscalYear);
         $this->assertEquals($payment->type, $response->type);
         $this->assertEquals($payment->amount, $response->amount);
         $this->assertEquals($payment->currency_id, $response->idCurrency);

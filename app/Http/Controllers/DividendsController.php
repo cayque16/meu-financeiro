@@ -26,7 +26,8 @@ class DividendsController extends Controller
         foreach($data->items as $item) {
             $result[] = [
                 $item->id,
-                $item->date?->toDateBr(),
+                $item->paymentDate?->toDateBr(),
+                $item->fiscalYear,
                 $item->asset->code,
                 $item->type->value,
                 $item->getAmountFormatted(),
@@ -41,6 +42,7 @@ class DividendsController extends Controller
         return [
             'Id',
             'Data',
+            'Ano Fiscal',
             'Ativo',
             'Tipo',
             'Valor',
