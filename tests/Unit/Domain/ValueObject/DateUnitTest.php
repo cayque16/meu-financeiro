@@ -39,4 +39,16 @@ class DateUnitTest extends TestCase
         $date = new Date("15-04-1994 19:30:00");
         $this->assertEquals("1994-04-15 19:30:00", (string) $date);
     }
+
+    public function testGetYear()
+    {
+        $date = new Date("15-04-1994");
+        $this->assertEquals(1994, $date->getYear());
+
+        $date = new Date("2035-04-15");
+        $this->assertEquals(2035, $date->getYear());
+
+        $date = Date::fromDateTime(new DateTime("15-04-1974"));
+        $this->assertEquals(1974, $date->getYear());
+    }
 }
