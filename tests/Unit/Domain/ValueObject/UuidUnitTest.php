@@ -25,4 +25,16 @@ class UuidUnitTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         new Uuid('invalid-uuid');
     }
+
+    public function testIsUuidValid()
+    {
+        $this->assertTrue(Uuid::isUuidValid("f8a73613-727a-4723-8612-fc438a4ad9be"));
+        $this->assertFalse(Uuid::isUuidValid("invalid-uuid"));
+    }
+
+    public function testShortFormat()
+    {
+        $uuid = new Uuid('efddc805-fdf8-4350-b3cb-11475f15ae76');
+        $this->assertEquals('efddc805', $uuid->short());
+    }
 }

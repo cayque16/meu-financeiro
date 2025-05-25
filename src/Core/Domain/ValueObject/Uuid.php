@@ -34,4 +34,9 @@ class Uuid
     {
         return RamseyUuid::isValid($uuid);
     }
+
+    public function short(): string
+    {
+        return explode('-', $this->value)[0];
+    }
 }
