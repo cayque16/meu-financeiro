@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ButtonType;
-use App\Enums\Status;
+use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\DividendPayment\ListDividendsPaymentUseCase;
 use Core\UseCase\DTO\DividendPayment\ListDividendsPayment\ListDividendsPaymentInputDto;
 
@@ -25,7 +25,7 @@ class DividendsController extends Controller
         $result = [];
         foreach($data->items as $item) {
             $result[] = [
-                $item->id,
+                Uuid::short($item->id),
                 $item->paymentDate?->toDateBr(),
                 $item->fiscalYear,
                 $item->asset->code,

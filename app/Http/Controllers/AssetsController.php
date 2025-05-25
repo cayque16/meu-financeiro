@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\ButtonType;
 use App\Enums\Status;
 use App\Http\Requests\StoreAssetRequest;
+use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\Asset\ActivateDisableAssetUseCase;
 use Core\UseCase\Asset\CreateAssetUseCase;
 use Core\UseCase\Asset\ListAssetsUseCase;
@@ -119,7 +120,7 @@ class AssetsController extends Controller
             $button = $item->isActive() ? ButtonType::DISABLE : ButtonType::ACTIVATE;
             $action = $item->isActive() ? Status::ACTIVE : Status::INACTIVE;
             $result[] = [
-                $item->id,
+                Uuid::short($item->id),
                 $item->code,
                 $item->description,
                 $item->type->name,

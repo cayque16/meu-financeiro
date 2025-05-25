@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\ButtonType;
 use App\Enums\Status;
 use App\Http\Requests\StoreAssetsTypeRequest;
+use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\AssetType\ActivateDisableAssetTypeUseCase;
 use Core\UseCase\AssetType\CreateAssetTypeUseCase;
 use Core\UseCase\AssetType\ListAssetsTypesUseCase;
@@ -115,7 +116,7 @@ class AssetsTypeController extends Controller
             $button = $dado->isActive() ? ButtonType::DISABLE : ButtonType::ACTIVATE;
             $action = $dado->isActive() ? Status::ACTIVE : Status::INACTIVE;
             $data[] = [
-                $dado->id, 
+                Uuid::short($dado->id),
                 $dado->name,
                 $dado->description,
                 $dado->createdAt()?->toDateBr(true),
