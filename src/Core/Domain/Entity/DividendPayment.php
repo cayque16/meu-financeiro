@@ -11,7 +11,8 @@ class DividendPayment extends BaseEntity
 {
     public function __construct(
         protected Asset $asset,
-        protected Date $date,
+        protected Date $paymentDate,
+        protected int $fiscalYear,
         protected DividendType $type,
         protected int $amount,
         protected Currency $currency,

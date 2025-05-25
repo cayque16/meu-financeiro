@@ -21,6 +21,7 @@ class DividendPaymentUnitTest extends EntityTestCaseUnitTest
         $payment =  new DividendPayment(
             $this->mockAsset(),
             new Date(),
+            2024,
             DividendType::DIVIDENDS,
             150,
             $this->mockCurrency()
@@ -29,16 +30,29 @@ class DividendPaymentUnitTest extends EntityTestCaseUnitTest
         return $payment;
     }
 
-    public function testExceptionsInConstructor()
+    /**
+     * @dataProvider providerConstructor
+     */
+    public function testExceptionsInConstructor($fiscalYear, $amount)
     {
         $this->expectException(EntityValidationException::class);
         new DividendPayment(
             $this->mockAsset(),
             new Date(),
+            $fiscalYear,
             DividendType::DIVIDENDS,
-            0,
+            $amount,
             $this->mockCurrency()
         );
+    }
+
+    protected function providerConstructor()
+    {
+        return [
+            'yearBelowTheMinimum' => [1500, 150],
+            'yearAboveMaximum' => [2250, 150],
+            'amountBelowTheMinimum' => [2024, 0],
+        ];
     }
 
     public function testGetAmountFormatted()
@@ -52,6 +66,7 @@ class DividendPaymentUnitTest extends EntityTestCaseUnitTest
         $payment = new DividendPayment(
             $this->mockAsset(),
             new Date(),
+            2024,
             DividendType::DIVIDENDS,
             1500,
             $mockCurrency,
