@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table("dividends_payments", function (Blueprint $table) {
             $table->renameColumn("date", "payment_date");
-            $table->year("fiscal_year")->after("date");
         });
     }
 
@@ -28,7 +27,6 @@ return new class extends Migration
     {
         Schema::table("dividends_payments", function (Blueprint $table) {
             $table->renameColumn("payment_date", "date");
-            $table->dropColumn("fiscal_year");
         });
     }
 };
