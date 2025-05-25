@@ -19,7 +19,7 @@ class DividendsControllerTest extends TestCase
         AssetsType::factory()->count(3)->create();
         Asset::factory()->count(3)->create();
         Currency::factory()->count(3)->create();
-        $test = DividendPayment::factory()->count(3)->create();
+        DividendPayment::factory()->count(3)->create();
 
         $response = $this->get("/dividends");
         $response->assertStatus(Response::HTTP_OK);

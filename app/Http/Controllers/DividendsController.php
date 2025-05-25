@@ -24,15 +24,12 @@ class DividendsController extends Controller
     {
         $result = [];
         foreach($data->items as $item) {
-            $button = $item->isActive() ? ButtonType::DISABLE : ButtonType::ACTIVATE;
-            $action = $item->isActive() ? Status::ACTIVE : Status::INACTIVE;
             $result[] = [
                 $item->id,
                 $item->date?->toDateBr(),
                 $item->asset->code,
                 $item->type->value,
                 $item->getAmountFormatted(),
-                "<nobr>".getBtnLink(ButtonType::EDIT, "/assets/edit/$item->id")."  ".getBtnLink($button, "/assets/enable/$item->id/$action")."</nobr>",
             ];
         }
 
@@ -47,7 +44,6 @@ class DividendsController extends Controller
             'Ativo',
             'Tipo',
             'Valor',
-            ['label' => 'Ações','no-export' => true, 'width' => 5]
         ];
     }
 }
