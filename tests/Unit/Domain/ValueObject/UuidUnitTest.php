@@ -35,6 +35,12 @@ class UuidUnitTest extends TestCase
     public function testShortFormat()
     {
         $uuid = new Uuid('efddc805-fdf8-4350-b3cb-11475f15ae76');
-        $this->assertEquals('efddc805', $uuid->short());
+        $this->assertEquals('efddc805', $uuid->short($uuid));
+    }
+
+    public function testShortFormatInvalid()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->assertEquals('efddc805', Uuid::short('uuid'));
     }
 }

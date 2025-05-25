@@ -35,8 +35,11 @@ class Uuid
         return RamseyUuid::isValid($uuid);
     }
 
-    public function short(): string
+    public static function short($uuid): string
     {
-        return explode('-', $this->value)[0];
+        if (!RamseyUuid::isValid($uuid)) {
+            throw new InvalidArgumentException("$uuid is not a valid uuid!");
+        }
+        return explode('-', $uuid)[0];
     }
 }
