@@ -49,8 +49,8 @@ class DividendPaymentUnitTest extends EntityTestCaseUnitTest
     protected function providerConstructor()
     {
         return [
-            'yearBelowTheMinimum' => [1500, 150],
-            'yearAboveMaximum' => [2250, 150],
+            'yearBelowTheMinimum' => [1900, 150],
+            'yearAboveMaximum' => [2156, 150],
             'amountBelowTheMinimum' => [2024, 0],
         ];
     }

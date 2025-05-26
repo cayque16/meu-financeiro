@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table("dividends_payments", function (Blueprint $table) {
-            $table->year("fiscal_year")->after("payment_date");
+            $table->year("fiscal_year")->default(1901)->after("payment_date");
         });
     }
 

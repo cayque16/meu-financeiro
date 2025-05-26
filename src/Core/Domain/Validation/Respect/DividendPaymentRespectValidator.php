@@ -13,7 +13,7 @@ class DividendPaymentRespectValidator extends BaseRespectValidator
             'fiscalYear' => $baseEntity->fiscalYear,
             'amount' => $baseEntity->amount,
         ], [
-            'fiscalYear' => v::intVal()->min(1900)->max(2100),
+            'fiscalYear' => v::intVal()->min(1901)->max(2155),
             'amount' => v::intVal()->min(1),
         ]);
 
