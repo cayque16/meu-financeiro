@@ -7,7 +7,9 @@ use Core\Domain\Entity\AssetType;
 use Core\Domain\Entity\Currency;
 use Core\Domain\Entity\DividendPayment;
 use Core\Domain\Enum\DividendType;
+use Core\Domain\Repository\AssetRepositoryInterface;
 use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\Repository\CurrencyRepositoryInterface;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
 use Core\Domain\ValueObject\Date;
 use Core\UseCase\DividendPayment\CreateDividendPaymentUseCase;
@@ -40,8 +42,8 @@ class CreateDividendPaymentUnitTest extends TestCase
         $dividend->shouldReceive("deletedAt")->andReturn(null);
 
         $repoDividendPayment = $this->mockRepo('insert', $dividend, interface: DividendPaymentRepositoryInterface::class);
-        $repoAsset = $this->mockRepo('findById', $asset);
-        $repoCurrency = $this->mockRepo('findById', $currency);
+        $repoAsset = $this->mockRepo('findById', $asset, interface: AssetRepositoryInterface::class);
+        $repoCurrency = $this->mockRepo('findById', $currency, interface: CurrencyRepositoryInterface::class);
 
 
         $useCase = new CreateDividendPaymentUseCase($repoDividendPayment, $repoAsset, $repoCurrency);
@@ -53,8 +55,8 @@ class CreateDividendPaymentUnitTest extends TestCase
     public function testAssetNotFound()
     {
         $repoDividendPayment = $this->mockRepo('insert', null, times: 0, interface: DividendPaymentRepositoryInterface::class);
-        $repoAsset = $this->mockRepo('findById', null);
-        $repoCurrency = $this->mockRepo('findById', null, times: 0);
+        $repoAsset = $this->mockRepo('findById', null, interface: AssetRepositoryInterface::class);
+        $repoCurrency = $this->mockRepo('findById', null, times: 0, interface: CurrencyRepositoryInterface::class);
 
         $useCase = new CreateDividendPaymentUseCase($repoDividendPayment, $repoAsset, $repoCurrency);
 
@@ -65,8 +67,8 @@ class CreateDividendPaymentUnitTest extends TestCase
     public function testCurrencyNotFound()
     {
         $repoDividendPayment = $this->mockRepo('insert', null, times: 0, interface: DividendPaymentRepositoryInterface::class);
-        $repoAsset = $this->mockRepo('findById', $this->mockAsset($this->getUuid()));
-        $repoCurrency = $this->mockRepo('findById', null);
+        $repoAsset = $this->mockRepo('findById', $this->mockAsset($this->getUuid()), interface: AssetRepositoryInterface::class);
+        $repoCurrency = $this->mockRepo('findById', null, interface: CurrencyRepositoryInterface::class);
 
         $useCase = new CreateDividendPaymentUseCase($repoDividendPayment, $repoAsset, $repoCurrency);
 

@@ -17,6 +17,7 @@ class ListAssetsUseCase
         $assets = $this->repository->findAll(
             filter: $input->filter,
             orderBy: $input->order,
+            includeInactive: $input->includeInactive,
         );
 
         return new ListAssetsOutputDto($assets);

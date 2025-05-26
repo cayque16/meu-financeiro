@@ -82,5 +82,8 @@ class CurrencyEloquentRepositoryTest extends TestCase
         $result = $this->repository->findAll();
 
         $this->assertCount($count, $result);
+        foreach ($result as $item) {
+            $this->assertInstanceOf(CurrencyEntity::class, $item);
+        }
     }
 }

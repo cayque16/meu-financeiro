@@ -12,7 +12,7 @@ class CreateDividendPaymentInputDto
         public Date $paymentDate,
         public int $fiscalYear,
         public DividendType $type,
-        public int $amount,
+        public float $amount,
         public string $idCurrency,
     ) { }
 }

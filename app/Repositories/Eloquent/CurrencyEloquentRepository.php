@@ -5,13 +5,13 @@ namespace App\Repositories\Eloquent;
 use App\Models\Currency as CurrencyModel;
 use Core\Domain\Entity\BaseEntity;
 use Core\Domain\Entity\Currency as CurrencyEntity;
-use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\Repository\CurrencyRepositoryInterface;
 use Core\Domain\ValueObject\Date;
 use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\Exceptions\NotImplementedException;
 use Illuminate\Database\Eloquent\Model;
 
-class CurrencyEloquentRepository implements BaseRepositoryInterface
+class CurrencyEloquentRepository implements CurrencyRepositoryInterface
 {
     public function __construct(
         protected CurrencyModel $model
@@ -52,16 +52,15 @@ class CurrencyEloquentRepository implements BaseRepositoryInterface
 
     public function findAll(string $filter = '', string $orderBy = 'DESC', bool $includeInactive = true): array
     {
-        $result = $this->model
-            ->where(function ($query) use ($filter) {
-                if ($filter) {
-                    $query->where('name', 'LIKE', "%{$filter}%");
-                }
-            })
-            ->orderBy('name', $orderBy)
-            ->get();
-        
-        return $result->toArray();
+        $query = $includeInactive ? $this->model->withTrashed() : $this->model->newQuery();
+
+        if ($filter) {
+            $query->where('name', 'LIKE', "%{$filter}%");
+        }
+
+        $result = $query->orderBy('name', $orderBy)->get();
+
+        return $result->map(fn ($model) => $this->toBaseEntity($model))->all();
     }
 
     public function update(BaseEntity $entity): BaseEntity

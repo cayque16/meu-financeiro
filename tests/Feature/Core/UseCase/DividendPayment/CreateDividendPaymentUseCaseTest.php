@@ -42,7 +42,7 @@ class CreateDividendPaymentUseCaseTest extends TestCase
         $this->assertNotEmpty($response->id);
         $this->assertEquals($asset->uuid, $response->idAsset);
         $this->assertEquals(DividendType::DIVIDENDS, $response->type);
-        $this->assertEquals(500, $response->amount);
+        $this->assertEquals(500 * $currency->split, $response->amount);
         $this->assertEquals($currency->id, $response->idCurrency);
     }
 }

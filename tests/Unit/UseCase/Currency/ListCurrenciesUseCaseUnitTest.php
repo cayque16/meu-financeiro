@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\UseCase\Currency;
 
-use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\Repository\CurrencyRepositoryInterface;
 use Core\UseCase\Currency\ListCurrenciesUseCase;
 use Core\UseCase\DTO\Currency\ListCurrencies\ListCurrenciesInputDto;
 use Core\UseCase\DTO\Currency\ListCurrencies\ListCurrenciesOutputDto;
@@ -14,7 +14,7 @@ class ListCurrenciesUseCaseUnitTest extends TestCase
 {
     public function testListAll()
     {
-        $mockRepository = Mockery::mock(stdClass::class, BaseRepositoryInterface::class);
+        $mockRepository = Mockery::mock(stdClass::class, CurrencyRepositoryInterface::class);
         $mockRepository->shouldReceive("findAll")->once()->andReturn([]);
 
         $useCase = new ListCurrenciesUseCase($mockRepository);

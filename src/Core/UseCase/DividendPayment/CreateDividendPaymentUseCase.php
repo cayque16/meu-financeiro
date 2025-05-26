@@ -3,10 +3,9 @@
 namespace Core\UseCase\DividendPayment;
 
 use Core\Domain\Entity\DividendPayment;
-use Core\Domain\Enum\DividendType;
-use Core\Domain\Repository\BaseRepositoryInterface;
+use Core\Domain\Repository\AssetRepositoryInterface;
+use Core\Domain\Repository\CurrencyRepositoryInterface;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
-use Core\Domain\ValueObject\Date;
 use Core\UseCase\DTO\DividendPayment\Create\CreateDividendPaymentInputDto;
 use Core\UseCase\DTO\DividendPayment\Create\CreateDividendPaymentOutputDto;
 use Core\UseCase\Exceptions\NotFoundException;
@@ -15,8 +14,8 @@ class CreateDividendPaymentUseCase
 {
     public function __construct(
         protected DividendPaymentRepositoryInterface $repoDividendPayment,
-        protected BaseRepositoryInterface $repoAsset,
-        protected BaseRepositoryInterface $repoCurrency,
+        protected AssetRepositoryInterface $repoAsset,
+        protected CurrencyRepositoryInterface $repoCurrency,
     ) { }
 
     public function execute(CreateDividendPaymentInputDto $input): CreateDividendPaymentOutputDto
@@ -31,7 +30,7 @@ class CreateDividendPaymentUseCase
             paymentDate: $input->paymentDate,
             fiscalYear: $input->fiscalYear,
             type: $input->type,
-            amount: $input->amount,
+            amount: $input->amount * $currency->split,
             currency: $currency,
         );
 
