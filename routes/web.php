@@ -59,6 +59,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/purchases/exibirPdf/{id}', [App\Http\Controllers\PurchasesController::class, 'exibirPdf']);
 
     Route::get('/dividends', [DividendsController::class, 'index']);
+    Route::post('/dividends/filterIndex', [DividendsController::class, 'filterIndex']);
     Route::get('/dividends/create', [DividendsController::class, 'create']);
     Route::post('/dividends', [DividendsController::class, 'store']);
 });

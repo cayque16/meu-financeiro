@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Enums\ButtonType;
 use App\Http\Requests\StoreDividendPaymentRequest;
+use Core\Domain\Presentation\AssetPresentationInterface;
 use Core\Domain\Enum\DividendType;
+use Core\Domain\Presentation\CurrencyPresentationInterface;
+use Core\Domain\Presentation\DividendPaymentPresentationInterface;
 use Core\Domain\ValueObject\Date;
 use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\Asset\ListAssetsUseCase;
@@ -15,23 +18,61 @@ use Core\UseCase\DTO\Asset\ListAssets\ListAssetsInputDto;
 use Core\UseCase\DTO\Currency\ListCurrencies\ListCurrenciesInputDto;
 use Core\UseCase\DTO\DividendPayment\Create\CreateDividendPaymentInputDto;
 use Core\UseCase\DTO\DividendPayment\ListDividendsPayment\ListDividendsPaymentInputDto;
+use Illuminate\Http\Request;
 
 class DividendsController extends Controller
 {
-    public function index(ListDividendsPaymentUseCase $useCase)
-    {
+    public function index(
+        ListDividendsPaymentUseCase $useCase,
+        DividendPaymentPresentationInterface $dividendPresentation,
+        ListAssetsUseCase $useCaseAssets,
+        AssetPresentationInterface $assetPresentation,
+        Request $request,
+    ) {
         $response = $useCase->execute(new ListDividendsPaymentInputDto());
-        
+        $assets = $useCaseAssets->execute(new ListAssetsInputDto(includeInactive: false));
         $data["cabecalho"] = $this->getHead();
         $data["tabela"] = ['data' => $this->getTable($response)];
         $data["btnAdd"] = getBtnLink(ButtonType::INCLUDE, link: "dividends/create");
+        $data["paymentYear"] = $dividendPresentation->yearsOfPayment($response->items);
+        $data["fiscalYears"] = $dividendPresentation->fiscalYears($response->items);
+        $data["assets"] = $assetPresentation->arrayToSelect($assets->items);
+        $data["types"] = $dividendPresentation->typesToArray();
+        
+        return view("dividends.index", $data);
+    }
 
+    public function filterIndex(
+        ListDividendsPaymentUseCase $useCase,
+        DividendPaymentPresentationInterface $dividendPresentation,
+        ListAssetsUseCase $useCaseAssets,
+        AssetPresentationInterface $assetPresentation,
+        Request $request,
+    ) {
+        $response = $useCase->execute(new ListDividendsPaymentInputDto(
+            paymentYear: $request->input('payment_year'),
+            fiscalYear: $request->input('fiscal_year'),
+            idAsset: $request->input('asset_id'),
+            idType: $request->input('type'),
+        ));
+        $assets = $useCaseAssets->execute(new ListAssetsInputDto(includeInactive: false));
+        $data["cabecalho"] = $this->getHead();
+        $data["tabela"] = ['data' => $this->getTable($response)];
+        $data["btnAdd"] = getBtnLink(ButtonType::INCLUDE, link: "dividends/create");
+        $data["paymentYear"] = $dividendPresentation->yearsOfPayment($response->items);
+        $data["fiscalYears"] = $dividendPresentation->fiscalYears($response->items);
+        $data["assets"] = $assetPresentation->arrayToSelect($assets->items);
+        $data["types"] = $dividendPresentation->typesToArray();
+        
         return view("dividends.index", $data);
     }
 
     public function create(
         ListCurrenciesUseCase $useCaseCurrencies,
-        ListAssetsUseCase $useCaseAssets
+        ListAssetsUseCase $useCaseAssets,
+        AssetPresentationInterface $assetPresentation,
+        CurrencyPresentationInterface $currencyPresentation,
+        DividendPaymentPresentationInterface $dividendPresentation,
     ) {
         $currencies = $useCaseCurrencies->execute(new ListCurrenciesInputDto(includeInactive: false));
         $assets = $useCaseAssets->execute(new ListAssetsInputDto(includeInactive: false));
@@ -39,10 +80,10 @@ class DividendsController extends Controller
         $data['btnVoltar'] = getBtnLink(ButtonType::BACK, link: "/dividends");
         $data['titulo'] = 'Adicionar';
         $data['action'] = "/dividends";
-        $data["currencies"] = $this->entitiesToSelect($currencies->items);
-        $data["assets"] = $this->entitiesToSelect($assets->items, value: "code");
+        $data["currencies"] = $currencyPresentation->arrayToSelect($currencies->items);
+        $data["assets"] = $assetPresentation->arrayToSelect($assets->items);
         $data["years"] = $this->getSelectYears();
-        $data["types"] = $this->getTypes();
+        $data["types"] = $dividendPresentation->typesToArray();
 
         return view("dividends.create_edit", $data);
     }
@@ -64,15 +105,6 @@ class DividendsController extends Controller
         return redirect("/dividends")->with("msg", "Dividendo inserido com sucesso!");
     }
 
-    private function getTypes()
-    {
-        $types = [];
-        foreach(DividendType::cases() as $case) {
-            $types[$case->value] = $case->value;
-        }
-        return $types;
-    }
-
     private function getSelectYears()
     {
         $currentYear = (new Date())->getYear();
@@ -85,15 +117,6 @@ class DividendsController extends Controller
         }
 
         return $years;
-    }
-
-    private function entitiesToSelect($types, $id = 'id', $value = 'name')
-    {
-        $result = [];
-        foreach ($types as $type) {
-            $result[$type->$id()] = $type->$value;
-        }
-        return $result;
     }
 
     private function getTable($data)

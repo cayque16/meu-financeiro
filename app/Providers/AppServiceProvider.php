@@ -2,10 +2,16 @@
 
 namespace App\Providers;
 
+use App\Presentations\AssetPresentation;
+use App\Presentations\CurrencyPresentation;
+use App\Presentations\DividendPaymentPresentation;
 use App\Repositories\Eloquent\AssetEloquentRepository;
 use App\Repositories\Eloquent\AssetsTypeEloquentRepository;
 use App\Repositories\Eloquent\CurrencyEloquentRepository;
 use App\Repositories\Eloquent\DividendPaymentEloquentRepository;
+use Core\Domain\Presentation\AssetPresentationInterface;
+use Core\Domain\Presentation\CurrencyPresentationInterface;
+use Core\Domain\Presentation\DividendPaymentPresentationInterface;
 use Core\Domain\Repository\AssetRepositoryInterface;
 use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Core\Domain\Repository\CurrencyRepositoryInterface;
@@ -46,6 +52,18 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             CurrencyRepositoryInterface::class,
             CurrencyEloquentRepository::class
+        );
+        $this->app->singleton(
+            AssetPresentationInterface::class,
+            AssetPresentation::class
+        );
+        $this->app->singleton(
+            CurrencyPresentationInterface::class,
+            CurrencyPresentation::class
+        );
+        $this->app->singleton(
+            DividendPaymentPresentationInterface::class,
+            DividendPaymentPresentation::class
         );
     }
 }
