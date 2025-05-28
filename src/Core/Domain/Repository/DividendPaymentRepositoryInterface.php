@@ -10,4 +10,8 @@ interface DividendPaymentRepositoryInterface extends BaseRepositoryInterface
         ?string $idAsset = null,
         ?string $idType = null
     ): array;
+
+    public function lstYearsOfPayment(): array;
+
+    public function lstFiscalYears(): array;
 }

@@ -129,6 +129,24 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
         return $typeBd->delete();
     }
 
+    public function lstYearsOfPayment(): array
+    {
+        $query = $this->model->withTrashed();
+
+        $result = $query->select('payment_date')->groupBy('payment_date')->get();
+
+        return $result->toArray();
+    }
+
+    public function lstFiscalYears(): array
+    {
+        $query = $this->model->withTrashed();
+
+        $result = $query->select('fiscal_year')->groupBy('fiscal_year')->get();
+
+        return $result->toArray();
+    }
+
     public function toBaseEntity(object $data): BaseEntity
     {
         $asset = $this->repoAsset->toBaseEntity($data->asset);

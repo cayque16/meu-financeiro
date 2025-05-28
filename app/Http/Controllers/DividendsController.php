@@ -14,6 +14,8 @@ use Core\UseCase\Asset\ListAssetsUseCase;
 use Core\UseCase\Currency\ListCurrenciesUseCase;
 use Core\UseCase\DividendPayment\CreateDividendPaymentUseCase;
 use Core\UseCase\DividendPayment\ListDividendsPaymentUseCase;
+use Core\UseCase\DividendPayment\ListFiscalYearsUseCase;
+use Core\UseCase\DividendPayment\ListYearsOfPaymentUseCase;
 use Core\UseCase\DTO\Asset\ListAssets\ListAssetsInputDto;
 use Core\UseCase\DTO\Currency\ListCurrencies\ListCurrenciesInputDto;
 use Core\UseCase\DTO\DividendPayment\Create\CreateDividendPaymentInputDto;
@@ -27,15 +29,16 @@ class DividendsController extends Controller
         DividendPaymentPresentationInterface $dividendPresentation,
         ListAssetsUseCase $useCaseAssets,
         AssetPresentationInterface $assetPresentation,
-        Request $request,
+        ListYearsOfPaymentUseCase $listYearsOfPayment,
+        ListFiscalYearsUseCase $listFiscalYears,
     ) {
         $response = $useCase->execute(new ListDividendsPaymentInputDto());
         $assets = $useCaseAssets->execute(new ListAssetsInputDto(includeInactive: false));
         $data["cabecalho"] = $this->getHead();
         $data["tabela"] = ['data' => $this->getTable($response)];
         $data["btnAdd"] = getBtnLink(ButtonType::INCLUDE, link: "dividends/create");
-        $data["paymentYear"] = $dividendPresentation->yearsOfPayment($response->items);
-        $data["fiscalYears"] = $dividendPresentation->fiscalYears($response->items);
+        $data["paymentYear"] = $listYearsOfPayment->execute();
+        $data["fiscalYears"] = $listFiscalYears->execute();
         $data["assets"] = $assetPresentation->arrayToSelect($assets->items);
         $data["types"] = $dividendPresentation->typesToArray();
         
@@ -47,6 +50,8 @@ class DividendsController extends Controller
         DividendPaymentPresentationInterface $dividendPresentation,
         ListAssetsUseCase $useCaseAssets,
         AssetPresentationInterface $assetPresentation,
+        ListYearsOfPaymentUseCase $listYearsOfPayment,
+        ListFiscalYearsUseCase $listFiscalYears,
         Request $request,
     ) {
         $response = $useCase->execute(new ListDividendsPaymentInputDto(
@@ -59,8 +64,8 @@ class DividendsController extends Controller
         $data["cabecalho"] = $this->getHead();
         $data["tabela"] = ['data' => $this->getTable($response)];
         $data["btnAdd"] = getBtnLink(ButtonType::INCLUDE, link: "dividends/create");
-        $data["paymentYear"] = $dividendPresentation->yearsOfPayment($response->items);
-        $data["fiscalYears"] = $dividendPresentation->fiscalYears($response->items);
+        $data["paymentYear"] = $listYearsOfPayment->execute();
+        $data["fiscalYears"] = $listFiscalYears->execute();
         $data["assets"] = $assetPresentation->arrayToSelect($assets->items);
         $data["types"] = $dividendPresentation->typesToArray();
         

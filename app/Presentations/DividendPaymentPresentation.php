@@ -13,24 +13,6 @@ class DividendPaymentPresentation implements DividendPaymentPresentationInterfac
         throw new NotImplementedException('This method has not been implemented!');
     }
 
-    public function yearsOfPayment(array $items): array
-    {
-        $result = [];
-        foreach ($items as $payment) {
-            $result[$payment->paymentDate->getYear()] = $payment->paymentDate->getYear();
-        }
-        return $result;
-    }
-
-    public function fiscalYears(array $items): array
-    {
-        $result = [];
-        foreach ($items as $payment) {
-            $result[$payment->fiscalYear] = $payment->fiscalYear;
-        }
-        return $result;
-    }
-
     public function typesToArray(): array
     {
         $types = [];

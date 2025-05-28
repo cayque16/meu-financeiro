@@ -26,7 +26,7 @@ class DividendPaymentFactory extends Factory
             'id' => (string) Str::uuid(),
             'asset_id' => Asset::inRandomOrder()->value('uuid'),
             'payment_date' => $this->faker->date(),
-            'fiscal_year' => $this->faker->date('Y'),
+            'fiscal_year' => $this->faker->year(),
             'type' => $randomType,
             'amount' => $this->faker->numberBetween(1,1000),
             'currency_id' => Currency::inRandomOrder()->value('id'),

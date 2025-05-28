@@ -220,6 +220,45 @@ class DividendPaymentRepositoryTest extends TestCase
         }
     }
 
+    public function testLstYearsOfPayment()
+    {
+        $this->createFakers();
+        DividendPaymentModel::factory()
+            ->count(30)
+            ->state(new Sequence(
+                ['payment_date' => '1994-04-15'],
+                ['payment_date' => '1996-06-15'],
+                ['payment_date' => '2015-01-10'],
+                ['payment_date' => '2018-04-13'],
+            ))
+            ->create();
+
+        $result = $this->repository->lstYearsOfPayment();
+        $this->assertEquals([
+            ['payment_date' => '1994-04-15'],
+            ['payment_date' => '1996-06-15'],
+            ['payment_date' => '2015-01-10'],
+            ['payment_date' => '2018-04-13'],
+        ], $result);
+    }
+
+    public function testLstFiscalYears()
+    {
+        $this->createFakers();
+        DividendPaymentModel::factory()->create(['fiscal_year' => 1994]);
+        DividendPaymentModel::factory()->create(['fiscal_year' => 1996]);
+        DividendPaymentModel::factory()->create(['fiscal_year' => 2015]);
+        DividendPaymentModel::factory()->create(['fiscal_year' => 2018]);
+
+        $result = $this->repository->lstFiscalYears();
+        $this->assertEquals([
+            ['fiscal_year' => '1994'],
+            ['fiscal_year' => '1996'],
+            ['fiscal_year' => '2015'],
+            ['fiscal_year' => '2018'],
+        ], $result);
+    }
+
     private function createFakers()
     {
         AssetsTypeModel::factory()->create();
