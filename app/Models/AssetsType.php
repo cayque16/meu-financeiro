@@ -32,6 +32,7 @@ class AssetsType extends Model
 
     public function assets()
     {
-        return $this->belongsTo(Asset::class, 'uuid_assets_type', 'uuid');
+        return $this->belongsTo(Asset::class, 'uuid_assets_type', 'uuid')
+            ->withTrashed();
     }
 }

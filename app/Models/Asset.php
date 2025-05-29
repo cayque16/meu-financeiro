@@ -48,6 +48,7 @@ class Asset extends Model
 
     public function assetsType()
     {
-        return $this->hasOne(AssetsType::class, 'uuid', 'uuid_assets_type');
+        return $this->hasOne(AssetsType::class, 'uuid', 'uuid_assets_type')
+            ->withTrashed();
     }
 }
