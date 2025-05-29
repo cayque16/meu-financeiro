@@ -30,6 +30,7 @@ return new class extends Migration
                 }
             }
         });
+        
         Schema::table('assets', function (Blueprint $table) {
             $table->uuid('uuid_assets_type')->nullable(false)->change();
         });

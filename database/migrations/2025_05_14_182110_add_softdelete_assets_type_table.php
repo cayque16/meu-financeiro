@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\AssetsType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -17,12 +17,10 @@ return new class extends Migration
         Schema::table("assets_types", function (Blueprint $table) {
             $table->softDeletes();
         });
-        AssetsType::where('e_excluido', '=', 1)->chunk(100, function ($types) {
-            foreach ($types as $type) {
-                $type->deleted_at = now();
-                $type->save();
-            }
-        });
+        
+        DB::table("assets_types")
+            ->where("e_excluido" , "=", 1)
+            ->update(["deleted_at" => now()]);
     }
 
     /**

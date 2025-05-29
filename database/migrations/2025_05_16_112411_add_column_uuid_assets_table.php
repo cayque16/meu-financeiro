@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Asset;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
@@ -18,12 +18,17 @@ return new class extends Migration
         Schema::table("assets", function (Blueprint $table) {
             $table->uuid("uuid")->nullable()->after("id");
         });
-        Asset::whereNull('uuid')->withTrashed()->chunk(100, function ($types) {
-            foreach ($types as $type) {
-                $type->uuid = Str::uuid();
-                $type->save();
-            }
-        });
+
+        $assets = DB::table("assets")
+            ->whereNull("uuid")
+            ->get();
+
+        foreach ($assets as $asset) {
+            DB::table("assets")
+                ->where("id", $asset->id)
+                ->update(["uuid" => Str::uuid()]);
+        }
+
         Schema::table('assets', function (Blueprint $table) {
             $table->uuid('uuid')->nullable(false)->unique()->change();
         });
