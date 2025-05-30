@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::table('assets', function (Blueprint $table) {
             $table->dropColumn('id');
+        });
+
+        Schema::table('assets', function (Blueprint $table) {
             $table->dropColumn('e_excluido');
         });
 

@@ -10,6 +10,7 @@ use App\Models\AssetsType as AssetTypeModel;
 use App\Repositories\Eloquent\AssetsTypeEloquentRepository;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\ValueObject\Date;
+use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
@@ -32,12 +33,12 @@ class AssetEloquentRepositoryTest extends TestCase
     public function testInsert()
     {
         $typeBd = AssetTypeModel::factory()->create();
+        // dd($typeBd);
         $type = new AssetTypeEntity(
-            id: $typeBd->uuid,
-            name: $typeBd->nome,
-            description: $typeBd->descricao,
+            id: $typeBd->id,
+            name: $typeBd->name,
+            description: $typeBd->description,
             createdAt: new Date($typeBd->created_at),
-            oldId: $typeBd->id,
         );
 
         $asset = new AssetEntity(code: 'BTC', type: $type, description: 'desc');
@@ -47,7 +48,6 @@ class AssetEloquentRepositoryTest extends TestCase
         $this->assertEquals($asset->id, $result->id);
         $this->assertEquals($asset->code, $result->code);
         $this->assertEquals($asset->type->id, $result->type->id);
-        $this->assertEquals($asset->type->oldId, $typeBd->id);
         $this->assertEquals($asset->description, $result->description);
     }
 
@@ -63,11 +63,10 @@ class AssetEloquentRepositoryTest extends TestCase
 
         $result = $this->repository->findById($asset->id);
 
-        $this->assertEquals($asset->uuid, $result->id);
-        $this->assertEquals($asset->codigo, $result->code);
-        $this->assertEquals($asset->uuid_assets_type, $result->type->id);
-        $this->assertEquals($asset->id_assets_type, $typeBd->id);
-        $this->assertEquals($asset->descricao, $result->description);
+        $this->assertEquals($asset->id, $result->id);
+        $this->assertEquals($asset->code, $result->code);
+        $this->assertEquals($asset->assets_type_id, $result->type->id);
+        $this->assertEquals($asset->description, $result->description);
     }
 
      public function testFindAllEmpty()
@@ -108,22 +107,18 @@ class AssetEloquentRepositoryTest extends TestCase
     {
         $typeBd = AssetTypeModel::factory()->count(2)->create();
         $assetDb = AssetModel::factory()->create([
-            'id' => 1,
-            'uuid' => Uuid::uuid4(),
-            'codigo' => 'code',
-            'id_assets_type' => $typeBd[0]->id,
-            'uuid_assets_type' => $typeBd[0]->uuid,
-            'e_excluido' => 0,
+            'id' => Uuid::uuid4(),
+            'code' => 'code',
+            'assets_type_id' => $typeBd[0]->id,
         ]);
 
         $asset = new AssetEntity(
-            id: $assetDb->uuid,
+            id: $assetDb->id,
             code: 'new code',
             type: new AssetTypeEntity(
-                id: $typeBd[1]->uuid,
-                name: $typeBd[1]->nome,
-                description: $typeBd[1]->descricao,
-                oldId: $typeBd[1]->id,
+                id: $typeBd[1]->id,
+                name: $typeBd[1]->name,
+                description: $typeBd[1]->description,
             ),
             description: 'new desc',
         );
@@ -133,7 +128,6 @@ class AssetEloquentRepositoryTest extends TestCase
         $this->assertEquals('new code', $result->code);
         $this->assertEquals('new desc', $result->description);
         $this->assertNotEquals($assetDb->code, $asset->code);
-        $this->assertNotEquals($assetDb->id_assets_type, $asset->type->oldId);
     }
 
     public function testActivate()
@@ -143,7 +137,7 @@ class AssetEloquentRepositoryTest extends TestCase
             'deleted_at' => now(),
         ]);
 
-        $this->assertTrue($this->repository->activate($assetDb->uuid));
+        $this->assertTrue($this->repository->activate($assetDb->id));
     }
 
     public function testDisable()
@@ -151,6 +145,6 @@ class AssetEloquentRepositoryTest extends TestCase
         AssetTypeModel::factory()->create();
         $assetDb = AssetModel::factory()->create();
 
-        $this->assertTrue($this->repository->disable($assetDb->uuid));
+        $this->assertTrue($this->repository->disable($assetDb->id));
     }
 }

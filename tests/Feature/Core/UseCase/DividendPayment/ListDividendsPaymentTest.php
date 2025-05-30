@@ -68,8 +68,8 @@ class ListDividendsPaymentTest extends TestCase
         $this->createFakers();
         $uuid1 = Uuid::random();
         $uuid2 = Uuid::random();
-        Asset::factory()->create(['uuid' => $uuid1]);
-        Asset::factory()->create(['uuid' => $uuid2]);
+        Asset::factory()->create(['id' => $uuid1]);
+        Asset::factory()->create(['id' => $uuid2]);
         DividendPayment::factory()
             ->count(10)
             ->state(new Sequence(
@@ -104,18 +104,18 @@ class ListDividendsPaymentTest extends TestCase
     public function testListsDividendsAllFilters()
     {
         $this->createFakers();
-        $uuid = Uuid::random();
-        Asset::factory()->create(['uuid' => $uuid]);
+        $id = Uuid::random();
+        Asset::factory()->create(['id' => $id]);
         $type = DividendType::JCP;
         DividendPayment::factory()->create([
-            'asset_id' => $uuid,
+            'asset_id' => $id,
             'type' => $type,
             'payment_date' => '2024-01-05',
         ]);
 
-        $result = $this->createUseCase(paymentYear: 2024, idAsset: 'uuid', idType: $type->value);
+        $result = $this->createUseCase(paymentYear: 2024, idAsset: 'id', idType: $type->value);
         $this->assertCount(0, $result->items);
-        $result = $this->createUseCase(paymentYear: 2024, idAsset: $uuid, idType: $type->value);
+        $result = $this->createUseCase(paymentYear: 2024, idAsset: $id, idType: $type->value);
         $this->assertCount(1, $result->items);
     }
 }

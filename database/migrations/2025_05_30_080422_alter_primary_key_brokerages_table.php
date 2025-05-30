@@ -12,11 +12,11 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE brokerages MODIFY id BIGINT UNSIGNED');
-
-        DB::statement('ALTER TABLE brokerages DROP PRIMARY KEY');
-
-        DB::statement('ALTER TABLE brokerages ADD PRIMARY KEY (uuid)');
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE brokerages MODIFY id BIGINT UNSIGNED');
+            DB::statement('ALTER TABLE brokerages DROP PRIMARY KEY');
+            DB::statement('ALTER TABLE brokerages ADD PRIMARY KEY (uuid)');
+        }
     }
 
     /**
@@ -26,8 +26,10 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::statement('ALTER TABLE brokerages DROP PRIMARY KEY');
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE brokerages DROP PRIMARY KEY');
 
-        DB::statement('ALTER TABLE brokerages MODIFY id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY');
+            DB::statement('ALTER TABLE brokerages MODIFY id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY');
+        }
     }
 };

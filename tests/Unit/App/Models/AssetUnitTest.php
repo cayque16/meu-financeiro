@@ -25,12 +25,10 @@ class AssetUnitTest extends ModelTestCase
     protected function fillable(): array
     {
         return [
-            'uuid',
-            'codigo',
-            'descricao',
-            'id_assets_type',
-            'uuid_assets_type',
-            'e_excluido',
+            'id',
+            'code',
+            'description',
+            'assets_type_id',
             'created_at',
             'updated_at',
             'deleted_at',
@@ -40,11 +38,11 @@ class AssetUnitTest extends ModelTestCase
     protected function casts(): array
     {
         return [
-            'uuid_assets_type' => 'string',
+            'id' => 'string',
+            'assets_type_id' => 'string',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
             'deleted_at' => 'datetime',
-            'id' => 'int',
         ];
     }
 }

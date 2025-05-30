@@ -15,7 +15,6 @@ class AssetType extends BaseEntity
         protected ?Date $createdAt = null,
         protected ?Date $deletedAt = null,
         protected ?Date $updatedAt = null,
-        protected ?int $oldId = 0,
     ) {
         parent::__construct($id, $createdAt, $deletedAt, $updatedAt);
         

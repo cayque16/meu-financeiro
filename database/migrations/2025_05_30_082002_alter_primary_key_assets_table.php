@@ -12,11 +12,11 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE assets MODIFY id BIGINT UNSIGNED');
-
-        DB::statement('ALTER TABLE assets DROP PRIMARY KEY');
-
-        DB::statement('ALTER TABLE assets ADD PRIMARY KEY (uuid)');
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE assets MODIFY id BIGINT UNSIGNED');
+            DB::statement('ALTER TABLE assets DROP PRIMARY KEY');
+            DB::statement('ALTER TABLE assets ADD PRIMARY KEY (uuid)');
+        }
     }
 
     /**
@@ -26,8 +26,10 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::statement('ALTER TABLE assets DROP PRIMARY KEY');
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE assets DROP PRIMARY KEY');
 
-        DB::statement('ALTER TABLE assets MODIFY id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY');
+            DB::statement('ALTER TABLE assets MODIFY id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY');
+        }
     }
 };

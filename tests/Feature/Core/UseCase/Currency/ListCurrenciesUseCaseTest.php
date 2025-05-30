@@ -22,7 +22,7 @@ class ListCurrenciesUseCaseTest extends TestCase
     {
         $response = $this->createUseCase();
 
-        $this->assertCount(0, $response->items);
+        $this->assertCount(2, $response->items, 'There are two standard currencies');
     }
 
     public function testListAll()
@@ -31,6 +31,6 @@ class ListCurrenciesUseCaseTest extends TestCase
         Currency::factory()->count($count)->create();
         $response = $this->createUseCase();
 
-        $this->assertCount($count, $response->items);
+        $this->assertCount($count + 2, $response->items, 'There are two standard currencies');
     }
 }

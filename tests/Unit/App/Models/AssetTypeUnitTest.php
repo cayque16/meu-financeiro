@@ -26,10 +26,8 @@ class AssetTypeUnitTest extends ModelTestCase
     {
         return [
             'id',
-            'uuid',
-            'nome',
-            'descricao',
-            'e_excluido',
+            'name',
+            'description',
             'created_at',
             'updated_at',
             'deleted_at',
@@ -39,11 +37,10 @@ class AssetTypeUnitTest extends ModelTestCase
     protected function casts(): array
     {
         return [
-            'uuid' => 'string',
+            'id' => 'string',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
             'deleted_at' => 'datetime',
-            'id' => 'int',
         ];
     }
 }

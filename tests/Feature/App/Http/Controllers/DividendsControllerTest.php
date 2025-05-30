@@ -50,7 +50,7 @@ class DividendsControllerTest extends TestCase
 
         $amount = 0.15;
         $data = [
-            "id_asset" => $asset->uuid,
+            "id_asset" => $asset->id,
             "id_currency" => $currency->id,
             "fiscal_year" => 2025,
             "payment_date" => "15-04-1994",
@@ -63,7 +63,7 @@ class DividendsControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect("/dividends");
         $this->assertDatabaseHas("dividends_payments", [
-            "asset_id" => $asset->uuid,
+            "asset_id" => $asset->id,
             "currency_id" => $currency->id,
             "fiscal_year" => 2025,
             "payment_date" => "1994-04-15 00:00:00",

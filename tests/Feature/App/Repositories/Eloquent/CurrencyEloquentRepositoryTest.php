@@ -72,7 +72,7 @@ class CurrencyEloquentRepositoryTest extends TestCase
     {
         $result = $this->repository->findAll();
 
-        $this->assertCount(0, $result);
+        $this->assertCount(2, $result, 'There are two standard currencies');
     }
 
     public function testFindAll()
@@ -81,7 +81,7 @@ class CurrencyEloquentRepositoryTest extends TestCase
         CurrencyModel::factory()->count($count)->create();
         $result = $this->repository->findAll();
 
-        $this->assertCount($count, $result);
+        $this->assertCount($count + 2, $result, 'There are two standard currencies');
         foreach ($result as $item) {
             $this->assertInstanceOf(CurrencyEntity::class, $item);
         }

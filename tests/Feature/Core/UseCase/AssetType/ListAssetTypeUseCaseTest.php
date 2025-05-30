@@ -18,11 +18,11 @@ class ListAssetTypeUseCaseTest extends TestCase
         $useCase = new ListAssetTypeUseCase($repository);
 
         $response = $useCase->execute(
-            new AssetTypeInputDto(id: $type->uuid)
+            new AssetTypeInputDto(id: $type->id)
         );
 
-        $this->assertEquals($type->uuid, $response->id);
-        $this->assertEquals($type->nome, $response->name);
-        $this->assertEquals($type->descricao, $response->description);
+        $this->assertEquals($type->id, $response->id);
+        $this->assertEquals($type->name, $response->name);
+        $this->assertEquals($type->description, $response->description);
     }
 }

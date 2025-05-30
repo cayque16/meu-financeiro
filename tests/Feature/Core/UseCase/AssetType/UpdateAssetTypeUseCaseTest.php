@@ -19,17 +19,16 @@ class UpdateAssetTypeUseCaseTest extends TestCase
 
         $response = $useCase->execute(
             new UpdateAssetTypeInputDto(
-                id: $type->uuid,
+                id: $type->id,
                 name: 'new name',
-                description: $type->descricao,
+                description: $type->description,
             )
         );
 
         $this->assertEquals('new name', $response->name);
-        $this->assertEquals($type->descricao, $response->description);
-        $this->assertEquals($type->id, $response->oldId);
-        $this->assertDatabaseHas('assets_types', [
-            'nome' => $response->name,
+        $this->assertEquals($type->description, $response->description);
+        $this->assertDatabaseHas('assets_type', [
+            'name' => $response->name,
         ]);
     }
 }

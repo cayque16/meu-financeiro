@@ -46,7 +46,10 @@ class AssetsTypeControllerTest extends TestCase
         $response = $this->post("/assets_type", $data);
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect("/assets_type");
-        $this->assertDatabaseHas("assets_types", $data);
+        $this->assertDatabaseHas("assets_type", [
+            "name" => "test",
+            "description" => "desc",
+        ]);
     }
 
     /**
@@ -72,7 +75,7 @@ class AssetsTypeControllerTest extends TestCase
         $this->login();
         $type = AssetsType::factory()->create();
 
-        $response = $this->get("/assets_type/edit/{$type->uuid}");
+        $response = $this->get("/assets_type/edit/{$type->id}");
         $response->assertStatus(Response::HTTP_OK);
         $response->assertViewIs("assets_type.create_edit");
     }
@@ -82,17 +85,17 @@ class AssetsTypeControllerTest extends TestCase
         $this->login();
         $type = AssetsType::factory()->create();
 
-        $response = $this->post("/assets_type/update/{$type->uuid}", [
+        $response = $this->post("/assets_type/update/{$type->id}", [
             "nome" => "test",
             "descricao" => "desc"
         ]);
         
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect("/assets_type");
-        $this->assertDatabaseHas("assets_types", [
-            'uuid' => $type->uuid,
-            'nome' => 'test',
-            'descricao'=> 'desc'
+        $this->assertDatabaseHas("assets_type", [
+            'id' => $type->id,
+            'name' => 'test',
+            'description'=> 'desc'
         ]);
     }
 
@@ -107,7 +110,7 @@ class AssetsTypeControllerTest extends TestCase
         $this->login();
         $type = AssetsType::factory()->create();
 
-        $response = $this->post("/assets_type/update/{$type->uuid}", [
+        $response = $this->post("/assets_type/update/{$type->id}", [
             $key1 => $value1,
         ]);
 
@@ -119,15 +122,15 @@ class AssetsTypeControllerTest extends TestCase
         $this->login();
         $uuid = (string) Str::uuid();
         $type = AssetsType::factory()->create([
-            'uuid' => $uuid,
+            'id' => $uuid,
             'deleted_at' => now(),
         ]);
         
-        $response = $this->get("/assets_type/enable/{$type->uuid}/1");        
+        $response = $this->get("/assets_type/enable/{$type->id}/1");        
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect("/assets_type");
-        $this->assertDatabaseHas("assets_types", [
-            "uuid" => $type->uuid,
+        $this->assertDatabaseHas("assets_type", [
+            "id" => $type->id,
             "deleted_at" => null,
         ]);
     }
@@ -137,15 +140,15 @@ class AssetsTypeControllerTest extends TestCase
         $this->login();
         $type = AssetsType::factory()->create();
 
-        $this->assertDatabaseHas("assets_types", [
-            "uuid" => $type->uuid,
+        $this->assertDatabaseHas("assets_type", [
+            "id" => $type->id,
             "deleted_at" => null,
         ]);
-        $response = $this->get("/assets_type/enable/{$type->uuid}/0");
+        $response = $this->get("/assets_type/enable/{$type->id}/0");
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect("/assets_type");
-        $this->assertDatabaseMissing("assets_types", [
-            "uuid" => $type->uuid,
+        $this->assertDatabaseMissing("assets_type", [
+            "id" => $type->id,
             "deleted_at" => null,
         ]);
     }

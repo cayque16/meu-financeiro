@@ -11,20 +11,21 @@ class Asset extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public $incrementing = false;
+
     protected $fillable = [
-        'uuid',
-        'codigo',
-        'descricao',
-        'id_assets_type',
-        'uuid_assets_type',
-        'e_excluido',
+        'id',
+        'code',
+        'description',
+        'assets_type_id',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
     protected $casts = [
-        'uuid_assets_type'=> 'string',
+        'id' => 'string',
+        'assets_type_id' => 'string',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
@@ -35,20 +36,20 @@ class Asset extends Model
         return self::all();
     }
 
-    public function sltAssets($arrayStatus = [Status::ACTIVE])
-    {
-        $result = Asset::select('id', 'codigo')
-            ->whereIn('e_excluido', $arrayStatus)
-            ->orderBy('codigo')
-            ->get()
-            ->toArray();
+    // public function sltAssets($arrayStatus = [Status::ACTIVE])
+    // {
+    //     $result = Asset::select('id', 'codigo')
+    //         ->whereIn('e_excluido', $arrayStatus)
+    //         ->orderBy('codigo')
+    //         ->get()
+    //         ->toArray();
 
-        return array_column($result, 'codigo', 'id');
-    }
+    //     return array_column($result, 'codigo', 'id');
+    // }
 
     public function assetsType()
     {
-        return $this->hasOne(AssetsType::class, 'uuid', 'uuid_assets_type')
+        return $this->hasOne(AssetsType::class, 'id', 'assets_type_id')
             ->withTrashed();
     }
 }

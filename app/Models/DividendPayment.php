@@ -38,7 +38,7 @@ class DividendPayment extends Model
 
     public function asset()
     {
-        return $this->hasOne(Asset::class, 'uuid', 'asset_id')
+        return $this->hasOne(Asset::class, 'id', 'asset_id')
             ->withTrashed();
     }
 

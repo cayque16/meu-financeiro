@@ -23,15 +23,15 @@ class CreateAssetUseCaseTest extends TestCase
         $response = $useCase->execute(
             new CreateAssetInputDto(
                 code: "BTC",
-                idType: $type->uuid,
+                idType: $type->id,
                 description: "desc",
             )
         );
 
         $this->assertNotEmpty($response->id);
         $this->assertEquals("BTC", $response->code);
-        $this->assertEquals($type->uuid, $response->idType);
+        $this->assertEquals($type->id, $response->idType);
         $this->assertEquals("desc", $response->description);
-        $this->assertDatabaseHas('assets', ['uuid' => $response->id]);
+        $this->assertDatabaseHas('assets', ['id' => $response->id]);
     }
 }

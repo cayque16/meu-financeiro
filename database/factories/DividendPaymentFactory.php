@@ -24,7 +24,7 @@ class DividendPaymentFactory extends Factory
         $now = now();
         return [
             'id' => (string) Str::uuid(),
-            'asset_id' => Asset::inRandomOrder()->value('uuid'),
+            'asset_id' => Asset::inRandomOrder()->value('id'),
             'payment_date' => $this->faker->date(),
             'fiscal_year' => $this->faker->year(),
             'type' => $randomType,

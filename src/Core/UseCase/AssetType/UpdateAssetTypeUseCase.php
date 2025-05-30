@@ -30,7 +30,6 @@ class UpdateAssetTypeUseCase
                 createdAt: $return->createdAt(),
                 updatedAt: $return->updatedAt(),
                 deletedAt: $return->deletedAt(),
-                oldId: $return->oldId,
             );
         }
         throw new NotFoundException("No AssetType with that id was found: {$input->id}");

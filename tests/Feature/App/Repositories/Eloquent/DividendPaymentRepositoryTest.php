@@ -38,12 +38,12 @@ class DividendPaymentRepositoryTest extends TestCase
         $assetBd = AssetModel::factory()->create();
         
         $assetEntity = new AssetEntity(
-            id: $assetBd->uuid,
-            code: $assetBd->codigo,
+            id: $assetBd->id,
+            code: $assetBd->code,
             type: new AssetTypeEntity(
-                id: $typeBd->uuid,
-                name: $typeBd->nome,
-                description: $typeBd->descricao,
+                id: $typeBd->id,
+                name: $typeBd->name,
+                description: $typeBd->description,
                 createdAt: Date::fromNullable($typeBd->created_at),
                 updatedAt: Date::fromNullable($typeBd->updated_at),
                 deletedAt: Date::fromNullable($typeBd->deleted_at),
@@ -95,7 +95,7 @@ class DividendPaymentRepositoryTest extends TestCase
 
         $this->assertEquals($payment->id, $result->id);
         $this->assertEquals($payment->id, $result->id);
-        $this->assertEquals($payment->asset->uuid, $result->asset->id);
+        $this->assertEquals($payment->asset->id, $result->asset->id);
         $this->assertEquals($payment->type, $result->type);
         $this->assertEquals($payment->amount, $result->amount);
         $this->assertEquals($payment->currency->id, $result->currency->id);
@@ -159,8 +159,8 @@ class DividendPaymentRepositoryTest extends TestCase
         $this->createFakers();
         $uuid1 = Uuid::random();
         $uuid2 = Uuid::random();
-        AssetModel::factory()->create(['uuid' => $uuid1]);
-        AssetModel::factory()->create(['uuid' => $uuid2]);
+        AssetModel::factory()->create(['id' => $uuid1]);
+        AssetModel::factory()->create(['id' => $uuid2]);
         DividendPaymentModel::factory()
             ->count(10)
             ->state(new Sequence(
@@ -203,7 +203,7 @@ class DividendPaymentRepositoryTest extends TestCase
         $this->createFakers();
         $uuid = Uuid::random();
         $type = DividendType::JCP;
-        AssetModel::factory()->create(['uuid' => $uuid]);
+        AssetModel::factory()->create(['id' => $uuid]);
         DividendPaymentModel::factory()->create([
             'asset_id' => $uuid,
             'type' => $type,
@@ -211,7 +211,7 @@ class DividendPaymentRepositoryTest extends TestCase
             'fiscal_year' => '2024',
         ]);
 
-        $result = $this->repository->lstDividends(paymentYear: 2024, idAsset: 'uuid', idType: $type->value, fiscalYear: 2024);
+        $result = $this->repository->lstDividends(paymentYear: 2024, idAsset: 'id', idType: $type->value, fiscalYear: 2024);
         $this->assertCount(0, $result);
         $result = $this->repository->lstDividends(paymentYear: 2024, idAsset: $uuid, idType: $type->value, fiscalYear: 2024);
         $this->assertCount(1, $result);

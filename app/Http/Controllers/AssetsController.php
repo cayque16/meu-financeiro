@@ -19,8 +19,6 @@ use Core\UseCase\DTO\Asset\ListAssets\ListAssetsInputDto;
 use Core\UseCase\DTO\Asset\Update\UpdateAssetInputDto;
 use Core\UseCase\DTO\AssetType\ListAssetsTypes\ListAssetsTypesInputDto;
 
-use function PHPSTORM_META\type;
-
 class AssetsController extends Controller
 {
     public function index(ListAssetsUseCase $useCase)

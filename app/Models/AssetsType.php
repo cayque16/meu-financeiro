@@ -12,19 +12,21 @@ class AssetsType extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = "assets_type";
+
+    public $incrementing = false;
+
     protected $fillable = [
         'id',
-        'uuid',
-        'nome',
-        'descricao',
-        'e_excluido',
+        'name',
+        'description',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
     protected $casts = [
-        'uuid'=> 'string',
+        'id' => 'string',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
@@ -32,7 +34,7 @@ class AssetsType extends Model
 
     public function assets()
     {
-        return $this->belongsTo(Asset::class, 'uuid_assets_type', 'uuid')
+        return $this->belongsTo(Asset::class, 'assets_type_id', 'id')
             ->withTrashed();
     }
 }

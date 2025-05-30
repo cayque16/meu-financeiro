@@ -20,9 +20,9 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
     public function insert(BaseEntity $entity): BaseEntity
     {
         $typeBd = $this->model->create([
-            "uuid" => $entity->id,
-            "nome"=> $entity->name,
-            "descricao" => $entity->description,
+            "id" => $entity->id,
+            "name" => $entity->name,
+            "description" => $entity->description,
         ]);
 
         return $this->toBaseEntity($typeBd);
@@ -30,7 +30,7 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
 
     public function findByUuid(Uuid|string $uuid): ?Model
     {
-        if (!$entity =  $this->model->withTrashed()->where('uuid', $uuid)->first()) {
+        if (!$entity =  $this->model->withTrashed()->where('id', $uuid)->first()) {
             return null;
         } 
 
@@ -51,10 +51,10 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
         $query = $includeInactive ? $this->model->withTrashed() : $this->model->newQuery();
 
         if ($filter) {
-            $query->where('nome', 'LIKE', "%{$filter}%");
+            $query->where('name', 'LIKE', "%{$filter}%");
         }
 
-        $result = $query->orderBy('nome', $orderBy)->get();
+        $result = $query->orderBy('name', $orderBy)->get();
 
         return $result->map(fn ($model) => $this->toBaseEntity($model))->all();
     }
@@ -66,8 +66,8 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
         }
 
         $assetDb->update([
-            'nome' => $entity->name,
-            'descricao' => $entity->description,
+            'name' => $entity->name,
+            'description' => $entity->description,
         ]);
 
         return $this->toBaseEntity($assetDb);
@@ -99,13 +99,12 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
     public function toBaseEntity(object $data): BaseEntity
     {
         $type = new AssetTypeEntity(
-            id: $data->uuid,
-            name: $data->nome,
-            description: $data->descricao,
+            id: $data->id,
+            name: $data->name,
+            description: $data->description,
             createdAt: Date::fromNullable($data->created_at),
             updatedAt: Date::fromNullable($data->updated_at),
             deletedAt: Date::fromNullable($data->deleted_at),
-            oldId: $data->id,
         );
         
         return $type;

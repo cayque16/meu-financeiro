@@ -19,13 +19,10 @@ class AssetFactory extends Factory
     public function definition()
     {
         return [
-            'id' => $this->faker->numberBetween(1),
-            'uuid' => (string) Str::uuid(),
-            'codigo' => $this->faker->lexify('?????'),
-            'descricao' => $this->faker->sentence(1),
-            'id_assets_type' => AssetsType::inRandomOrder()->value('id'),
-            'uuid_assets_type' => AssetsType::inRandomOrder()->value('uuid'),
-            'e_excluido' => 0,
+            'id' => (string) Str::uuid(),
+            'code' => $this->faker->lexify('?????'),
+            'description' => $this->faker->sentence(1),
+            'assets_type_id' => AssetsType::inRandomOrder()->value('id'),
             'deleted_at' => null,
             'created_at' => now(),
         ];

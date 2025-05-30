@@ -25,6 +25,6 @@ class CreateAssetTypeUseCaseTest extends TestCase
         $this->assertNotEmpty($response->id);
         $this->assertEquals('name', $response->name);
         $this->assertEquals('desc', $response->description);
-        $this->assertDatabaseHas('assets_types', ['uuid' => $response->id]);
+        $this->assertDatabaseHas('assets_type', ['id' => $response->id]);
     }
 }

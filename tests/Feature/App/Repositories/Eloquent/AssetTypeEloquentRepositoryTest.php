@@ -32,9 +32,7 @@ class AssetTypeEloquentRepositoryTest extends TestCase
             description: "desc",
         );
 
-        $this->assertEquals(0, $entity->oldId);
         $result = $this->repository->insert($entity);
-        $this->assertNotEquals(0, $result->oldId);
 
         $this->assertEquals($entity->id, $result->id);
         $this->assertEquals($entity->name, $result->name);
@@ -52,10 +50,9 @@ class AssetTypeEloquentRepositoryTest extends TestCase
 
         $result = $this->repository->findById($typeBd->id);
 
-        $this->assertEquals($typeBd->id, $result->oldId);
-        $this->assertEquals($typeBd->uuid, $result->id);
-        $this->assertEquals($typeBd->nome, $result->name);
-        $this->assertEquals($typeBd->descricao, $result->description);
+        $this->assertEquals($typeBd->id, $result->id);
+        $this->assertEquals($typeBd->name, $result->name);
+        $this->assertEquals($typeBd->description, $result->description);
     }
 
     public function testFindAllEmpty()
@@ -91,25 +88,23 @@ class AssetTypeEloquentRepositoryTest extends TestCase
     public function testUpdate()
     {
         $typeDb = AssetTypeModel::factory()->create([
-            "id" => 1,
-            "uuid" => Uuid::random(),
-            "nome" => "old name",
-            "descricao" => "old desc",
+            "id" => Uuid::random(),
+            "name" => "old name",
+            "description" => "old desc",
         ]);
 
         $type = new AssetTypeEntity(
-            id: $typeDb->uuid,
+            id: $typeDb->id,
             name: 'new name',
             description: 'new desc',
-            oldId: $typeDb->id,
         );
 
         $result = $this->repository->update($type);
         $this->assertInstanceOf(AssetTypeEntity::class, $result);
         $this->assertEquals('new name', $result->name);
         $this->assertEquals('new desc', $result->description);
-        $this->assertNotEquals($typeDb->nome, $result->name);
-        $this->assertNotEquals($typeDb->descricao, $result->description);
+        $this->assertNotEquals($typeDb->name, $result->name);
+        $this->assertNotEquals($typeDb->description, $result->description);
     }
 
     public function testActivate()
@@ -118,13 +113,13 @@ class AssetTypeEloquentRepositoryTest extends TestCase
             'deleted_at' => now(),
         ]);
         
-        $this->assertTrue($this->repository->activate($typeDb->uuid));
+        $this->assertTrue($this->repository->activate($typeDb->id));
     }
 
     public function testDisable()
     {
         $typeDb = AssetTypeModel::factory()->create();
         
-        $this->assertTrue($this->repository->disable($typeDb->uuid));
+        $this->assertTrue($this->repository->disable($typeDb->id));
     }
 }

@@ -25,11 +25,10 @@ class AssetEloquentRepository implements AssetRepositoryInterface
     public function insert(BaseEntity $entity): BaseEntity
     {
         $assetBd = $this->model->create([
-            "uuid" => $entity->id,
-            "codigo" => $entity->code,
-            "descricao" => $entity->description,
-            "id_assets_type" => $entity->type->oldId,
-            "uuid_assets_type" => $entity->type->id,
+            "id" => $entity->id,
+            "code" => $entity->code,
+            "description" => $entity->description,
+            "assets_type_id" => $entity->type->id,
         ]);
 
         return $this->toBaseEntity($assetBd);
@@ -37,7 +36,7 @@ class AssetEloquentRepository implements AssetRepositoryInterface
 
     public function findByUuid(Uuid|string $uuid): ?Model
     {
-        if (!$entity =  $this->model->withTrashed()->where('uuid', $uuid)->first()) {
+        if (!$entity =  $this->model->withTrashed()->where('id', $uuid)->first()) {
             return null;
         } 
 
@@ -58,10 +57,10 @@ class AssetEloquentRepository implements AssetRepositoryInterface
         $query = $includeInactive ? $this->model->withTrashed() : $this->model->newQuery();
 
         if ($filter) {
-            $query->where('codigo', 'LIKE', "%{$filter}%");
+            $query->where('code', 'LIKE', "%{$filter}%");
         }
 
-        $result = $query->orderBy('codigo', $orderBy)->get();
+        $result = $query->orderBy('code', $orderBy)->get();
 
         return $result->map(fn ($model) => $this->toBaseEntity($model))->all();
     }
@@ -73,10 +72,9 @@ class AssetEloquentRepository implements AssetRepositoryInterface
         }
 
         $assetDb->update([
-            'codigo' => $entity->code,
-            'id_assets_type' => $entity->type->oldId,
-            'uuid_assets_type'=> $entity->type->id,
-            'descricao'=> $entity->description,
+            'code' => $entity->code,
+            'assets_type_id' => $entity->type->id,
+            'description' => $entity->description,
         ]);
 
         return $this->toBaseEntity($assetDb);
@@ -108,10 +106,10 @@ class AssetEloquentRepository implements AssetRepositoryInterface
     public function toBaseEntity(object $data): BaseEntity
     {
         $asset = new AssetEntity(
-            id: $data->uuid,
-            code: $data->codigo,
+            id: $data->id,
+            code: $data->code,
             type: $this->repoAssetsType->toBaseEntity($data->assetsType),
-            description: $data->descricao,
+            description: $data->description,
             createdAt: Date::fromNullable($data->created_at),
             updatedAt: Date::fromNullable($data->updated_at),
             deletedAt: Date::fromNullable($data->deleted_at),

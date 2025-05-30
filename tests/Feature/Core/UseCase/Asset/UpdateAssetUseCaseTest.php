@@ -24,18 +24,18 @@ class UpdateAssetUseCaseTest extends TestCase
 
         $response = $useCase->execute(
             new UpdateAssetInputDto(
-                id: $asset->uuid,
+                id: $asset->id,
                 code: 'new code',
-                idType: $newType->uuid,
+                idType: $newType->id,
                 description: 'new desc',
             )
         );
 
         $this->assertEquals('new code', $response->code);
         $this->assertEquals('new desc', $response->description);
-        $this->assertEquals($newType->uuid, $response->idType);
+        $this->assertEquals($newType->id, $response->idType);
         $this->assertDatabaseHas('assets', [
-            'codigo' => $response->code,
+            'code' => $response->code,
         ]);
     }
 }
