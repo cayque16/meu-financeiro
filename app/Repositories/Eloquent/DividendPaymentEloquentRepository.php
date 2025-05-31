@@ -12,7 +12,6 @@ use Core\Domain\Repository\DividendPaymentRepositoryInterface;
 use Core\Domain\ValueObject\Date;
 use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\Exceptions\NotImplementedException;
-use Illuminate\Database\Eloquent\Model;
 
 class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInterface
 {
@@ -70,18 +69,9 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
         return $result->map(fn ($model) => $this->toBaseEntity($model))->all();
     }
 
-    public function findByUuid(Uuid|string $uuid): ?Model
-    {
-        if (!$entity =  $this->model->where('id', $uuid)->first()) {
-            return null;
-        } 
-
-        return $entity;
-    }
-
     public function findById(string $id): ?BaseEntity
     {
-        if (!$entity = $this->model->find($id)) {
+        if (!$entity = $this->model->withTrashed()->find($id)) {
             return null;
         }
 
@@ -113,7 +103,7 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
 
     public function activate(string $id): ?bool
     {
-        if (!$typeBd = $this->findByUuid($id)) {
+        if (!$typeBd = $this->model->withTrashed()->find($id)) {
             return null;
         }
 
@@ -122,7 +112,7 @@ class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInte
 
     public function disable(string $id): ?bool
     {
-        if (!$typeBd = $this->findByUuid($id)) {
+        if (!$typeBd = $this->model->withTrashed()->find($id)) {
             return null;
         }
 

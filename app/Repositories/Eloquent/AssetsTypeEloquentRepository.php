@@ -8,8 +8,6 @@ use Core\Domain\Entity\BaseEntity;
 use Core\Domain\Repository\AssetTypeRepositoryInterface;
 use Core\Domain\ValueObject\Date;
 use Core\UseCase\Exceptions\NotImplementedException;
-use Core\Domain\ValueObject\Uuid;
-use Illuminate\Database\Eloquent\Model;
 
 class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
 {
@@ -27,19 +25,10 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
 
         return $this->toBaseEntity($typeBd);
     }
-
-    public function findByUuid(Uuid|string $uuid): ?Model
-    {
-        if (!$entity =  $this->model->withTrashed()->where('id', $uuid)->first()) {
-            return null;
-        } 
-
-        return $entity;
-    }
     
     public function findById(string $id): ?BaseEntity
     {
-        $entity = Uuid::isUuidValid($id) ? $this->findByUuid($id) : $this->model->find($id);
+        $entity = $this->model->withTrashed()->find($id);
         if ($entity) {
             return $this->toBaseEntity($entity);
         }
@@ -61,7 +50,7 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
 
     public function update(BaseEntity $entity): ?BaseEntity
     {
-         if (!$assetDb = $this->findByUuid($entity->id)) {
+         if (!$assetDb = $this->model->withTrashed()->find($entity->id)) {
             return null;
         }
 
@@ -80,7 +69,7 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
 
     public function activate(string $id): ?bool
     {
-        if (!$typeBd = $this->findByUuid($id)) {
+        if (!$typeBd = $this->model->withTrashed()->find($id)) {
             return null;
         }
 
@@ -89,7 +78,7 @@ class AssetsTypeEloquentRepository implements AssetTypeRepositoryInterface
 
     public function disable(string $id): ?bool
     {
-        if (!$typeBd = $this->findByUuid($id)) {
+        if (!$typeBd = $this->model->withTrashed()->find($id)) {
             return null;
         }
 
