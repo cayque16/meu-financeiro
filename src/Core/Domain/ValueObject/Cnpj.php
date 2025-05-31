@@ -28,7 +28,11 @@ class Cnpj
         if (strlen($cnpj) < 14) {
             return false;
         }
-
+        
+        if(preg_match('/(\d)\1{13}/', $cnpj)) {
+            return false;
+        }
+        
         return substr($cnpj, 12, 14) == self::generateCheckDigit(substr($cnpj, 0, 12));
     }
 

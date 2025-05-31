@@ -24,6 +24,16 @@ class CnpjUnitTest extends TestCase
             "wrongCheckDigit" => [false, "11.222.333/0001-82"],
             "cnpjValidOnlyNumbers" => [true, "17256512033715"],
             "invalidCnpjOnlyNumbers" => [false, "17256512033716"],
+            "invalidCnpj1" => [false, "11.111.111/1111-11"],
+            "invalidCnpj2" => [false, "22.222.222/2222-22"],
+            "invalidCnpj3" => [false, "33.333.333/3333-33"],
+            "invalidCnpj4" => [false, "44.444.444/4444-44"],
+            "invalidCnpj5" => [false, "55.555.555/5555-55"],  
+            "invalidCnpj6" => [false, "66.666.666/6666-66"],  
+            "invalidCnpj7" => [false, "77.777.777/7777-77"],  
+            "invalidCnpj8" => [false, "88.888.888/8888-88"],  
+            "invalidCnpj9" => [false, "99.999.999/9999-99"],
+            "invalidCnpj0" => [false, "00.000.000/0000-00"],
         ];
     }
 
