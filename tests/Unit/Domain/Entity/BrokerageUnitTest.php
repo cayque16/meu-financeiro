@@ -38,4 +38,27 @@ class BrokerageUnitTest extends EntityTestCaseUnitTest
             ],
         ];
     }
+
+    public function testUpdate()
+    {
+        $cnpj = Cnpj::random();
+        $brokerage = new Brokerage('Test', 'http://fapewsev.me/ebav', $cnpj);
+
+        $this->assertEquals('Test', $brokerage->name);
+
+        $brokerage->update('new name');
+        $this->assertEquals('new name', $brokerage->name);
+        $this->assertEquals('http://fapewsev.me/ebav', $brokerage->webPage);
+        $this->assertEquals($cnpj, $brokerage->cnpj);
+    }
+
+    /**
+     * @dataProvider providerConstruct
+     */
+    public function testUpdateException($name, $webPage, $cnpj)
+    {
+        $brokerage = new Brokerage('name', 'http://evulisku.ky/vuhi', Cnpj::random());
+        $this->expectException(EntityValidationException::class);
+        $brokerage->update($name, $webPage, $cnpj);
+    }
 }

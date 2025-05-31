@@ -23,4 +23,16 @@ class Brokerage extends BaseEntity
         $this->validator = BrokerageValidatorFactory::create();
         $this->validation();
     }
+
+    public function update(
+        string $name = null,
+        string $webPage = null,
+        Cnpj $cnpj = null,
+    ) {
+        $this->name = $name ?? $this->name;
+        $this->webPage = $webPage ?? $this->webPage;
+        $this->cnpj = $cnpj ?? $this->cnpj;
+
+        $this->validation();
+    }
 }
