@@ -19,7 +19,7 @@ use Core\UseCase\Exceptions\NotFoundException;
 use DateTime;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
+use Core\Domain\ValueObject\Uuid;
 use stdClass;
 
 class CreateDividendPaymentUnitTest extends TestCase
@@ -104,7 +104,7 @@ class CreateDividendPaymentUnitTest extends TestCase
 
     private function getUuid()
     {
-        $uuid = (string) Uuid::uuid4();
+        $uuid = (string) Uuid::random();
 
         return $uuid;
     }

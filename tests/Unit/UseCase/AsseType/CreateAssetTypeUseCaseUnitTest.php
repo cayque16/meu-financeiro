@@ -10,14 +10,14 @@ use Core\UseCase\DTO\AssetType\Create\CreateAssetTypeInputDto;
 use Core\UseCase\DTO\AssetType\Create\CreateAssetTypeOutputDto;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
+use Core\Domain\ValueObject\Uuid;
 use stdClass;
 
 class CreateAssetTypeUseCaseUnitTest extends TestCase
 {
     public function testCreate()
     {
-        $uuid = (string) Uuid::uuid4();
+        $uuid = (string) Uuid::random();
         $mockEntity = Mockery::mock(AssetType::class, ['name', $uuid, 'desc']);
         $mockEntity->shouldReceive('id')->andReturn($uuid);
         $mockEntity->shouldReceive('isActive')->andReturn(true);

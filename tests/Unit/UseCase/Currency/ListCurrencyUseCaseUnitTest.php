@@ -3,10 +3,10 @@
 namespace Tests\Unit\UseCase\Currency;
 
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid as RamseyUuid;
 use Core\Domain\Entity\Currency as EntityCurrency;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\ValueObject\Date;
+use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\Currency\ListCurrencyUseCase;
 use Core\UseCase\DTO\Currency\CurrencyInputDto;
 use Core\UseCase\DTO\Currency\CurrencyOutputDto;
@@ -18,7 +18,7 @@ class ListCurrencyUseCaseUnitTest extends TestCase
 {
     public function testListSingle()
     {
-        $uuid = (string) RamseyUuid::uuid4();
+        $uuid = (string) Uuid::random();
 
         $mockEntity = Mockery::mock(EntityCurrency::class, [
             $name = 'test name',
@@ -57,7 +57,7 @@ class ListCurrencyUseCaseUnitTest extends TestCase
 
     public function testSingleNotFound()
     {
-        $uuid = (string) RamseyUuid::uuid4();
+        $uuid = (string) Uuid::random();
         $mockRepository = $this->mockRepository($uuid, null);
         $mockInputDto = $this->mockInputDto($uuid);
 

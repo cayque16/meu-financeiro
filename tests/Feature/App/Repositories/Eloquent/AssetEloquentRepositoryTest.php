@@ -11,7 +11,7 @@ use App\Repositories\Eloquent\AssetsTypeEloquentRepository;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\ValueObject\Date;
 use Illuminate\Support\Facades\DB;
-use Ramsey\Uuid\Uuid;
+use Core\Domain\ValueObject\Uuid;
 use Tests\TestCase;
 
 class AssetEloquentRepositoryTest extends TestCase
@@ -92,7 +92,7 @@ class AssetEloquentRepositoryTest extends TestCase
     public function testUpdateNotFound()
     {
         $asset = new AssetEntity(
-            id: Uuid::uuid4(),
+            id: Uuid::random(),
             code: 'BTC',
             type: new AssetTypeEntity(
                 name: 'test',
@@ -107,7 +107,7 @@ class AssetEloquentRepositoryTest extends TestCase
     {
         $typeBd = AssetTypeModel::factory()->count(2)->create();
         $assetDb = AssetModel::factory()->create([
-            'id' => Uuid::uuid4(),
+            'id' => Uuid::random(),
             'code' => 'code',
             'assets_type_id' => $typeBd[0]->id,
         ]);

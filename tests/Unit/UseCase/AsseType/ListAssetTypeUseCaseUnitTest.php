@@ -13,14 +13,14 @@ use Core\UseCase\Exceptions\NotFoundException;
 use Mockery;
 use Mockery\Mock;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
+use Core\Domain\ValueObject\Uuid;
 use stdClass;
 
 class ListAssetTypeUseCaseUnitTest extends TestCase
 {
     public function testListSingle()
     {
-        $uuid = (string) Uuid::uuid4();
+        $uuid = (string) Uuid::random();
 
         $mockEntity = $this->mockEntity($uuid);
 
@@ -37,7 +37,7 @@ class ListAssetTypeUseCaseUnitTest extends TestCase
 
     public function testListNotFound()
     {
-        $uuid = (string) Uuid::uuid4();
+        $uuid = (string) Uuid::random();
 
         $mockRepository = $this->mockRepository($uuid, null);
         $mockInputDto = $this->mockInputDto($uuid);

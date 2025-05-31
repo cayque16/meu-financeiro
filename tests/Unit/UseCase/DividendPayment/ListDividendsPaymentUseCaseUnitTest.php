@@ -9,7 +9,7 @@ use Core\UseCase\DTO\DividendPayment\ListDividendsPayment\ListDividendsPaymentIn
 use Core\UseCase\DTO\DividendPayment\ListDividendsPayment\ListDividendsPaymentOutputDto;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
+use Core\Domain\ValueObject\Uuid;
 use stdClass;
 
 class ListDividendsPaymentUseCaseUnitTest extends TestCase
@@ -37,6 +37,6 @@ class ListDividendsPaymentUseCaseUnitTest extends TestCase
 
     private function getUuid()
     {
-        return (string) Uuid::uuid4();
+        return (string) Uuid::random();
     }
 }

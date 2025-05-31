@@ -12,7 +12,7 @@ use Core\UseCase\DTO\AssetType\Update\UpdateAssetTypeOutputDto;
 use Core\UseCase\Exceptions\NotFoundException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
+use Core\Domain\ValueObject\Uuid;
 use stdClass;
 
 class UpdateAssetTypeUseCaseUnitTest extends TestCase
@@ -32,7 +32,7 @@ class UpdateAssetTypeUseCaseUnitTest extends TestCase
 
     private function getUuid()
     {
-        return (string) Uuid::uuid4()->toString();
+        return (string) Uuid::random();
     }
 
     public function testUpdateNotFound()

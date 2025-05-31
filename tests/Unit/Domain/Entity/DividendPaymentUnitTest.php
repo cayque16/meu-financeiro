@@ -12,7 +12,7 @@ use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\ValueObject\Date;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
+use Core\Domain\ValueObject\Uuid;
 
 class DividendPaymentUnitTest extends EntityTestCaseUnitTest
 {
@@ -101,7 +101,7 @@ class DividendPaymentUnitTest extends EntityTestCaseUnitTest
 
     private function getUuid()
     {
-        $uuid = (string) Uuid::uuid4();
+        $uuid = (string) Uuid::random();
 
         return $uuid;
     }

@@ -15,15 +15,15 @@ use Core\UseCase\DTO\Asset\Create\CreateAssetOutputDto;
 use Core\UseCase\Exceptions\NotFoundException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
+use Core\Domain\ValueObject\Uuid;
 use stdClass;
 
 class CreateAssetUseCaseUnitTest extends TestCase
 {
     public function testCreate()
     {
-        $uuidAsset = (string) Uuid::uuid4();
-        $uuidType = (string) Uuid::uuid4();
+        $uuidAsset = (string) Uuid::random();
+        $uuidType = (string) Uuid::random();
         
         $mockType = Mockery::mock(AssetType::class);
         $mockType->shouldReceive('id')->andReturn($uuidType);

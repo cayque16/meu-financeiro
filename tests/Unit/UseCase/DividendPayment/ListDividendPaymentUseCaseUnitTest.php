@@ -16,16 +16,16 @@ use Core\UseCase\Exceptions\NotFoundException;
 use DateTime;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
+use Core\Domain\ValueObject\Uuid;
 use stdClass;
 
 class ListDividendPaymentUseCaseUnitTest extends TestCase
 {
     public function testListSingle()
     {
-        $uuid = (string) Uuid::uuid4();
-        $idAsset = (string) Uuid::uuid4();
-        $idCurrency = (string) Uuid::uuid4();
+        $uuid = (string) Uuid::random();
+        $idAsset = (string) Uuid::random();
+        $idCurrency = (string) Uuid::random();
 
         $mockEntity = $this->mockEntity($uuid, $idAsset, $idCurrency);
         $mockRepository = $this->mockRepository($uuid, $mockEntity);
@@ -44,7 +44,7 @@ class ListDividendPaymentUseCaseUnitTest extends TestCase
 
     public function testListNotFound()
     {
-        $uuid = (string) Uuid::uuid4();
+        $uuid = (string) Uuid::random();
 
         $mockRepository = $this->mockRepository($uuid, null);
         $mockInputDto = $this->mockInputDto($uuid);
@@ -67,7 +67,7 @@ class ListDividendPaymentUseCaseUnitTest extends TestCase
 
     private function getUuid()
     {
-        $uuid = (string) Uuid::uuid4();
+        $uuid = (string) Uuid::random();
 
         return $uuid;
     }
