@@ -39,19 +39,6 @@ class BrokerageUnitTest extends EntityTestCaseUnitTest
         ];
     }
 
-    public function testUpdate()
-    {
-        $cnpj = Cnpj::random();
-        $brokerage = new Brokerage('Test', 'http://fapewsev.me/ebav', $cnpj);
-
-        $this->assertEquals('Test', $brokerage->name);
-
-        $brokerage->update('new name');
-        $this->assertEquals('new name', $brokerage->name);
-        $this->assertEquals('http://fapewsev.me/ebav', $brokerage->webPage);
-        $this->assertEquals($cnpj, $brokerage->cnpj);
-    }
-
     /**
      * @dataProvider providerConstruct
      */
@@ -60,5 +47,38 @@ class BrokerageUnitTest extends EntityTestCaseUnitTest
         $brokerage = new Brokerage('name', 'http://evulisku.ky/vuhi', Cnpj::random());
         $this->expectException(EntityValidationException::class);
         $brokerage->update($name, $webPage, $cnpj);
+    }
+
+    /**
+     * @dataProvider providerUpdate
+     */
+    public function testUpdate($newName, $newWebPage, $newCnpj)
+    {
+        $oldName = 'Test';
+        $oldWebPage = 'http://fapewsev.me/ebav';
+        $oldCnpj = Cnpj::random();
+        $brokerage = new Brokerage($oldName, $oldWebPage, $oldCnpj);
+
+        $brokerage->update($newName, $newWebPage, $newCnpj);
+        $this->assertEquals($newName ?? $oldName, $brokerage->name);
+        $this->assertEquals($newWebPage ?? $oldWebPage, $brokerage->webPage);
+        $this->assertEquals($newCnpj ?? $oldCnpj, $brokerage->cnpj);
+    }
+
+    protected function providerUpdate()
+    {
+        $name = 'new name';
+        $webPage = 'http://ul.cz/liknokub';
+        $cnpj = Cnpj::random();
+        return [
+            'Test with all null' => [null, null, null],
+            'Test with CNPJ only' => [null, null, $cnpj],
+            'Test with web page only' => [null, $webPage, null],
+            'Test with web page and CNPJ' => [null, $webPage, $cnpj],
+            'Test with name only' => [$name, null, null],
+            'Test with name and CNPJ' => [$name, null, $cnpj],
+            'Test with name and web page' => [$name, $webPage, null],
+            'Test with name, web page, and CNPJ' => [$name, $webPage, $cnpj],
+    ];
     }
 }
