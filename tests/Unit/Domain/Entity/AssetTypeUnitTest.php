@@ -32,16 +32,31 @@ class AssetTypeUnitTest extends EntityTestCaseUnitTest
         ];
     }
 
-    public function testUpdate()
+    /**
+     * @dataProvider providerUpdate
+     */
+    public function testUpdate($newName, $newDesc)
     {
-        $nameOld = 'Test Name';
-        $descriptionOld = 'Test Description';
+        $oldName = 'Test Name';
+        $oldDesc = 'Test Description';
 
-        $type = new AssetType(name: $nameOld, description: $descriptionOld);
-        $type->update('Name update', 'Description update');
+        $type = new AssetType(name: $oldName, description: $oldDesc);
+        $type->update($newName, $newDesc);
 
-        $this->assertNotEquals($type->name, $nameOld);
-        $this->assertNotEquals($type->description, $descriptionOld);
+        $this->assertEquals($newName ?? $oldName, $type->name);
+        $this->assertEquals($newDesc ?? $oldDesc, $type->description);
+    }
+
+    protected function providerUpdate()
+    {
+        $name = 'new name';
+        $desc = 'new desc';
+        return [
+            'Test with all null' => [null, null],
+            'Test with desc only' => [null, $desc],
+            'Test with name only' => [$name, null],
+            'Test with name and desc' => [$name, $desc],
+        ];
     }
 
     public function testUpdateNotEditOtherFields()
