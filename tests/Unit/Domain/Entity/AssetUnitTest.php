@@ -36,18 +36,39 @@ class AssetUnitTest extends EntityTestCaseUnitTest
         ];
     }
 
-    public function testUpdate()
-    {
-        $type = $this->mockType();
-        $asset = new Asset(code: 'TEST', type: $type, description: 'desc');
-        
-        $this->assertEquals('TEST', $asset->code);
-        
-        $asset->update('new code');
 
-        $this->assertEquals('new code', $asset->code);
-        $this->assertEquals($type, $asset->type);
-        $this->assertEquals('desc', $asset->description);
+    /**
+     * @dataProvider providerUpdate
+     */
+    public function testUpdate($newCode, $newType, $newDescription)
+    {
+        $oldCode = 'TEST';
+        $oldType = $this->mockType();
+        $oldDescription = 'desc';
+        $asset = new Asset(code: $oldCode, type: $oldType, description: $oldDescription);
+        
+        $asset->update($newCode, $newType, $newDescription);
+
+        $this->assertEquals($newCode ?? $oldCode, $asset->code);
+        $this->assertEquals($newType ?? $oldType, $asset->type);
+        $this->assertEquals($newDescription ?? $oldDescription, $asset->description);
+    }
+
+    protected function providerUpdate()
+    {
+        $code = 'new code';
+        $type = $this->mockType();
+        $desc = 'new desc';
+        return [
+            'Test with all null' => [null, null, null],
+            'Test with desc only' => [null, null, $desc],
+            'Test with type only' => [null, $type, null],
+            'Test with type and desc' => [null, $type, $desc],
+            'Test with code only' => [$code, null, null],
+            'Test with code and desc' => [$code, null, $desc],
+            'Test with code and type' => [$code, $type, null],
+            'Test with code, type and desc' => [$code, $type, $desc],
+        ];
     }
 
     /**
