@@ -4,17 +4,31 @@ namespace App\Models;
 
 use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Brokerage extends MyModelAbstract
+class Brokerage extends Model
 {
-    protected $fillable = ['nome', 'site', 'cnpj', 'e_excluido'];
+    use HasFactory, SoftDeletes;
 
-    use HasFactory;
+    public $incrementing = false;
 
-    public function __construct()
-    {
-        parent::__construct($this);
-    }
+    protected $fillable = [
+        'id',
+        'name',
+        'webPage',
+        'cnpj',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
+    protected $casts = [
+        'id' => 'string',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+    ];
 
     public function sltBrokerages($arrayStatus = [Status::ACTIVE])
     {
