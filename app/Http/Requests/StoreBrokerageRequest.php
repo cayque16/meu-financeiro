@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Cnpj;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreBrokerageRequest extends FormRequest
@@ -25,7 +26,8 @@ class StoreBrokerageRequest extends FormRequest
     {
         return [
             'nome' => 'required',
-            'site' => 'url'
+            'site' => 'url|required',
+            'cnpj' => ['required', new Cnpj]
         ];
     }
 }

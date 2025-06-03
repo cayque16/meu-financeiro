@@ -18,8 +18,8 @@
     @endif
     @php
         echo $btnVoltar;
-        $vNome = isset($modelBase) ? $modelBase->nome : (isset($request) ? $request->old('nome') : '');
-        $vSite = isset($modelBase) ? $modelBase->site : (isset($request) ? $request->old('site') : '');
+        $vNome = isset($modelBase) ? $modelBase->name : (isset($request) ? $request->old('nome') : '');
+        $vSite = isset($modelBase) ? $modelBase->webPage : (isset($request) ? $request->old('site') : '');
         $vCnpj = isset($modelBase) ? $modelBase->cnpj : (isset($request) ? $request->old('cnpj') : '');
     @endphp
     <form action="{{ $action }}" method="post">

@@ -10,4 +10,5 @@ return [
         'numeric' => 'O :attribute deve estar entre :min e :max.',
         'string' => 'O :attribute deve estar entre :min e :max caracteres.',
     ],
+    'cnpj' => 'O campo :attribute não é um CNPJ válido.'
 ];
