@@ -3,7 +3,7 @@
 namespace Tests\Feature\Core\UseCase\DividendPayment;
 
 use App\Models\DividendPayment;
-use App\Repositories\Eloquent\DividendPaymentEloquentRepository;
+use App\Repositories\Facades\DividendPaymentRepositoryFacade;
 use Core\Domain\ValueObject\Date;
 use Core\UseCase\DividendPayment\ListDividendPaymentUseCase;
 use Core\UseCase\DTO\DividendPayment\DividendPaymentInputDto;
@@ -18,7 +18,7 @@ class ListDividendPaymentTest extends TestCase
         $this->createFakers();
         $payment = DividendPayment::factory()->create();
 
-        $repository = new DividendPaymentEloquentRepository(new DividendPayment());
+        $repository = DividendPaymentRepositoryFacade::createRepository();
         $useCase = new ListDividendPaymentUseCase($repository);
 
         $response = $useCase->execute(new DividendPaymentInputDto($payment->id));

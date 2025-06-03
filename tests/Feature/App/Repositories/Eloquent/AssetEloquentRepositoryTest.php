@@ -2,15 +2,13 @@
 
 namespace Tests\Feature\App\Repositories\Eloquent;
 
-use App\Repositories\Eloquent\AssetEloquentRepository;
 use App\Models\Asset as AssetModel;
 use Core\Domain\Entity\Asset as AssetEntity;
 use Core\Domain\Entity\AssetType as AssetTypeEntity;
 use App\Models\AssetsType as AssetTypeModel;
-use App\Repositories\Eloquent\AssetsTypeEloquentRepository;
+use App\Repositories\Facades\AssetRepositoryFacade;
 use Core\Domain\Repository\BaseRepositoryInterface;
 use Core\Domain\ValueObject\Date;
-use Illuminate\Support\Facades\DB;
 use Core\Domain\ValueObject\Uuid;
 use Tests\TestCase;
 
@@ -22,7 +20,7 @@ class AssetEloquentRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->repository = new AssetEloquentRepository(new AssetModel());
+        $this->repository = AssetRepositoryFacade::createRepository();
     }
 
     public function testImplementsInterface()

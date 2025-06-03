@@ -4,13 +4,13 @@ namespace Tests\Feature\App\Repositories\Eloquent;
 
 use App\Models\DividendPayment as DividendPaymentModel;
 use Core\Domain\Entity\DividendPayment as DividendPaymentEntity;
-use App\Repositories\Eloquent\DividendPaymentEloquentRepository;
 use Core\Domain\Entity\Asset as AssetEntity;
 use Core\Domain\Entity\AssetType as AssetTypeEntity;
 use Core\Domain\Entity\Currency as CurrencyEntity;
 use App\Models\Asset as AssetModel;
 use App\Models\AssetsType as AssetsTypeModel;
 use App\Models\Currency as CurrencyModel;
+use App\Repositories\Facades\DividendPaymentRepositoryFacade;
 use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
 use Core\Domain\ValueObject\Date;
@@ -25,7 +25,7 @@ class DividendPaymentRepositoryTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->repository = new DividendPaymentEloquentRepository(new DividendPaymentModel());
+        $this->repository = DividendPaymentRepositoryFacade::createRepository();
     }
 
     public function testImplementsInterface()

@@ -4,7 +4,7 @@ namespace Tests\Feature\Core\UseCase\DividendPayment;
 
 use App\Models\Asset;
 use App\Models\DividendPayment;
-use App\Repositories\Eloquent\DividendPaymentEloquentRepository;
+use App\Repositories\Facades\DividendPaymentRepositoryFacade;
 use Core\Domain\Enum\DividendType;
 use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\DividendPayment\ListDividendsPaymentUseCase;
@@ -16,9 +16,13 @@ class ListDividendsPaymentTest extends TestCase
 {
     use DividendPaymentFakersTrait;
     
-    private function createUseCase($paymentYear = null, $fiscalYear = null, $idAsset = null, $idType = null)
-    {
-        $repository = new DividendPaymentEloquentRepository(new DividendPayment());
+    private function createUseCase(
+        $paymentYear = null,
+        $fiscalYear = null,
+        $idAsset = null,
+        $idType = null
+    ) {
+        $repository = DividendPaymentRepositoryFacade::createRepository();
         $useCase = new ListDividendsPaymentUseCase($repository);
 
         return $useCase->execute(new ListDividendsPaymentInputDto($paymentYear, $fiscalYear, $idAsset, $idType));

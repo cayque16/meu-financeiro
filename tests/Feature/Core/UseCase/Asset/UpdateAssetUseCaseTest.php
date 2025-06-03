@@ -4,8 +4,8 @@ namespace Tests\Feature\Core\UseCase\Asset;
 
 use App\Models\Asset;
 use App\Models\AssetsType;
-use App\Repositories\Eloquent\AssetEloquentRepository;
 use App\Repositories\Eloquent\AssetsTypeEloquentRepository;
+use App\Repositories\Facades\AssetRepositoryFacade;
 use Core\UseCase\Asset\UpdateAssetUseCase;
 use Core\UseCase\DTO\Asset\Update\UpdateAssetInputDto;
 use Tests\TestCase;
@@ -18,7 +18,7 @@ class UpdateAssetUseCaseTest extends TestCase
         $asset = Asset::factory()->create();
         $newType = AssetsType::factory()->create();
 
-        $repoAsset = new AssetEloquentRepository(new Asset());
+        $repoAsset = AssetRepositoryFacade::createRepository();
         $repoAssetType = new AssetsTypeEloquentRepository(new AssetsType());
         $useCase = new UpdateAssetUseCase($repoAsset, $repoAssetType);
 

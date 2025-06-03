@@ -4,7 +4,7 @@ namespace Tests\Feature\Core\UseCase\Asset;
 
 use App\Models\Asset;
 use App\Models\AssetsType;
-use App\Repositories\Eloquent\AssetEloquentRepository;
+use App\Repositories\Facades\AssetRepositoryFacade;
 use Core\UseCase\Asset\ListAssetsUseCase;
 use Core\UseCase\DTO\Asset\ListAssets\ListAssetsInputDto;
 use Tests\TestCase;
@@ -13,7 +13,7 @@ class ListAssetsUseCaseTest extends TestCase
 {
     private function createUseCase()
     {
-        $repository = new AssetEloquentRepository(new Asset());
+        $repository = AssetRepositoryFacade::createRepository();
         $useCase = new ListAssetsUseCase($repository);
 
         return $useCase->execute(new ListAssetsInputDto());

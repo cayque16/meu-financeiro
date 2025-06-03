@@ -3,7 +3,7 @@
 namespace Tests\Feature\Core\UseCase\DividendPayment;
 
 use App\Models\DividendPayment;
-use App\Repositories\Eloquent\DividendPaymentEloquentRepository;
+use App\Repositories\Facades\DividendPaymentRepositoryFacade;
 use Core\UseCase\DividendPayment\ListYearsOfPaymentUseCase;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Tests\TestCase;
@@ -14,7 +14,7 @@ class ListYearsOfPaymentUseCaseTest extends TestCase
 
     private function createUseCase()
     {
-        $repository = new DividendPaymentEloquentRepository(new DividendPayment());
+        $repository = DividendPaymentRepositoryFacade::createRepository();
         $useCase = new ListYearsOfPaymentUseCase($repository);
 
         return $useCase->execute();

@@ -4,8 +4,6 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\DividendPayment as DividendPaymentModel;
 use Core\Domain\Entity\DividendPayment as DividendPaymentEntity;
-use App\Models\Asset as AssetModel;
-use App\Models\Currency as CurrencyModel;
 use Core\Domain\Entity\BaseEntity;
 use Core\Domain\Enum\DividendType;
 use Core\Domain\Repository\DividendPaymentRepositoryInterface;
@@ -15,15 +13,11 @@ use Core\UseCase\Exceptions\NotImplementedException;
 
 class DividendPaymentEloquentRepository implements DividendPaymentRepositoryInterface
 {
-    protected AssetEloquentRepository $repoAsset;
-    protected CurrencyEloquentRepository $repoCurrency;
-
     public function __construct(
-        protected DividendPaymentModel $model
-    ) { 
-        $this->repoAsset = new AssetEloquentRepository(new AssetModel());
-        $this->repoCurrency = new CurrencyEloquentRepository(new CurrencyModel());
-    }
+        protected DividendPaymentModel $model,
+        protected AssetEloquentRepository $repoAsset,
+        protected CurrencyEloquentRepository $repoCurrency,
+    ) { }
 
     public function insert(BaseEntity $entity): BaseEntity
     {

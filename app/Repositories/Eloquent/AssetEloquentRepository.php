@@ -12,13 +12,10 @@ use Core\UseCase\Exceptions\NotImplementedException;
 
 class AssetEloquentRepository implements AssetRepositoryInterface
 {
-    protected AssetsTypeEloquentRepository $repoAssetsType;
-
     public function __construct(
-        protected AssetModel $model
-    ) { 
-        $this->repoAssetsType = new AssetsTypeEloquentRepository(new AssetsType());
-    }
+        protected AssetModel $model,
+        protected AssetsTypeEloquentRepository $repoAssetsType,
+    ) { }
 
     public function insert(BaseEntity $entity): BaseEntity
     {

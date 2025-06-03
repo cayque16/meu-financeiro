@@ -5,10 +5,9 @@ namespace Tests\Feature\Core\UseCase\DividendPayment;
 use App\Models\Asset;
 use App\Models\AssetsType;
 use App\Models\Currency;
-use App\Models\DividendPayment;
-use App\Repositories\Eloquent\AssetEloquentRepository;
 use App\Repositories\Eloquent\CurrencyEloquentRepository;
-use App\Repositories\Eloquent\DividendPaymentEloquentRepository;
+use App\Repositories\Facades\AssetRepositoryFacade;
+use App\Repositories\Facades\DividendPaymentRepositoryFacade;
 use Core\Domain\Enum\DividendType;
 use Core\Domain\ValueObject\Date;
 use Core\UseCase\DividendPayment\CreateDividendPaymentUseCase;
@@ -19,8 +18,8 @@ class CreateDividendPaymentUseCaseTest extends TestCase
 {
     public function testCreate()
     {
-        $repoPayment = new DividendPaymentEloquentRepository(new DividendPayment());
-        $repoAsset = new AssetEloquentRepository(new Asset());
+        $repoPayment = DividendPaymentRepositoryFacade::createRepository();
+        $repoAsset = AssetRepositoryFacade::createRepository();
         $repoCurrency = new CurrencyEloquentRepository(new Currency());
         $useCase = new CreateDividendPaymentUseCase($repoPayment, $repoAsset, $repoCurrency);
 
