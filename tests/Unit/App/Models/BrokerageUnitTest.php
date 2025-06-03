@@ -27,7 +27,7 @@ class BrokerageUnitTest extends ModelTestCase
         return [
             'id',
             'name',
-            'webPage',
+            'web_page',
             'cnpj',
             'created_at',
             'updated_at',

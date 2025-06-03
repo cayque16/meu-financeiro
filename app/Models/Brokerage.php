@@ -16,7 +16,7 @@ class Brokerage extends Model
     protected $fillable = [
         'id',
         'name',
-        'webPage',
+        'web_page',
         'cnpj',
         'created_at',
         'updated_at',
